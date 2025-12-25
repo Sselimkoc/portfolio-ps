@@ -1,0 +1,10 @@
+{
+  "topbar": {
+    "close": "Kapat",
+    "minimize": "Minimize",
+    "maximize": "Maximize"
+  },
+  "poweroff": {
+    "message": "Açmak için tıklayın"
+  }
+}

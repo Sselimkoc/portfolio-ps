@@ -1,0 +1,10 @@
+{
+  "topbar": {
+    "close": "Close",
+    "minimize": "Minimize",
+    "maximize": "Maximize"
+  },
+  "poweroff": {
+    "message": "Click to power on"
+  }
+}
