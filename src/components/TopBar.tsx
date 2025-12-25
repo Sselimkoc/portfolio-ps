@@ -9,7 +9,7 @@ interface TopBarProps {
 export default function TopBar({ onPowerOff }: TopBarProps) {
   const { t } = useTranslation()
   const [currentTime, setCurrentTime] = useState<string>('')
-  const [batteryLevel, setBatteryLevel] = useState<number>(85)
+  const [batteryLevel, setBatteryLevel] = useState<number>(58)
 
   useEffect(() => {
     const updateTime = () => {
@@ -26,7 +26,7 @@ export default function TopBar({ onPowerOff }: TopBarProps) {
   }, [])
 
   return (
-    <div className="bg-linear-to-b from-gray-700 to-gray-800 backdrop-blur border-b border-gray-600 px-6 py-2 flex items-center justify-between h-12">
+    <div className="glass glass-shadow h-12 rounded-none border-b-0 px-6 py-2 flex items-center justify-between">
       {/* Left - Control Buttons */}
       <div className="flex items-center gap-3">
         <button
