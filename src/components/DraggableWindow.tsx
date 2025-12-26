@@ -140,7 +140,7 @@ export default function DraggableWindow({
           <span className="text-white font-semibold text-sm pointer-events-none">
             {t(title)}
           </span>
-          
+
           {/* drag dots */}
           <span className="text-white/50 text-sm tracking-[0.4em] leading-none select-none pointer-events-none">
             •••

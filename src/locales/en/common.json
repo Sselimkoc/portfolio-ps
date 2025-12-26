@@ -1,8 +1,8 @@
 {
   "topbar": {
-    "close": "Close",
-    "minimize": "Minimize",
-    "maximize": "Maximize"
+    "close": "Close All - Enter sleep mode",
+    "minimize": "Minimize All - Minimize all open windows",
+    "maximize": "Restore All - Restore all minimized windows"
   },
   "poweroff": {
     "message": "Click to power on"

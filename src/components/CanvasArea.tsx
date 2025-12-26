@@ -7,7 +7,6 @@ import { apps } from '../data/apps'
 import { getPortfolioData } from './queries'
 import DraggableWindow from './DraggableWindow'
 import DockHint from './DockHint'
-import MinimizedWindowsIndicator from './MinimizedWindowsIndicator'
 import Dock from './Dock'
 import IntroOverlay from './IntroOverlay'
 import SleepOverlay from './SleepOverlay'
@@ -111,17 +110,35 @@ export default function CanvasArea() {
   }
   const handleOpenWindow = (appId: string) => {
     setOpenWindows((prev) => {
-      const windowExists = prev.some((w) => w.id === appId)
-      if (!windowExists) return prev
+      const window = prev.find((w) => w.id === appId)
+      if (!window) return prev
 
-      const updatedWindows = prev.map((w) =>
-        w.id === appId ? { ...w, isOpen: true, isMinimized: false } : w,
-      )
+      let updatedWindows: Array<OpenWindowState>
 
-      const windowToMove = updatedWindows.find((w) => w.id === appId)!
-      const otherWindows = updatedWindows.filter((w) => w.id !== appId)
-      return [...otherWindows, windowToMove]
+      // macOS dock behavior: toggle minimize
+      if (window.isOpen && !window.isMinimized) {
+        // Pencere açık ve görünürse → minimize et
+        updatedWindows = prev.map((w) =>
+          w.id === appId ? { ...w, isMinimized: true } : w,
+        )
+      } else {
+        // Pencere minimize veya kapalıysa → aç
+        updatedWindows = prev.map((w) =>
+          w.id === appId ? { ...w, isOpen: true, isMinimized: false } : w,
+        )
+      }
+
+      // Bring to front when opening
+      if (!window.isMinimized || !window.isOpen) {
+        const windowToMove = updatedWindows.find((w) => w.id === appId)!
+        const otherWindows = updatedWindows.filter((w) => w.id !== appId)
+        return [...otherWindows, windowToMove]
+      }
+      return updatedWindows
     })
+
+    // Bring to front in z-index
+    bringToFront(appId)
   }
 
   const handleCloseWindow = (appId: string) => {
@@ -247,17 +264,23 @@ export default function CanvasArea() {
           })}
         </div>
 
-        <MinimizedWindowsIndicator
+        {/* Minimized windows are now shown in the Dock */}
+        {/* <MinimizedWindowsIndicator
           openWindows={openWindows}
           onRestoreWindow={handleRestoreWindow}
-        />
+        /> */}
 
         <AnimatePresence>
           {showDockHint && !showIntro && <DockHint />}
         </AnimatePresence>
 
         {/* Dock */}
-        <Dock dockApps={dockApps} onDockAction={handleDockAction} />
+        <Dock 
+          dockApps={dockApps} 
+          onDockAction={handleDockAction}
+          openWindows={openWindows}
+          onRestoreWindow={handleRestoreWindow}
+        />
       </div>
 
       {/* Intro Overlay */}

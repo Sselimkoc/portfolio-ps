@@ -22,7 +22,7 @@ export default function TopBar({
     // Initialize after hydration to match server render
     setMounted(true)
     setBatteryLevel(Math.floor(Math.random() * 20) + 30)
-    
+
     const updateTime = () => {
       const now = new Date()
       const hours = String(now.getHours()).padStart(2, '0')
@@ -38,7 +38,7 @@ export default function TopBar({
 
   useEffect(() => {
     if (!mounted) return
-    
+
     const chargeInterval = setInterval(() => {
       setBatteryLevel((prev) => {
         if (prev >= 100) return 100
@@ -104,7 +104,11 @@ export default function TopBar({
             TR
           </button>
         </div>
-        {mounted && <span className="text-white font-semibold text-xs">{currentTime}</span>}
+        {mounted && (
+          <span className="text-white font-semibold text-xs">
+            {currentTime}
+          </span>
+        )}
 
         {/* Battery Status */}
         {mounted && (

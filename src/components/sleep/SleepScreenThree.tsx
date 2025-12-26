@@ -127,18 +127,18 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
       if (piscesGroup) {
         piscesGroup.traverse((obj: THREE.Object3D) => {
           const mesh = obj as THREE.Mesh
-          if (mesh.geometry?.dispose) mesh.geometry.dispose()
+          mesh.geometry?.dispose()
           if (mesh.material) {
             if (Array.isArray(mesh.material))
-              mesh.material.forEach((m: THREE.Material) => m?.dispose?.())
-            else mesh.material.dispose?.()
+              mesh.material.forEach((m: THREE.Material) => m.dispose())
+            else mesh.material.dispose()
           }
         })
       }
 
       bloomComposer?.dispose()
       finalComposer?.dispose()
-      bloomPass?.dispose?.()
+      bloomPass?.dispose()
 
       renderer?.dispose()
       if (renderer?.domElement && renderer.domElement.parentElement === root) {
@@ -152,19 +152,17 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
       starMat = null
       starGeo = null
       starPoints = null
-      if (scene) {
-        starLayers.forEach((p) => {
-          ;(scene as THREE.Scene).remove(p)
-          ;(p.geometry as THREE.BufferGeometry).dispose()
-          ;(p.material as THREE.Material).dispose()
-        })
-      }
+      starLayers.forEach((p) => {
+        if (scene) scene.remove(p)
+        p.geometry.dispose()
+        p.material.dispose()
+      })
       starLayers = []
 
       if (shooting.line && scene) {
-        ;(scene as THREE.Scene).remove(shooting.line)
-        ;(shooting.line.geometry as THREE.BufferGeometry).dispose()
-        ;(shooting.line.material as THREE.Material).dispose()
+        scene.remove(shooting.line)
+        shooting.line.geometry.dispose()
+        shooting.line.material.dispose()
         shooting.line = null
       }
 
@@ -345,12 +343,7 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
       scene.background = new THREE.Color(0x000000)
 
       // Camera
-      camera = new THREE.PerspectiveCamera(
-        55,
-        w / h,
-        0.1,
-        5000,
-      )
+      camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 5000)
       camera.position.set(0, 0, 220)
 
       // Renderer
@@ -468,7 +461,7 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
         }
 
         // Update line geometry draw range (progressive drawing)
-        const totalLineCount = linesGeometry?.attributes.position?.count || 0
+        const totalLineCount = linesGeometry ? linesGeometry.attributes.position.count : 0
         const visibleLineCount = Math.floor(eased * totalLineCount)
         if (piscesGlowLine && piscesThinLine) {
           ;(piscesGlowLine.geometry as any).setDrawRange(0, visibleLineCount)
@@ -514,7 +507,7 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
           const x1 = x0 + (160 + Math.random() * 220)
           const y1 = y0 - (90 + Math.random() * 140)
 
-          const arr = (shooting.line.geometry as THREE.BufferGeometry)
+          const arr = shooting.line!.geometry
             .attributes.position.array as Float32Array
           arr[0] = x0
           arr[1] = y0
@@ -522,9 +515,7 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
           arr[3] = x1
           arr[4] = y1
           arr[5] = z
-          ;(
-            shooting.line.geometry as THREE.BufferGeometry
-          ).attributes.position.needsUpdate = true
+          shooting.line!.geometry.attributes.position.needsUpdate = true
         }
 
         if (shooting.active && shooting.line) {

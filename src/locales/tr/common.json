@@ -1,8 +1,8 @@
 {
   "topbar": {
-    "close": "Kapat",
-    "minimize": "Küçült",
-    "maximize": "Büyüt"
+    "close": "Tümünü Kapat - Uyku moduna gir",
+    "minimize": "Tümünü Küçült - Açık tüm pencereleri küçült",
+    "maximize": "Tümünü Geri Yükle - Küçültülmüş tüm pencereleri geri aç"
   },
   "poweroff": {
     "message": "Açmak için tıklayın"
