@@ -10,6 +10,7 @@ import DockHint from './DockHint'
 import MinimizedWindowsIndicator from './MinimizedWindowsIndicator'
 import Dock from './Dock'
 import IntroOverlay from './IntroOverlay'
+import SleepOverlay from './SleepOverlay'
 import TopBar from './TopBar'
 import AboutEducation from './AboutEducation'
 import SkillsPalette from './SkillsPalette'
@@ -54,12 +55,32 @@ export default function CanvasArea() {
       position: { x: 100 + index * 50, y: 100 + index * 50 },
     })),
   )
-  const [isPoweredOn, setIsPoweredOn] = useState(true)
+  const [isSleeping, setIsSleeping] = useState(false)
 
   const skipIntro = () => {
     localStorage.setItem(INTRO_KEY, '1')
     setShowIntro(false)
     setShowDockHint(true)
+  }
+
+  const handlePowerOff = () => {
+    setIsSleeping(true)
+  }
+
+  const handleWakeUp = () => {
+    setIsSleeping(false)
+  }
+
+  const handleMinimizeAll = () => {
+    setOpenWindows((prev) =>
+      prev.map((w) => ({ ...w, isMinimized: true })),
+    )
+  }
+
+  const handleMaximizeAll = () => {
+    setOpenWindows((prev) =>
+      prev.map((w) => ({ ...w, isMinimized: false })),
+    )
   }
 
   // Dil değiştiğinde açık uygulamaların verilerini güncelle
@@ -169,7 +190,11 @@ export default function CanvasArea() {
         }
       >
         {/* Top Bar */}
-        <TopBar onPowerOff={() => setIsPoweredOn(false)} />
+        <TopBar 
+          onPowerOff={handlePowerOff}
+          onMinimizeAll={handleMinimizeAll}
+          onMaximizeAll={handleMaximizeAll}
+        />
 
         {/* Draggable Windows */}
         <div className="absolute inset-0 pointer-events-none">
@@ -240,6 +265,9 @@ export default function CanvasArea() {
 
       {/* Intro Overlay */}
       <IntroOverlay showIntro={showIntro} onSkipIntro={skipIntro} />
+
+      {/* Sleep Overlay */}
+      <SleepOverlay isActive={isSleeping} onWakeUp={handleWakeUp} />
     </motion.div>
   )
 }

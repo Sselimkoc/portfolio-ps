@@ -7,6 +7,9 @@
   "poweroff": {
     "message": "Açmak için tıklayın"
   },
+  "sleep": {
+    "wakeUpMessage": "Uyandırmak için tıkla veya herhangi bir tuşa bas"
+  },
   "apps": {
     "about": {
       "title": "Hakkımda",

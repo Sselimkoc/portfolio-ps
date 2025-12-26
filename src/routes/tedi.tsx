@@ -28,13 +28,13 @@ function AdminPanel() {
 
   // Language state for Profile, Projects and Experience - sync with i18n language
   const [profileLanguage, setProfileLanguage] = useState<'en' | 'tr'>(
-    (i18n.language as 'en' | 'tr') || 'tr',
+    i18n.language as 'en' | 'tr',
   )
   const [projectLanguage, setProjectLanguage] = useState<'en' | 'tr'>(
-    (i18n.language as 'en' | 'tr') || 'tr',
+    i18n.language as 'en' | 'tr',
   )
   const [experienceLanguage, setExperienceLanguage] = useState<'en' | 'tr'>(
-    (i18n.language as 'en' | 'tr') || 'tr',
+    i18n.language as 'en' | 'tr',
   )
 
   // Veritabanı boşsa formun çökmemesi için varsayılan değerlerle başlatıyoruz
@@ -71,7 +71,7 @@ function AdminPanel() {
 
   // Sync language states with i18n language changes
   useEffect(() => {
-    const lang = (i18n.language as 'en' | 'tr') || 'tr'
+    const lang = i18n.language as 'en' | 'tr'
     setProfileLanguage(lang)
     setProjectLanguage(lang)
     setExperienceLanguage(lang)
@@ -195,7 +195,12 @@ function AdminPanel() {
   }
 
   const handleAddProject = async () => {
-    if (!newProject?.name || !newProject?.tagline || !newProject?.description)
+    if (
+      !newProject ||
+      !newProject.name ||
+      !newProject.tagline ||
+      !newProject.description
+    )
       return
     try {
       await (addProject as any)({
@@ -233,9 +238,10 @@ function AdminPanel() {
 
   const handleAddExperience = async () => {
     if (
-      !newExperience?.role ||
-      !newExperience?.company ||
-      !newExperience?.period
+      !newExperience ||
+      !newExperience.role ||
+      !newExperience.company ||
+      !newExperience.period
     )
       return
     try {

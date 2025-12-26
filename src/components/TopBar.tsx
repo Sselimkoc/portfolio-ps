@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Battery ,BatteryCharging } from 'lucide-react'
+import { BatteryFull, BatteryCharging } from 'lucide-react'
 
 interface TopBarProps {
   onPowerOff: () => void
+  onMinimizeAll: () => void
+  onMaximizeAll: () => void
 }
 
-export default function TopBar({ onPowerOff }: TopBarProps) {
+export default function TopBar({
+  onPowerOff,
+  onMinimizeAll,
+  onMaximizeAll,
+}: TopBarProps) {
   const { t, i18n } = useTranslation()
   const [currentTime, setCurrentTime] = useState<string>('')
   const [batteryLevel, setBatteryLevel] = useState<number>(
-    () => Math.floor(Math.random() * 20) + 30, 
+    () => Math.floor(Math.random() * 20) + 30,
   )
 
   useEffect(() => {
@@ -31,9 +37,10 @@ export default function TopBar({ onPowerOff }: TopBarProps) {
     const chargeInterval = setInterval(() => {
       setBatteryLevel((prev) => {
         if (prev >= 100) return 100
-        return prev + Math.floor(Math.random() * 3) + 1
+        const newLevel = prev + Math.floor(Math.random() * 3) + 1
+        return Math.min(newLevel, 100) // Emin olmak için cap'le
       })
-    }, 3000) 
+    }, 3000)
 
     return () => clearInterval(chargeInterval)
   }, [])
@@ -52,16 +59,18 @@ export default function TopBar({ onPowerOff }: TopBarProps) {
           title={t('topbar.close')}
         />
         <button
+          onClick={onMinimizeAll}
           className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600 transition-all hover:shadow-lg cursor-pointer"
           title={t('topbar.minimize')}
         />
         <button
+          onClick={onMaximizeAll}
           className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 transition-all hover:shadow-lg cursor-pointer"
           title={t('topbar.maximize')}
         />
       </div>
 
-      {/* Right - Status Icons */}
+      {/* Right - Time + Language + Battery */}
       <div className="flex items-center gap-4">
         {/* Language Switcher */}
         <div className="flex items-center gap-2 px-2 py-1 rounded border border-white/10 bg-white/5">
@@ -87,18 +96,20 @@ export default function TopBar({ onPowerOff }: TopBarProps) {
             TR
           </button>
         </div>
-
         <span className="text-white font-semibold text-xs">{currentTime}</span>
 
-        {batteryLevel < 100 && (
-          <BatteryCharging size={18} className="text-white animate-pulse" />
-        )}
+        {/* Battery Status */}
+        <div className="flex items-center gap-1">
+          <span className="text-white text-xs">{batteryLevel}%</span>
 
-        {batteryLevel === 100 && (
-          <Battery size={18} className="text-white" />
-        )}
+          {batteryLevel < 100 && (
+            <BatteryCharging size={18} className="text-white animate-pulse" />
+          )}
 
-        <span className="text-white text-xs">{batteryLevel}%</span>
+          {batteryLevel === 100 && (
+            <BatteryFull size={18} className="text-white" />
+          )}
+        </div>
       </div>
     </div>
   )
