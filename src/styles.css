@@ -1,5 +1,20 @@
 @import 'tailwindcss';
 
+html,
+body {
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
 body {
   @apply m-0;
   font-family:
@@ -48,7 +63,7 @@ code {
   .glass-card,
   .glass-button,
   .glass-dock {
-    @apply backdrop-blur-[8px];
+    @apply backdrop-blur-sm;
   }
 }
 
@@ -60,4 +75,31 @@ code {
   .glass-dock {
     @apply bg-white/25;
   }
+}
+
+/* Mac-like traffic light buttons */
+.mac-traffic {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12) inset;
+}
+
+/* renkler */
+.mac-traffic.close {
+  background: #ff5f57;
+}
+.mac-traffic.minimize {
+  background: #febc2e;
+}
+.mac-traffic.maximize {
+  background: #28c840;
+}
+
+/* hover hissi */
+.mac-traffic:hover {
+  filter: brightness(0.98);
 }

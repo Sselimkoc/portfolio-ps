@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          Int     @id
+  name        String
+  roleLine    String
+  bio         String
+  email       String
+  githubUrl   String
+  linkedinUrl String
+  location    String
+  school      String
+  department  String
+  years       String?
+  gpa         String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Skill {
+  id        Int      @id @default(autoincrement())
+  group     String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  tagline     String
+  description String
+  tech        String[]
+  href        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id        Int      @id @default(autoincrement())
+  role      String
+  company   String
+  period    String
+  location  String?
+  bullets   String[] @default([])
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

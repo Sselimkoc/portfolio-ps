@@ -1,30 +1,14 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import enCommon from '../locales/en/common.json'
+import trCommon from '../locales/tr/common.json'
 
 const resources = {
   tr: {
-    common: {
-      topbar: {
-        close: 'Kapat',
-        minimize: 'Minimize',
-        maximize: 'Maximize',
-      },
-      poweroff: {
-        message: 'Açmak için tıklayın',
-      },
-    },
+    common: trCommon,
   },
   en: {
-    common: {
-      topbar: {
-        close: 'Close',
-        minimize: 'Minimize',
-        maximize: 'Maximize',
-      },
-      poweroff: {
-        message: 'Click to power on',
-      },
-    },
+    common: enCommon,
   },
 }
 

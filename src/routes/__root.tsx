@@ -28,6 +28,7 @@ export const Route = createRootRoute({
   }),
 
   shellComponent: RootDocument,
+  notFoundComponent: NotFoundPage,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -36,8 +37,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
-        {children}
+      <body className="h-screen w-full flex flex-col">
+        <div className="flex-1 flex flex-col">{children}</div>
         <TanStackDevtools
           config={{
             position: 'bottom-right',
@@ -52,5 +53,19 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
+  )
+}
+
+function NotFoundPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-black text-white">
+      <div className="text-center space-y-4">
+        <p className="text-sm uppercase tracking-widest text-white/60">404</p>
+        <h1 className="text-2xl font-semibold">Sayfa bulunamadı</h1>
+        <p className="text-white/70 text-sm">
+          Lütfen adresi kontrol edin veya dock üzerinden bir uygulama açın.
+        </p>
+      </div>
+    </div>
   )
 }

@@ -9,8 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TediRouteImport } from './routes/tedi'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TediRoute = TediRouteImport.update({
+  id: '/tedi',
+  path: '/tedi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +25,39 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/tedi': typeof TediRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/tedi': typeof TediRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/tedi': typeof TediRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/tedi'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/tedi'
+  id: '__root__' | '/' | '/tedi'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TediRoute: typeof TediRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tedi': {
+      id: '/tedi'
+      path: '/tedi'
+      fullPath: '/tedi'
+      preLoaderRoute: typeof TediRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TediRoute: TediRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
