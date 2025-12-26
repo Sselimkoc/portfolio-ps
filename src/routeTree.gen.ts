@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TediRouteImport } from './routes/tedi'
+import { Route as SleepRouteImport } from './routes/sleep'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TediRoute = TediRouteImport.update({
   id: '/tedi',
   path: '/tedi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SleepRoute = SleepRouteImport.update({
+  id: '/sleep',
+  path: '/sleep',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/sleep': typeof SleepRoute
   '/tedi': typeof TediRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/sleep': typeof SleepRoute
   '/tedi': typeof TediRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/sleep': typeof SleepRoute
   '/tedi': typeof TediRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tedi'
+  fullPaths: '/' | '/sleep' | '/tedi'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tedi'
-  id: '__root__' | '/' | '/tedi'
+  to: '/' | '/sleep' | '/tedi'
+  id: '__root__' | '/' | '/sleep' | '/tedi'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SleepRoute: typeof SleepRoute
   TediRoute: typeof TediRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/tedi'
       fullPath: '/tedi'
       preLoaderRoute: typeof TediRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sleep': {
+      id: '/sleep'
+      path: '/sleep'
+      fullPath: '/sleep'
+      preLoaderRoute: typeof SleepRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SleepRoute: SleepRoute,
   TediRoute: TediRoute,
 }
 export const routeTree = rootRouteImport

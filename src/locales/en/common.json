@@ -6,6 +6,9 @@
   },
   "poweroff": {
     "message": "Click to power on"
+    },
+  "sleep": {
+    "wakeUpMessage": "Wake"
   },
   "apps": {
     "about": {
@@ -39,7 +42,7 @@
     "title": "Hi, I'm Selim",
     "subtitle": "Full Stack Developer",
     "description": "I live with the motivation to be better than yesterday every day.",
-    "clickToContinue": "Click anywhere to continue"
+    "clickToContinue": "Wake up the constellation — press any key or click"
   },
   "dock": {
     "hint": "Click on an app to open it"

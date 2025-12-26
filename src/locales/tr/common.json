@@ -7,6 +7,9 @@
   "poweroff": {
     "message": "Açmak için tıklayın"
   },
+  "sleep": {
+    "wakeUpMessage": "Uyan"
+  },
   "apps": {
     "about": {
       "title": "Hakkımda",
@@ -39,7 +42,7 @@
     "title": "Merhaba, ben Selim",
     "subtitle": "Full Stack Developer",
     "description": "Her gün dünden daha iyi olma motivasyonuyla yaşıyorum.",
-    "clickToContinue": "Devam etmek için herhangi bir yere tıklayın"
+    "clickToContinue": "Takımyıldızı uyandırmak için bir tuşa basın veya tıklayın"
   },
   "dock": {
     "hint": "Bir uygulamayı açmak için tıklayın"

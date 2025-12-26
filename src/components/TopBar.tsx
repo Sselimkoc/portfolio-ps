@@ -15,11 +15,14 @@ export default function TopBar({
 }: TopBarProps) {
   const { t, i18n } = useTranslation()
   const [currentTime, setCurrentTime] = useState<string>('')
-  const [batteryLevel, setBatteryLevel] = useState<number>(
-    () => Math.floor(Math.random() * 20) + 30,
-  )
+  const [mounted, setMounted] = useState(false)
+  const [batteryLevel, setBatteryLevel] = useState<number>(50)
 
   useEffect(() => {
+    // Initialize after hydration to match server render
+    setMounted(true)
+    setBatteryLevel(Math.floor(Math.random() * 20) + 30)
+    
     const updateTime = () => {
       const now = new Date()
       const hours = String(now.getHours()).padStart(2, '0')
@@ -34,6 +37,8 @@ export default function TopBar({
   }, [])
 
   useEffect(() => {
+    if (!mounted) return
+    
     const chargeInterval = setInterval(() => {
       setBatteryLevel((prev) => {
         if (prev >= 100) return 100
@@ -43,7 +48,7 @@ export default function TopBar({
     }, 3000)
 
     return () => clearInterval(chargeInterval)
-  }, [])
+  }, [mounted])
 
   const handleLanguageChange = (lang: string) => {
     i18n.changeLanguage(lang)
@@ -55,17 +60,20 @@ export default function TopBar({
       <div className="flex items-center gap-3">
         <button
           onClick={onPowerOff}
-          className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 transition-all hover:shadow-lg cursor-pointer"
+          style={{ backgroundColor: '#ff5f57' }}
+          className="w-3 h-3 rounded-full transition-all hover:shadow-lg cursor-pointer hover:brightness-95"
           title={t('topbar.close')}
         />
         <button
           onClick={onMinimizeAll}
-          className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600 transition-all hover:shadow-lg cursor-pointer"
+          style={{ backgroundColor: '#febc2e' }}
+          className="w-3 h-3 rounded-full transition-all hover:shadow-lg cursor-pointer hover:brightness-95"
           title={t('topbar.minimize')}
         />
         <button
           onClick={onMaximizeAll}
-          className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 transition-all hover:shadow-lg cursor-pointer"
+          style={{ backgroundColor: '#28c840' }}
+          className="w-3 h-3 rounded-full transition-all hover:shadow-lg cursor-pointer hover:brightness-95"
           title={t('topbar.maximize')}
         />
       </div>
@@ -96,20 +104,22 @@ export default function TopBar({
             TR
           </button>
         </div>
-        <span className="text-white font-semibold text-xs">{currentTime}</span>
+        {mounted && <span className="text-white font-semibold text-xs">{currentTime}</span>}
 
         {/* Battery Status */}
-        <div className="flex items-center gap-1">
-          <span className="text-white text-xs">{batteryLevel}%</span>
+        {mounted && (
+          <div className="flex items-center gap-1">
+            <span className="text-white text-xs">{batteryLevel}%</span>
 
-          {batteryLevel < 100 && (
-            <BatteryCharging size={18} className="text-white animate-pulse" />
-          )}
+            {batteryLevel < 100 && (
+              <BatteryCharging size={18} className="text-white animate-pulse" />
+            )}
 
-          {batteryLevel === 100 && (
-            <BatteryFull size={18} className="text-white" />
-          )}
-        </div>
+            {batteryLevel === 100 && (
+              <BatteryFull size={18} className="text-white" />
+            )}
+          </div>
+        )}
       </div>
     </div>
   )

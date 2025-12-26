@@ -11,6 +11,7 @@ import MinimizedWindowsIndicator from './MinimizedWindowsIndicator'
 import Dock from './Dock'
 import IntroOverlay from './IntroOverlay'
 import SleepOverlay from './SleepOverlay'
+
 import TopBar from './TopBar'
 import AboutEducation from './AboutEducation'
 import SkillsPalette from './SkillsPalette'
@@ -33,19 +34,14 @@ interface DockApp {
 
 const INTRO_KEY = 'portfolio:introSeen:v1'
 
-const getInitialIntroState = () => {
-  const seen =
-    typeof window !== 'undefined' && localStorage.getItem(INTRO_KEY) === '1'
-  return !seen
-}
-
 export default function CanvasArea() {
   const { t, i18n } = useTranslation()
   const initialData = useLoaderData({ from: '/' }) as any
   const [data, setData] = useState(initialData)
   const canvasRef = useRef<HTMLDivElement>(null)
   const [showDockHint, setShowDockHint] = useState(false)
-  const [showIntro, setShowIntro] = useState(getInitialIntroState())
+  const [showIntro, setShowIntro] = useState(true)
+  const [isSleeping, setIsSleeping] = useState(false)
 
   const [openWindows, setOpenWindows] = useState<Array<OpenWindowState>>(
     apps.map((app, index) => ({
@@ -55,7 +51,11 @@ export default function CanvasArea() {
       position: { x: 100 + index * 50, y: 100 + index * 50 },
     })),
   )
-  const [isSleeping, setIsSleeping] = useState(false)
+  // Set intro state after hydration to avoid mismatch
+  useEffect(() => {
+    const seen = localStorage.getItem(INTRO_KEY) === '1'
+    setShowIntro(!seen)
+  }, [])
 
   const skipIntro = () => {
     localStorage.setItem(INTRO_KEY, '1')
@@ -63,24 +63,21 @@ export default function CanvasArea() {
     setShowDockHint(true)
   }
 
-  const handlePowerOff = () => {
+  const handlePowerOff = (e?: React.MouseEvent) => {
+    e?.stopPropagation()
     setIsSleeping(true)
   }
 
-  const handleWakeUp = () => {
+  const handleWake = () => {
     setIsSleeping(false)
   }
 
   const handleMinimizeAll = () => {
-    setOpenWindows((prev) =>
-      prev.map((w) => ({ ...w, isMinimized: true })),
-    )
+    setOpenWindows((prev) => prev.map((w) => ({ ...w, isMinimized: true })))
   }
 
   const handleMaximizeAll = () => {
-    setOpenWindows((prev) =>
-      prev.map((w) => ({ ...w, isMinimized: false })),
-    )
+    setOpenWindows((prev) => prev.map((w) => ({ ...w, isMinimized: false })))
   }
 
   // Dil değiştiğinde açık uygulamaların verilerini güncelle
@@ -179,7 +176,7 @@ export default function CanvasArea() {
     <motion.div
       ref={canvasRef}
       className="flex-1 overflow-hidden relative flex flex-col bg-cover bg-center"
-      style={{ backgroundImage: 'url(/desktop-bg.jpg)' }}
+      style={{ backgroundImage: 'url(/desktop-bg2.jpg)' }}
     >
       {/* Desktop content */}
       <div
@@ -190,7 +187,7 @@ export default function CanvasArea() {
         }
       >
         {/* Top Bar */}
-        <TopBar 
+        <TopBar
           onPowerOff={handlePowerOff}
           onMinimizeAll={handleMinimizeAll}
           onMaximizeAll={handleMaximizeAll}
@@ -266,8 +263,8 @@ export default function CanvasArea() {
       {/* Intro Overlay */}
       <IntroOverlay showIntro={showIntro} onSkipIntro={skipIntro} />
 
-      {/* Sleep Overlay */}
-      <SleepOverlay isActive={isSleeping} onWakeUp={handleWakeUp} />
+      {/* Sleep Screen */}
+      <SleepOverlay isActive={isSleeping} onWakeUp={handleWake} />
     </motion.div>
   )
 }
