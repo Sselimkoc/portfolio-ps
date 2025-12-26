@@ -4,6 +4,7 @@ import { useLoaderData } from '@tanstack/react-router'
 import { Github, Linkedin, MailQuestion } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { apps } from '../data/apps'
+import { getPortfolioData } from './queries'
 import DraggableWindow from './DraggableWindow'
 import DockHint from './DockHint'
 import MinimizedWindowsIndicator from './MinimizedWindowsIndicator'
@@ -38,8 +39,9 @@ const getInitialIntroState = () => {
 }
 
 export default function CanvasArea() {
-  const { t } = useTranslation()
-  const data = useLoaderData({ from: '/' }) as any
+  const { t, i18n } = useTranslation()
+  const initialData = useLoaderData({ from: '/' }) as any
+  const [data, setData] = useState(initialData)
   const canvasRef = useRef<HTMLDivElement>(null)
   const [showDockHint, setShowDockHint] = useState(false)
   const [showIntro, setShowIntro] = useState(getInitialIntroState())
@@ -59,6 +61,22 @@ export default function CanvasArea() {
     setShowIntro(false)
     setShowDockHint(true)
   }
+
+  // Dil değiştiğinde açık uygulamaların verilerini güncelle
+  useEffect(() => {
+    const loadDataForLanguage = async () => {
+      try {
+        const newData = await (getPortfolioData as any)({
+          data: { language: i18n.language },
+        })
+        setData(newData)
+      } catch (error) {
+        console.error('Failed to load data for language:', error)
+      }
+    }
+
+    loadDataForLanguage()
+  }, [i18n.language])
 
   const bringToFront = (appId: string) => {
     setOpenWindows((prev) => {
