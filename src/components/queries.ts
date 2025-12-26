@@ -16,6 +16,7 @@ export type ProfilePayload = {
   department: string
   years?: string
   gpa?: string
+  language?: string // "en" or "tr"
 }
 
 export type SkillPayload = {
@@ -25,6 +26,27 @@ export type SkillPayload = {
 
 export type IdentifiedRecord = {
   id: number
+}
+
+export type ProjectPayload = {
+  id?: number
+  name: string
+  tagline: string
+  description: string
+  tech: string[]
+  href?: string
+  language: string // "en" or "tr"
+}
+
+export type ExperiencePayload = {
+  id?: number
+  role: string
+  company: string
+  period: string
+  location?: string
+  bullets?: string[]
+  order: number
+  language: string // "en" or "tr"
 }
 
 const isServer = typeof window === 'undefined'
@@ -49,13 +71,14 @@ if (isServer && !prismaClient) {
 
 export const prisma = prismaClient
 
-export const getPortfolioData = createServerFn({ method: 'GET' }).handler(
-  async () => {
+export const getPortfolioData = createServerFn({ method: 'POST' }).handler(
+  async ({ data }: any) => {
+    const language = (data?.language || 'tr') as string
     const [profile, skills, projects, experience] = await Promise.all([
-      prisma.profile.findFirst(),
+      prisma.profile.findFirst({ where: { language } }),
       prisma.skill.findMany(),
-      prisma.project.findMany(),
-      prisma.experience.findMany({ orderBy: { order: 'asc' } }),
+      prisma.project.findMany({ where: { language } }),
+      prisma.experience.findMany({ where: { language }, orderBy: { order: 'asc' } }),
     ])
 
     const groupedSkills = skills.reduce((acc: Array<any>, skill: any) => {
@@ -79,15 +102,26 @@ export const getPortfolioData = createServerFn({ method: 'GET' }).handler(
 )
 
 export const updateProfile = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
     const payload = data as unknown as ProfilePayload
-    const { id, ...rest } = payload
+    const { id, language, ...rest } = payload
+    const lang = language || 'tr'
 
-    return prisma.profile.upsert({
-      where: { id: id ?? 1 },
-      update: rest,
-      create: { ...rest, id: id ?? 1 },
-    })
+    // First, find the profile by language
+    const existing = await prisma.profile.findFirst({ where: { language: lang } })
+
+    if (existing) {
+      // Update existing profile
+      return prisma.profile.update({
+        where: { id: existing.id },
+        data: rest,
+      })
+    } else {
+      // Create new profile
+      return prisma.profile.create({
+        data: { ...rest, language: lang },
+      })
+    }
   },
 )
 
@@ -118,6 +152,17 @@ export const deleteProject = createServerFn({ method: 'POST' }).handler(
   },
 )
 
+export const updateProject = createServerFn({ method: 'POST' }).handler(
+  ({ data }: any) => {
+    const payload = data as unknown as ProjectPayload
+    const { id, ...rest } = payload
+    return prisma.project.update({
+      where: { id: id! },
+      data: rest,
+    })
+  },
+)
+
 export const addExperience = createServerFn({ method: 'POST' }).handler(
   ({ data }: any) => {
     return prisma.experience.create({ data: data as unknown as Record<string, any> })
@@ -128,5 +173,16 @@ export const deleteExperience = createServerFn({ method: 'POST' }).handler(
   ({ data }: any) => {
     const { id } = data as unknown as IdentifiedRecord
     return prisma.experience.delete({ where: { id } })
+  },
+)
+
+export const updateExperience = createServerFn({ method: 'POST' }).handler(
+  ({ data }: any) => {
+    const payload = data as unknown as ExperiencePayload
+    const { id, ...rest } = payload
+    return prisma.experience.update({
+      where: { id: id! },
+      data: rest,
+    })
   },
 )

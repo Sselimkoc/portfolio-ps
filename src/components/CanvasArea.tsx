@@ -32,7 +32,8 @@ interface DockApp {
 const INTRO_KEY = 'portfolio:introSeen:v1'
 
 const getInitialIntroState = () => {
-  const seen = typeof window !== 'undefined' && localStorage.getItem(INTRO_KEY) === '1'
+  const seen =
+    typeof window !== 'undefined' && localStorage.getItem(INTRO_KEY) === '1'
   return !seen
 }
 
