@@ -1,5 +1,6 @@
 import React from 'react'
 import { Github, Linkedin, Mail } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface ProfileHeaderProps {
   name: string
@@ -13,17 +14,19 @@ interface ProfileHeaderProps {
 export default function ProfileHeader({
   name,
   roleLine,
-  location = 'Türkiye',
+  location,
   githubUrl,
   linkedinUrl,
   email,
 }: ProfileHeaderProps) {
+  const { t } = useTranslation()
+  const displayLocation = location || t('admin.profile.defaultLocation')
   return (
     <div className="flex items-start justify-between gap-4">
       <div className="min-w-0">
         <h2 className="text-2xl font-semibold text-white">{name}</h2>
         <p className="mt-1 text-white/70 text-sm">{roleLine}</p>
-        <p className="mt-1 text-white/45 text-xs">{location}</p>
+        <p className="mt-1 text-white/45 text-xs">{displayLocation}</p>
       </div>
 
       <div className="flex items-center gap-2">
