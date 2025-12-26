@@ -38,6 +38,8 @@ export default function DraggableWindow({
     initialSize: defaultSize,
     initialPosition: defaultPosition,
     constraintsRef: dragConstraintsRef,
+    minWidth: defaultSize.width,
+    minHeight: defaultSize.height,
   })
 
   const windowRef = useRef<HTMLDivElement>(null)

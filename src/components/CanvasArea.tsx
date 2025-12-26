@@ -16,6 +16,9 @@ import AboutEducation from './AboutEducation'
 import SkillsPalette from './SkillsPalette'
 import ProjectsGallery from './ProjectsGallery'
 import ExperienceTimeline from './ExperienceTimeline'
+import WallpaperSelector from './WallpaperSelector'
+import SlidingPuzzle from './SlidingPuzzle'
+import DesktopShortcuts from './DesktopShortcuts'
 
 interface OpenWindowState {
   id: string
@@ -32,6 +35,7 @@ interface DockApp {
 }
 
 const INTRO_KEY = 'portfolio:introSeen:v1'
+const WALLPAPER_KEY = 'portfolio:wallpaper'
 
 export default function CanvasArea() {
   const { t, i18n } = useTranslation()
@@ -41,15 +45,63 @@ export default function CanvasArea() {
   const [showDockHint, setShowDockHint] = useState(false)
   const [showIntro, setShowIntro] = useState(true)
   const [isSleeping, setIsSleeping] = useState(false)
+  const [backgroundStyle, setBackgroundStyle] = useState({
+    backgroundImage: 'url(/desktop-bg2.jpg)',
+  })
 
   const [openWindows, setOpenWindows] = useState<Array<OpenWindowState>>(
-    apps.map((app, index) => ({
+    apps.map((app) => ({
       id: app.id,
       isOpen: false,
       isMinimized: false,
-      position: { x: 100 + index * 50, y: 100 + index * 50 },
+      position: app.defaultPosition || { x: 100, y: 100 },
     })),
   )
+
+  // Load saved wallpaper on mount
+  useEffect(() => {
+    const savedWallpaper = localStorage.getItem(WALLPAPER_KEY)
+    if (savedWallpaper) {
+      applyWallpaper(savedWallpaper)
+    }
+  }, [])
+
+  const applyWallpaper = (wallpaperId: string) => {
+    const wallpapers: Record<string, { url: string; gradient?: boolean }> = {
+      default: { url: '/desktop-bg2.jpg' },
+      dark: {
+        url: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+        gradient: true,
+      },
+      purple: {
+        url: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        gradient: true,
+      },
+      sunset: {
+        url: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        gradient: true,
+      },
+      ocean: {
+        url: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        gradient: true,
+      },
+      forest: {
+        url: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
+        gradient: true,
+      },
+    }
+
+    const wallpaper = wallpapers[wallpaperId] || wallpapers.default
+    if (wallpaper.gradient) {
+      setBackgroundStyle({
+        backgroundImage: wallpaper.url,
+      })
+    } else {
+      setBackgroundStyle({
+        backgroundImage: `url(${wallpaper.url})`,
+      })
+    }
+  }
   // Set intro state after hydration to avoid mismatch
   useEffect(() => {
     const seen = localStorage.getItem(INTRO_KEY) === '1'
@@ -162,12 +214,14 @@ export default function CanvasArea() {
   }
 
   const dockApps: Array<DockApp> = [
-    ...apps.map((app) => ({
-      id: app.id,
-      titleKey: app.title,
-      icon: app.icon,
-      action: handleOpenWindow,
-    })),
+    ...apps
+      .filter((app) => !['wallpaper', 'puzzle'].includes(app.id))
+      .map((app) => ({
+        id: app.id,
+        titleKey: app.title,
+        icon: app.icon,
+        action: handleOpenWindow,
+      })),
     {
       id: 'contact',
       titleKey: 'apps.contact.title',
@@ -189,11 +243,27 @@ export default function CanvasArea() {
     },
   ]
 
+  // Desktop shortcuts for wallpaper and puzzle
+  const desktopShortcuts = [
+    {
+      id: 'wallpaper',
+      title: 'apps.wallpaper.title',
+      icon: apps.find((a) => a.id === 'wallpaper')?.icon || MailQuestion,
+      onOpen: handleOpenWindow,
+    },
+    {
+      id: 'puzzle',
+      title: 'apps.puzzle.title',
+      icon: apps.find((a) => a.id === 'puzzle')?.icon || MailQuestion,
+      onOpen: handleOpenWindow,
+    },
+  ]
+
   return (
     <motion.div
       ref={canvasRef}
       className="flex-1 overflow-hidden relative flex flex-col bg-cover bg-center"
-      style={{ backgroundImage: 'url(/desktop-bg2.jpg)' }}
+      style={backgroundStyle}
     >
       {/* Desktop content */}
       <div
@@ -203,6 +273,9 @@ export default function CanvasArea() {
             : 'opacity-100 transition-opacity duration-300'
         }
       >
+        {/* Desktop Shortcuts */}
+        <DesktopShortcuts shortcuts={desktopShortcuts} />
+
         {/* Top Bar */}
         <TopBar
           onPowerOff={handlePowerOff}
@@ -231,7 +304,7 @@ export default function CanvasArea() {
                   onBringToFront={bringToFront}
                   dragConstraintsRef={canvasRef}
                   defaultPosition={windowState.position}
-                  defaultSize={{ width: 550, height: 450 }}
+                  defaultSize={app.defaultSize || { width: 550, height: 450 }}
                 >
                   {app.id === 'about' && data.profile && (
                     <AboutEducation
@@ -253,9 +326,28 @@ export default function CanvasArea() {
                   {app.id === 'experience' && (
                     <ExperienceTimeline items={data.experience} />
                   )}
-                  {!['about', 'skills', 'projects', 'experience'].includes(
-                    app.id,
-                  ) && (
+                  {app.id === 'wallpaper' && (
+                    <WallpaperSelector
+                      onApply={(wallpaper) => {
+                        if (wallpaper.url.includes('gradient')) {
+                          setBackgroundStyle({ backgroundImage: wallpaper.url })
+                        } else {
+                          setBackgroundStyle({
+                            backgroundImage: `url(${wallpaper.url})`,
+                          })
+                        }
+                      }}
+                    />
+                  )}
+                  {app.id === 'puzzle' && <SlidingPuzzle />}
+                  {![
+                    'about',
+                    'skills',
+                    'projects',
+                    'experience',
+                    'wallpaper',
+                    'puzzle',
+                  ].includes(app.id) && (
                     <div className="p-5 text-white/80">{t(app.content)}</div>
                   )}
                 </DraggableWindow>
@@ -275,8 +367,8 @@ export default function CanvasArea() {
         </AnimatePresence>
 
         {/* Dock */}
-        <Dock 
-          dockApps={dockApps} 
+        <Dock
+          dockApps={dockApps}
           onDockAction={handleDockAction}
           openWindows={openWindows}
           onRestoreWindow={handleRestoreWindow}

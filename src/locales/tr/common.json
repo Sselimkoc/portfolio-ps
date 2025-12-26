@@ -27,6 +27,22 @@
       "title": "Deneyim",
       "content": "Deneyimlerim burada yer alacak."
     },
+    "wallpaper": {
+      "title": "Duvar Kağıtları",
+      "content": "Masaüstü duvar kağıdını değiştir",
+      "description": "Duvar kağıdını seç ve uygula",
+      "applied": "Aktif duvar kağıdı"
+    },
+    "puzzle": {
+      "title": "Bulmaca Oyunu",
+      "content": "Kayma bulmacası oyunu oyna",
+      "description": "Görüntüyü tamamlamak için karoları düzenle",
+      "moves": "Hamle",
+      "status": "Durum",
+      "won": "Tamamlandı!",
+      "reset": "Sıfırla",
+      "hint": "Karoları taşımak için boş alana bitişik karoları tıklayın"
+    },
     "contact": {
       "title": "İletişim",
       "content": "Bana şu adresten ulaşabilirsiniz: example@example.com"
@@ -46,6 +62,16 @@
   },
   "dock": {
     "hint": "Bir uygulamayı açmak için tıklayın"
+  },
+  "wallpapers": {
+    "default": "Varsayılan",
+    "desktopBg": "Desktop Bg",
+    "custom": "Özel",
+    "dark": "Koyu Mavi",
+    "purple": "Mor Rüyalar",
+    "sunset": "Gün Batımı",
+    "ocean": "Okyanus",
+    "forest": "Orman"
   },
   "admin": {
     "title": "Yönetim Paneli",

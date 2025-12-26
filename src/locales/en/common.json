@@ -27,6 +27,22 @@
       "title": "Experience",
       "content": "My experiences will be here."
     },
+    "wallpaper": {
+      "title": "Wallpapers",
+      "content": "Change your desktop wallpaper",
+      "description": "Select and apply a wallpaper",
+      "applied": "Current wallpaper"
+    },
+    "puzzle": {
+      "title": "Puzzle Game",
+      "content": "Play a sliding puzzle game",
+      "description": "Arrange the tiles to complete the image",
+      "moves": "Moves",
+      "status": "Status",
+      "won": "Completed!",
+      "reset": "Reset",
+      "hint": "Click on tiles adjacent to the empty space to move them"
+    },
     "contact": {
       "title": "Contact",
       "content": "You can reach me at: example@example.com"
@@ -46,6 +62,16 @@
   },
   "dock": {
     "hint": "Click on an app to open it"
+  },
+  "wallpapers": {
+    "default": "Default",
+    "desktopBg": "Desktop Bg",
+    "custom": "Custom",
+    "dark": "Dark Blue",
+    "purple": "Purple Dreams",
+    "sunset": "Sunset",
+    "ocean": "Ocean",
+    "forest": "Forest"
   },
   "admin": {
     "title": "Admin Panel",

@@ -23,8 +23,8 @@ interface DockProps {
   onRestoreWindow?: (appId: string) => void
 }
 
-export default function Dock({ 
-  dockApps, 
+export default function Dock({
+  dockApps,
   onDockAction,
   openWindows = [],
   onRestoreWindow = () => {},
@@ -33,9 +33,7 @@ export default function Dock({
   const [hoveredApp, setHoveredApp] = useState<string | null>(null)
 
   // Find minimized windows
-  const minimizedApps = openWindows.filter(
-    (w) => w.isMinimized && w.isOpen,
-  )
+  const minimizedApps = openWindows.filter((w) => w.isMinimized && w.isOpen)
 
   // Separator element indicator
   const showSeparator = minimizedApps.length > 0
@@ -50,7 +48,10 @@ export default function Dock({
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.1 }}
     >
-      <motion.div className="flex gap-3 items-center" style={{ overflow: 'visible' }}>
+      <motion.div
+        className="flex gap-3 items-center"
+        style={{ overflow: 'visible' }}
+      >
         {dockApps.map((dockApp) => {
           const Icon = dockApp.icon
           const isHovered = hoveredApp === dockApp.id
@@ -68,7 +69,8 @@ export default function Dock({
               <motion.div
                 className="absolute -top-14 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg whitespace-nowrap text-white text-xs font-medium pointer-events-none border border-white/20 z-20"
                 style={{
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3) inset',
+                  boxShadow:
+                    '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3) inset',
                 }}
                 initial={{ opacity: 0, y: 8 }}
                 animate={
@@ -129,9 +131,7 @@ export default function Dock({
         })}
 
         {/* Separator */}
-        {showSeparator && (
-          <div className="w-px h-8 bg-white/20" />
-        )}
+        {showSeparator && <div className="w-px h-8 bg-white/20" />}
 
         {/* Minimized Windows */}
         {minimizedApps.map((windowState) => {
@@ -139,7 +139,7 @@ export default function Dock({
           if (!app) return null
           const Icon = app.icon
           const isHovered = hoveredApp === `minimized-${windowState.id}`
-          
+
           return (
             <motion.div
               key={`minimized-${windowState.id}`}
@@ -154,7 +154,8 @@ export default function Dock({
               <motion.div
                 className="absolute -top-14 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg whitespace-nowrap text-white text-xs font-medium pointer-events-none border border-white/20 z-20"
                 style={{
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3) inset',
+                  boxShadow:
+                    '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3) inset',
                 }}
                 initial={{ opacity: 0, y: 8 }}
                 animate={
