@@ -33,7 +33,7 @@ export type ProjectPayload = {
   name: string
   tagline: string
   description: string
-  tech: string[]
+  tech: Array<string>
   href?: string
   language: string // "en" or "tr"
 }
@@ -44,7 +44,7 @@ export type ExperiencePayload = {
   company: string
   period: string
   location?: string
-  bullets?: string[]
+  bullets?: Array<string>
   order: number
   language: string // "en" or "tr"
 }

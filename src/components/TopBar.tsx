@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Wifi } from 'lucide-react'
+import { Battery ,BatteryCharging } from 'lucide-react'
 
 interface TopBarProps {
   onPowerOff: () => void
@@ -9,7 +9,9 @@ interface TopBarProps {
 export default function TopBar({ onPowerOff }: TopBarProps) {
   const { t, i18n } = useTranslation()
   const [currentTime, setCurrentTime] = useState<string>('')
-  const [batteryLevel, setBatteryLevel] = useState<number>(58)
+  const [batteryLevel, setBatteryLevel] = useState<number>(
+    () => Math.floor(Math.random() * 20) + 30, 
+  )
 
   useEffect(() => {
     const updateTime = () => {
@@ -23,6 +25,17 @@ export default function TopBar({ onPowerOff }: TopBarProps) {
     updateTime()
     const interval = setInterval(updateTime, 1000)
     return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const chargeInterval = setInterval(() => {
+      setBatteryLevel((prev) => {
+        if (prev >= 100) return 100
+        return prev + Math.floor(Math.random() * 3) + 1
+      })
+    }, 3000) 
+
+    return () => clearInterval(chargeInterval)
   }, [])
 
   const handleLanguageChange = (lang: string) => {
@@ -57,31 +70,35 @@ export default function TopBar({ onPowerOff }: TopBarProps) {
             className={`text-xs font-medium px-2 py-0.5 rounded transition-all ${
               i18n.language === 'en'
                 ? 'text-white bg-white/20'
-                : 'text-gray-400 hover:text-gray-300'
+                : 'text-white/50 hover:text-white/70'
             }`}
           >
             EN
           </button>
-          <span className="text-gray-500">|</span>
+          <span className="text-white/30">|</span>
           <button
             onClick={() => handleLanguageChange('tr')}
             className={`text-xs font-medium px-2 py-0.5 rounded transition-all ${
               i18n.language === 'tr'
                 ? 'text-white bg-white/20'
-                : 'text-gray-400 hover:text-gray-300'
+                : 'text-white/50 hover:text-white/70'
             }`}
           >
             TR
           </button>
         </div>
 
-        <span className="text-gray-300 text-xs font-semibold">
-          {currentTime}
-        </span>
+        <span className="text-white font-semibold text-xs">{currentTime}</span>
 
-        <Wifi size={14} className="text-gray-300" />
+        {batteryLevel < 100 && (
+          <BatteryCharging size={18} className="text-white animate-pulse" />
+        )}
 
-        <span className="text-gray-300 text-xs">{batteryLevel}%</span>
+        {batteryLevel === 100 && (
+          <Battery size={18} className="text-white" />
+        )}
+
+        <span className="text-white text-xs">{batteryLevel}%</span>
       </div>
     </div>
   )

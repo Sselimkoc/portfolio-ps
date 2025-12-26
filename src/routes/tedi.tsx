@@ -283,7 +283,9 @@ function AdminPanel() {
           className="space-y-6 bg-gray-800 p-6 rounded-xl border border-white/10"
         >
           <div className="flex justify-between items-center border-b border-white/10 pb-2">
-            <h2 className="text-xl font-semibold">{t('admin.profile.title')}</h2>
+            <h2 className="text-xl font-semibold">
+              {t('admin.profile.title')}
+            </h2>
             <select
               value={profileLanguage}
               onChange={(e) =>
@@ -298,7 +300,9 @@ function AdminPanel() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-white/50">{t('admin.profile.name')}</label>
+              <label className="text-xs text-white/50">
+                {t('admin.profile.name')}
+              </label>
               <input
                 className="bg-white/5 border border-white/10 rounded px-3 py-2 outline-none focus:border-blue-500 text-sm"
                 value={profile.name || ''}
@@ -311,7 +315,9 @@ function AdminPanel() {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-white/50">{t('admin.profile.roleLine')}</label>
+              <label className="text-xs text-white/50">
+                {t('admin.profile.roleLine')}
+              </label>
               <input
                 className="bg-white/5 border border-white/10 rounded px-3 py-2 outline-none focus:border-blue-500 text-sm"
                 value={profile.roleLine || ''}
@@ -327,7 +333,9 @@ function AdminPanel() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-white/50">{t('admin.profile.email')}</label>
+              <label className="text-xs text-white/50">
+                {t('admin.profile.email')}
+              </label>
               <input
                 className="bg-white/5 border border-white/10 rounded px-3 py-2 outline-none focus:border-blue-500 text-sm"
                 value={profile.email || ''}
@@ -340,7 +348,9 @@ function AdminPanel() {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-white/50">{t('admin.profile.location')}</label>
+              <label className="text-xs text-white/50">
+                {t('admin.profile.location')}
+              </label>
               <input
                 className="bg-white/5 border border-white/10 rounded px-3 py-2 outline-none focus:border-blue-500 text-sm"
                 value={profile.location || ''}
@@ -356,7 +366,9 @@ function AdminPanel() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-white/50">{t('admin.profile.githubUrl')}</label>
+              <label className="text-xs text-white/50">
+                {t('admin.profile.githubUrl')}
+              </label>
               <input
                 className="bg-white/5 border border-white/10 rounded px-3 py-2 outline-none focus:border-blue-500 text-sm"
                 value={profile.githubUrl || ''}
@@ -369,7 +381,9 @@ function AdminPanel() {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-xs text-white/50">{t('admin.profile.linkedinUrl')}</label>
+              <label className="text-xs text-white/50">
+                {t('admin.profile.linkedinUrl')}
+              </label>
               <input
                 className="bg-white/5 border border-white/10 rounded px-3 py-2 outline-none focus:border-blue-500 text-sm"
                 value={profile.linkedinUrl || ''}
@@ -384,7 +398,9 @@ function AdminPanel() {
           </div>
 
           <div className="space-y-4 border-t border-white/10 pt-4">
-            <h3 className="text-sm font-medium text-white/70">{t('admin.education')}</h3>
+            <h3 className="text-sm font-medium text-white/70">
+              {t('admin.education')}
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 placeholder={t('admin.profile.schoolPlaceholder')}
@@ -412,7 +428,9 @@ function AdminPanel() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-xs text-white/50">{t('admin.profile.bio')}</label>
+            <label className="text-xs text-white/50">
+              {t('admin.profile.bio')}
+            </label>
             <textarea
               className="bg-white/5 border border-white/10 rounded px-3 py-2 outline-none focus:border-blue-500 h-32 text-sm"
               value={profile.bio || ''}
@@ -494,7 +512,9 @@ function AdminPanel() {
         {/* Projects Management Section */}
         <div className="mt-12 space-y-6 bg-gray-800 p-6 rounded-xl border border-white/10">
           <div className="flex justify-between items-center border-b border-white/10 pb-2">
-            <h2 className="text-xl font-semibold">{t('admin.projects.title')}</h2>
+            <h2 className="text-xl font-semibold">
+              {t('admin.projects.title')}
+            </h2>
             <select
               value={projectLanguage}
               onChange={(e) =>
@@ -606,7 +626,9 @@ function AdminPanel() {
         {/* Experience Management Section */}
         <div className="mt-12 space-y-6 bg-gray-800 p-6 rounded-xl border border-white/10">
           <div className="flex justify-between items-center border-b border-white/10 pb-2">
-            <h2 className="text-xl font-semibold">{t('admin.experience.title')}</h2>
+            <h2 className="text-xl font-semibold">
+              {t('admin.experience.title')}
+            </h2>
             <select
               value={experienceLanguage}
               onChange={(e) =>
@@ -648,7 +670,8 @@ function AdminPanel() {
 
           <div className="border-t border-white/10 pt-4">
             <h3 className="text-sm font-medium text-white/70 mb-3">
-              {t('admin.experience.addNew')} ({experienceLanguage.toUpperCase()})
+              {t('admin.experience.addNew')} ({experienceLanguage.toUpperCase()}
+              )
             </h3>
             <div className="space-y-2">
               <input
