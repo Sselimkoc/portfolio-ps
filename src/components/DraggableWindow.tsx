@@ -88,7 +88,7 @@ export default function DraggableWindow({
   return (
     <motion.div
       ref={windowRef}
-      className="fixed glass-card glass-shadow flex flex-col rounded-xl overflow-hidden group"
+      className="fixed glass-window glass-window-shadow flex flex-col rounded-2xl overflow-hidden group"
       onMouseDown={() => onBringToFront(id)}
       style={{
         width: size.width,
@@ -104,29 +104,29 @@ export default function DraggableWindow({
       }
     >
       {/* Title Bar */}
-      <div className="bg-linear-to-r from-gray-700/40 to-gray-800/40 py-3 border-b border-white/5 relative select-none">
+      <div className="bg-linear-to-b from-white/22 to-white/14 py-3.5 px-4 border-b border-white/20 relative select-none backdrop-blur-xl">
         {/* Left controls (NON-DRAG area) */}
         <div
-          className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2.5 cursor-default"
+          className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-3 cursor-default"
           draggable={false}
           onPointerDown={(e) => e.stopPropagation()}
           onMouseDown={(e) => e.stopPropagation()}
         >
           <button
             onClick={() => onClose(id)}
-            className="mac-traffic close"
+            className="mac-traffic close hover:shadow-md transition-all"
             aria-label={t('topbar.close')}
             title={t('topbar.close')}
           />
           <button
             onClick={() => onMinimize(id)}
-            className="mac-traffic minimize"
+            className="mac-traffic minimize hover:shadow-md transition-all"
             aria-label={t('topbar.minimize')}
             title={t('topbar.minimize')}
           />
           <button
             onClick={handleMaximize}
-            className="mac-traffic maximize"
+            className="mac-traffic maximize hover:shadow-md transition-all"
             aria-label={t('topbar.maximize')}
             title={t('topbar.maximize')}
           />
@@ -134,24 +134,19 @@ export default function DraggableWindow({
 
         {/* Drag handle (only this part is draggable) */}
         <div
-          className="mx-auto w-fit px-6 cursor-move flex items-center justify-center gap-3"
+          className="mx-auto w-fit px-6 cursor-move flex items-center justify-center gap-2"
           onMouseDown={(e) => handleInteractionStart(e, 'drag')}
           onDoubleClick={handleMaximize}
           title="Drag window"
         >
-          <span className="text-white font-semibold text-sm pointer-events-none">
+          <span className="text-white font-semibold text-sm pointer-events-none tracking-[-0.3px]">
             {t(title)}
-          </span>
-
-          {/* drag dots */}
-          <span className="text-white/50 text-sm tracking-[0.4em] leading-none select-none pointer-events-none">
-            •••
           </span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-6 bg-gray-900/20">
+      <div className="flex-1 overflow-y-auto p-6 bg-white/8 backdrop-blur-sm">
         {children}
       </div>
 

@@ -40,17 +40,23 @@ export default function Dock({
 
   return (
     <motion.div
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 glass-dock glass-shadow h-18 flex items-center justify-center px-4 z-50 opacity-90 hover:opacity-100 transition"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 mac-dock glass-dock-shadow h-20 flex items-center justify-center px-3 z-50 opacity-95 hover:opacity-100 transition-opacity duration-300"
       style={{
         overflow: 'visible',
-      }}
+      } as any}
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, delay: 0.1 }}
+      transition={{
+        duration: 0.6,
+        delay: 0.1,
+        type: 'spring',
+        stiffness: 150,
+        damping: 20,
+      }}
     >
       <motion.div
-        className="flex gap-3 items-center"
-        style={{ overflow: 'visible' }}
+        className="flex gap-2 items-center justify-center"
+        style={{ overflow: 'visible' } as any}
       >
         {dockApps.map((dockApp) => {
           const Icon = dockApp.icon
@@ -61,17 +67,13 @@ export default function Dock({
               className="relative"
               style={{
                 zIndex: isHovered ? 10 : 0,
-              }}
+              } as any}
               onMouseEnter={() => setHoveredApp(dockApp.id)}
               onMouseLeave={() => setHoveredApp(null)}
             >
               {/* Tooltip */}
               <motion.div
-                className="absolute -top-14 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg whitespace-nowrap text-white text-xs font-medium pointer-events-none border border-white/20 z-20"
-                style={{
-                  boxShadow:
-                    '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3) inset',
-                }}
+                className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black/75 backdrop-blur-lg px-3 py-1.5 rounded-lg whitespace-nowrap text-white text-xs font-medium pointer-events-none border border-white/20 z-20 shadow-lg"
                 initial={{ opacity: 0, y: 8 }}
                 animate={
                   isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }
@@ -85,53 +87,70 @@ export default function Dock({
                   style={{
                     borderLeft: '5px solid transparent',
                     borderRight: '5px solid transparent',
-                    borderTop: '6px solid rgba(0, 0, 0, 0.8)',
+                    borderTop: '6px solid rgba(0, 0, 0, 0.75)',
                   }}
                 />
               </motion.div>
 
-              {/* Button */}
+              {/* Button - with modern magnification */}
               <motion.button
                 onClick={() => onDockAction(() => dockApp.action(dockApp.id))}
-                className="glass-shadow w-14 h-14 flex items-center justify-center text-white rounded-2xl ring-1 backdrop-blur-[14px] relative transition-all"
+                className="relative transition-all duration-150 focus:outline-none"
                 style={{
-                  backgroundColor: isHovered
-                    ? 'hsl(0 0% 100% / 0.4)'
-                    : 'hsl(0 0% 100% / 0.28)',
-                  boxShadow: isHovered
-                    ? '0 8px 24px rgba(255, 255, 255, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.4)'
-                    : '0 4px 12px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
-                  borderColor: isHovered
-                    ? 'hsl(0 0% 100% / 0.5)'
-                    : 'hsl(0 0% 100% / 0.35)',
-                }}
+                  width: isHovered ? 64 : 56,
+                  height: isHovered ? 64 : 56,
+                } as any}
+                animate={{
+                  width: isHovered ? 64 : 56,
+                  height: isHovered ? 64 : 56,
+                } as any}
                 whileHover={{
-                  scale: 1.25,
-                  y: -6,
+                  y: -8,
                 }}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.92 }}
                 transition={{
                   type: 'spring',
-                  stiffness: 400,
+                  stiffness: 300,
                   damping: 25,
                 }}
               >
-                <motion.div
-                  animate={isHovered ? { scale: 1.15 } : { scale: 1 }}
-                  transition={{ duration: 0.2 }}
+                <div
+                  className="w-full h-full flex items-center justify-center rounded-2xl backdrop-blur-xl transition-all duration-150"
+                  style={{
+                    backgroundColor: isHovered
+                      ? 'rgba(255, 255, 255, 0.28)'
+                      : 'rgba(255, 255, 255, 0.16)',
+                    boxShadow: isHovered
+                      ? '0 8px 32px rgba(255, 255, 255, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.4)'
+                      : '0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
+                  }}
                 >
-                  <Icon
-                    size={28}
-                    className={isHovered ? 'text-white' : 'text-white/70'}
-                  />
-                </motion.div>
+                  <motion.div
+                    animate={isHovered ? { scale: 1.2 } : { scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Icon
+                      size={isHovered ? 32 : 28}
+                      className={`transition-colors duration-150 ${
+                        isHovered ? 'text-white' : 'text-white/70'
+                      }`}
+                    />
+                  </motion.div>
+                </div>
               </motion.button>
             </motion.div>
           )
         })}
 
         {/* Separator */}
-        {showSeparator && <div className="w-px h-8 bg-white/20" />}
+        {showSeparator && (
+          <motion.div
+            className="w-px h-9 bg-white/25"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+        )}
 
         {/* Minimized Windows */}
         {minimizedApps.map((windowState) => {
@@ -146,17 +165,13 @@ export default function Dock({
               className="relative"
               style={{
                 zIndex: isHovered ? 10 : 0,
-              }}
+              } as any}
               onMouseEnter={() => setHoveredApp(`minimized-${windowState.id}`)}
               onMouseLeave={() => setHoveredApp(null)}
             >
               {/* Tooltip */}
               <motion.div
-                className="absolute -top-14 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg whitespace-nowrap text-white text-xs font-medium pointer-events-none border border-white/20 z-20"
-                style={{
-                  boxShadow:
-                    '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.3) inset',
-                }}
+                className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black/75 backdrop-blur-lg px-3 py-1.5 rounded-lg whitespace-nowrap text-white text-xs font-medium pointer-events-none border border-white/20 z-20 shadow-lg"
                 initial={{ opacity: 0, y: 8 }}
                 animate={
                   isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }
@@ -170,7 +185,7 @@ export default function Dock({
                   style={{
                     borderLeft: '5px solid transparent',
                     borderRight: '5px solid transparent',
-                    borderTop: '6px solid rgba(0, 0, 0, 0.8)',
+                    borderTop: '6px solid rgba(0, 0, 0, 0.75)',
                   }}
                 />
               </motion.div>
@@ -178,33 +193,46 @@ export default function Dock({
               {/* Minimized Button */}
               <motion.button
                 onClick={() => onRestoreWindow(windowState.id)}
-                className="glass-shadow w-12 h-12 flex items-center justify-center text-white rounded-xl ring-1 backdrop-blur-[14px] relative transition-all"
+                className="relative transition-all duration-150 focus:outline-none"
                 style={{
-                  backgroundColor: isHovered
-                    ? 'hsl(0 0% 100% / 0.15)'
-                    : 'hsl(0 0% 100% / 0.06)',
-                  boxShadow: isHovered
-                    ? '0 8px 24px rgba(255, 255, 255, 0.06), inset 0 1px 2px rgba(255, 255, 255, 0.12)'
-                    : '0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.03)',
-                  borderColor: isHovered
-                    ? 'hsl(0 0% 100% / 0.2)'
-                    : 'hsl(0 0% 100% / 0.12)',
-                }}
+                  width: isHovered ? 52 : 44,
+                  height: isHovered ? 52 : 44,
+                } as any}
+                animate={{
+                  width: isHovered ? 52 : 44,
+                  height: isHovered ? 52 : 44,
+                } as any}
                 whileHover={{
-                  scale: 1.1,
-                  y: -4,
+                  y: -6,
                 }}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.92 }}
                 transition={{
                   type: 'spring',
-                  stiffness: 400,
+                  stiffness: 300,
                   damping: 25,
                 }}
               >
-                <Icon
-                  size={18}
-                  className={isHovered ? 'text-white' : 'text-white/50'}
-                />
+                <div
+                  className="w-full h-full flex items-center justify-center rounded-xl backdrop-blur-lg transition-all duration-150"
+                  style={{
+                    backgroundColor: isHovered
+                      ? 'rgba(255, 255, 255, 0.18)'
+                      : 'rgba(255, 255, 255, 0.10)',
+                    border: isHovered
+                      ? '1px solid rgba(255, 255, 255, 0.35)'
+                      : '0.5px solid rgba(255, 255, 255, 0.20)',
+                    boxShadow: isHovered
+                      ? '0 6px 20px rgba(255, 255, 255, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.2)'
+                      : '0 2px 8px rgba(0, 0, 0, 0.12), inset 0 0.5px 1px rgba(255, 255, 255, 0.12)',
+                  }}
+                >
+                  <Icon
+                    size={isHovered ? 18 : 16}
+                    className={`transition-colors duration-150 ${
+                      isHovered ? 'text-white' : 'text-white/50'
+                    }`}
+                  />
+                </div>
               </motion.button>
             </motion.div>
           )

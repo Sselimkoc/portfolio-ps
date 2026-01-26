@@ -51,7 +51,7 @@ export default function DesktopShortcuts({ shortcuts }: DesktopShortcutsProps) {
                   boxShadow: isHovered
                     ? '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.3)'
                     : '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.15)',
-                }}
+                } as any}
                 animate={isHovered ? { y: -4 } : { y: 0 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               >

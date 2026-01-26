@@ -10,6 +10,31 @@
   "sleep": {
     "wakeUpMessage": "Uyan"
   },
+  "profile": {
+    "aboutTitle": "Hakkımda",
+    "educationTitle": "Eğitim",
+    "endProfile": "Profilin Sonu"
+  },
+  "projects": {
+    "description": "Açıklama",
+    "technologies": "Teknolojiler",
+    "viewProject": "Projeyi Gör",
+    "selectProject": "Bir proje seçin"
+  },
+  "experience": {
+    "details": "Dönem ve Konum",
+    "achievements": "Temel Başarılar",
+    "selectItem": "Bir deneyim seçin"
+  },
+  "hero": {
+    "title": "Merhaba, ben Selim",
+    "subtitle": "Full Stack Developer",
+    "description": "Her gün dünden daha iyi olma motivasyonuyla yaşıyorum.",
+    "clickToContinue": "Takımyıldızı uyandırmak için bir tuşa basın veya tıklayın"
+  },
+  "dock": {
+    "hint": "Bir uygulamayı açmak için tıklayın"
+  },
   "apps": {
     "about": {
       "title": "Hakkımda",
@@ -53,15 +78,6 @@
     "linkedin": {
       "title": "LinkedIn"
     }
-  },
-  "hero": {
-    "title": "Merhaba, ben Selim",
-    "subtitle": "Full Stack Developer",
-    "description": "Her gün dünden daha iyi olma motivasyonuyla yaşıyorum.",
-    "clickToContinue": "Takımyıldızı uyandırmak için bir tuşa basın veya tıklayın"
-  },
-  "dock": {
-    "hint": "Bir uygulamayı açmak için tıklayın"
   },
   "wallpapers": {
     "default": "Varsayılan",

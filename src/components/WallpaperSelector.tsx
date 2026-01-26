@@ -125,8 +125,8 @@ export default function WallpaperSelector({ onApply }: WallpaperSelectorProps) {
                   {/* Check mark indicator */}
                   {appliedId === wallpaper.id && (
                     <motion.div
-                      initial={{ scale: 0, rotate: -180 }}
-                      animate={{ scale: 1, rotate: 0 }}
+                      initial={{ scale: 0}}
+                      animate={{ scale: 1 }}
                       className="absolute inset-0 flex items-center justify-center bg-black/40"
                     >
                       <motion.div

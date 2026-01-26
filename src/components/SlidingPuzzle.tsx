@@ -193,7 +193,7 @@ export default function SlidingPuzzle({
                   backgroundImage: `url(${imageUrl})`,
                   backgroundPosition: `${tileCol * (100 / (gridSize - 1))}% ${tileRow * (100 / (gridSize - 1))}%`,
                   backgroundSize: `${gridSize * 100}% ${gridSize * 100}%`,
-                }}
+                } as any}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

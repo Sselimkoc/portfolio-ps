@@ -20,40 +20,45 @@ export default function ProfileHeader({
 }: ProfileHeaderProps) {
   const { t } = useTranslation()
   const displayLocation = location || t('admin.profile.defaultLocation')
+
   return (
-    <div className="flex items-start justify-between gap-4">
+    <div className="flex items-start justify-between gap-6">
       <div className="min-w-0">
-        <h2 className="text-2xl font-semibold text-white">{name}</h2>
-        <p className="mt-1 text-white/70 text-sm">{roleLine}</p>
-        <p className="mt-1 text-white/45 text-xs">{displayLocation}</p>
+        <h1 className="text-4xl font-bold text-white tracking-tight">{name}</h1>
+        <p className="mt-2 text-white/60 text-sm font-medium">
+          {roleLine} · {displayLocation}
+        </p>
       </div>
 
-      <div className="flex items-center gap-2">
-        <a
-          href={githubUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-lg border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition"
-          aria-label="GitHub"
-        >
-          <Github size={18} className="text-white/70" />
-        </a>
-        <a
-          href={linkedinUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-lg border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition"
-          aria-label="LinkedIn"
-        >
-          <Linkedin size={18} className="text-white/70" />
-        </a>
-        <a
-          href={`mailto:${email}`}
-          className="rounded-lg border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition"
-          aria-label="Email"
-        >
-          <Mail size={18} className="text-white/70" />
-        </a>
+      <div className="flex items-center gap-3">
+        {[
+          { href: githubUrl, icon: Github, label: 'GitHub' },
+          { href: linkedinUrl, icon: Linkedin, label: 'LinkedIn' },
+          { href: `mailto:${email}`, icon: Mail, label: 'Email' },
+        ].map(({ href, icon: Icon, label }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={label}
+            className="
+              flex h-10 w-10 items-center justify-center
+              rounded-lg
+              bg-white/10
+              border border-white/15
+              text-white/60
+              transition-all duration-200
+              hover:bg-white/20
+              hover:text-white
+              hover:border-white/30
+              hover:shadow-lg
+              hover:shadow-white/10
+            "
+          >
+            <Icon size={18} />
+          </a>
+        ))}
       </div>
     </div>
   )

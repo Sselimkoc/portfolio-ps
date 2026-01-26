@@ -1,4 +1,6 @@
 import { ExternalLink } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type Project = {
   name: string
@@ -13,70 +15,132 @@ export default function ProjectsGallery({
 }: {
   projects: Array<Project>
 }) {
+  const { t } = useTranslation()
+  const [selectedProject, setSelectedProject] = useState<Project | null>(
+    projects[0] || null,
+  )
+
   return (
-    <div className="h-full w-full overflow-auto p-5">
-      <div className="mb-4">
-        <h2 className="text-white font-semibold text-lg">Projects</h2>
-        <p className="text-white/55 text-sm mt-1">
-          Selected work and experiments.
-        </p>
+    <div className="h-full w-full overflow-hidden flex flex-col">
+      {/* Header */}
+      <div className="bg-linear-to-b from-white/16 via-white/12 to-transparent sticky top-0 z-10 px-6 py-5">
+        <h2 className="text-white font-semibold text-2xl">{t('apps.projects.title')}</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {projects.map((p) => (
-          <div
-            key={p.name}
-            className="group relative rounded-2xl border border-white/10 bg-white/5 overflow-hidden"
-          >
-            {/* top strip (visual identity, no image needed) */}
-            <div className="h-20 bg-linear-to-b from-white/10 to-transparent" />
-
-            <div className="p-4">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-white font-semibold text-sm">{p.name}</p>
-                  <p className="text-white/55 text-xs mt-1">{p.tagline}</p>
+      {/* Main Content */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Timeline - Left Side */}
+        <div className="w-72 border-r border-white/10 overflow-y-auto">
+          <div className="p-4 space-y-2">
+            {projects.map((project, index) => (
+              <button
+                key={project.name}
+                onClick={() => setSelectedProject(project)}
+                className={`
+                  w-full text-left py-3 px-3 rounded-lg transition-all duration-200
+                  ${
+                    selectedProject?.name === project.name
+                      ? 'bg-white/12 border border-white/20 text-white'
+                      : 'text-white/60 hover:text-white/80 hover:bg-white/6'
+                  }
+                `}
+              >
+                {/* Timeline indicator */}
+                <div className="flex items-start gap-2">
+                  <div className="relative pt-1">
+                    <div
+                      className={`
+                        w-2.5 h-2.5 rounded-full transition-all
+                        ${
+                          selectedProject?.name === project.name
+                            ? 'bg-white ring-2 ring-white/30'
+                            : 'bg-white/30'
+                        }
+                      `}
+                    />
+                    {index < projects.length - 1 && (
+                      <div className="absolute top-2.5 left-1 w-0.5 h-10 bg-linear-to-b from-white/20 to-transparent" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-xs truncate">{project.name}</p>
+                    <p className="text-xs text-white/50 mt-0.5 truncate">{project.tagline}</p>
+                  </div>
                 </div>
+              </button>
+            ))}
+          </div>
+        </div>
 
-                {p.href && (
+        {/* Details - Right Side */}
+        <div className="flex-1 overflow-y-auto">
+          {selectedProject ? (
+            <div className="p-7 space-y-6">
+              {/* Title */}
+              <div className="space-y-2">
+                <h3 className="text-2xl font-bold text-white">
+                  {selectedProject.name}
+                </h3>
+                <p className="text-white/60">{selectedProject.tagline}</p>
+              </div>
+
+              {/* Description */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-semibold text-white/45 uppercase tracking-widest">
+                  {t('projects.description')}
+                </h4>
+                <p className="text-white/70 text-sm leading-relaxed">
+                  {selectedProject.description}
+                </p>
+              </div>
+
+              {/* Technologies */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-semibold text-white/45 uppercase tracking-widest">
+                  {t('projects.technologies')}
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-xs text-white/70 border border-white/15 bg-white/8 rounded-lg px-3 py-1.5 hover:bg-white/12 transition"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Link */}
+              {selectedProject.href && (
+                <div className="pt-4 border-t border-white/10">
                   <a
-                    href={p.href}
+                    href={selectedProject.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-lg border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition"
-                    aria-label="Open project"
+                    className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors"
                   >
-                    <ExternalLink size={16} className="text-white/70" />
+                    <ExternalLink size={18} />
+                    <span className="text-sm font-medium">{t('projects.viewProject')}</span>
                   </a>
-                )}
-              </div>
-
-              <div className="mt-3 flex flex-wrap gap-2">
-                {p.tech.slice(0, 5).map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs text-white/70 border border-white/10 bg-white/5 rounded-full px-2 py-1"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
-
-            {/* hover reveal */}
-            <div className="absolute inset-0 bg-black/55 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
-              <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="text-white text-sm font-semibold">{p.name}</p>
-                <p className="mt-1 text-white/80 text-sm leading-relaxed">
-                  {p.description}
-                </p>
-                <p className="mt-3 text-white/60 text-xs">
-                  Hover to preview • Click the icon to open
-                </p>
-              </div>
+          ) : (
+            <div className="h-full flex items-center justify-center">
+              <p className="text-white/40 text-sm">{t('projects.selectProject')}</p>
             </div>
-          </div>
-        ))}
+          )}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="bg-linear-to-t from-white/8 via-white/4 to-transparent border-t border-white/10">
+        <div className="px-6 py-4 text-center">
+          <p className="text-white/30 text-xs font-light tracking-widest">
+            — {projects.length} project{projects.length !== 1 ? 's' : ''} —
+          </p>
+        </div>
       </div>
     </div>
   )

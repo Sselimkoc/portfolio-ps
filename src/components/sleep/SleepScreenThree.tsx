@@ -146,23 +146,63 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
       }
 
       renderer = null
+      const sceneToClean = scene
       scene = null
       camera = null
 
       starMat = null
       starGeo = null
       starPoints = null
-      starLayers.forEach((p) => {
-        if (scene) scene.remove(p)
-        p.geometry.dispose()
-        p.material.dispose()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      starLayers.forEach((p: any) => {
+        if (sceneToClean) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (sceneToClean as any).remove(p)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(p.geometry as any).dispose()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const material: any = p.material
+        if (Array.isArray(material)) {
+          material.forEach((m: any) => {
+            try {
+              m.dispose()
+            } catch {
+              // Material already disposed
+            }
+          })
+        } else if (material) {
+          try {
+            material.dispose()
+          } catch {
+            // Material already disposed
+          }
+        }
       })
       starLayers = []
 
-      if (shooting.line && scene) {
-        scene.remove(shooting.line)
-        shooting.line.geometry.dispose()
-        shooting.line.material.dispose()
+      if (shooting.line && sceneToClean) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(sceneToClean as any).remove(shooting.line)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(shooting.line.geometry as any).dispose()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const lineMaterial: any = shooting.line.material
+        if (Array.isArray(lineMaterial)) {
+          lineMaterial.forEach((m: any) => {
+            try {
+              m.dispose()
+            } catch {
+              // Material already disposed
+            }
+          })
+        } else if (lineMaterial) {
+          try {
+            lineMaterial.dispose()
+          } catch {
+            // Material already disposed
+          }
+        }
         shooting.line = null
       }
 

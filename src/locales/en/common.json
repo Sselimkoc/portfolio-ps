@@ -6,9 +6,34 @@
   },
   "poweroff": {
     "message": "Click to power on"
-    },
+  },
   "sleep": {
     "wakeUpMessage": "Wake"
+  },
+  "profile": {
+    "aboutTitle": "About",
+    "educationTitle": "Education",
+    "endProfile": "End of Profile"
+  },
+  "projects": {
+    "description": "Description",
+    "technologies": "Technologies",
+    "viewProject": "View Project",
+    "selectProject": "Select a project"
+  },
+  "experience": {
+    "details": "Period & Location",
+    "achievements": "Key Achievements",
+    "selectItem": "Select an experience"
+  },
+  "hero": {
+    "title": "Hi, I'm Selim",
+    "subtitle": "Full Stack Developer",
+    "description": "I live with the motivation to be better than yesterday every day.",
+    "clickToContinue": "Wake up the constellation — press any key or click"
+  },
+  "dock": {
+    "hint": "Click on an app to open it"
   },
   "apps": {
     "about": {
@@ -53,15 +78,6 @@
     "linkedin": {
       "title": "LinkedIn"
     }
-  },
-  "hero": {
-    "title": "Hi, I'm Selim",
-    "subtitle": "Full Stack Developer",
-    "description": "I live with the motivation to be better than yesterday every day.",
-    "clickToContinue": "Wake up the constellation — press any key or click"
-  },
-  "dock": {
-    "hint": "Click on an app to open it"
   },
   "wallpapers": {
     "default": "Default",

@@ -1,4 +1,4 @@
-import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Education {
   school: string
@@ -12,29 +12,34 @@ interface EducationSectionProps {
 }
 
 export default function EducationSection({ education }: EducationSectionProps) {
+  const { t } = useTranslation()
+  
   return (
-    <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <p className="text-white/60 text-xs">Education</p>
-          <p className="mt-1 text-white/90 text-sm font-medium">
-            {education.school}
-          </p>
-          <p className="mt-1 text-white/70 text-sm">
-            {education.department}
-            {education.years ? ` • ${education.years}` : ''}
-          </p>
-        </div>
+    <div className="space-y-2">
+      <h3 className="text-xs font-semibold text-white/45 uppercase tracking-widest">
+        {t('profile.educationTitle')}
+      </h3>
+
+      <div className="space-y-1 pl-0.5">
+        <p className="text-white/90 text-sm font-semibold">
+          {education.school}
+        </p>
+
+        <p className="text-white/60 text-sm leading-relaxed">
+          {education.department}
+          {education.years && (
+            <span className="text-white/50"> · {education.years}</span>
+          )}
+        </p>
 
         {education.gpa && (
-          <div className="shrink-0 rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-            <p className="text-white/50 text-xs">GPA</p>
-            <p className="text-white/90 text-sm font-semibold">
-              {education.gpa}
-            </p>
-          </div>
+          <p className="text-white/50 text-xs pt-1">
+            <span className="font-medium">GPA:</span> {education.gpa}
+          </p>
         )}
       </div>
+
+      <div className="h-px bg-linear-to-r from-white/10 to-transparent mt-4" />
     </div>
   )
 }

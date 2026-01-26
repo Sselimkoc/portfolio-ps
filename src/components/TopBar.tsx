@@ -55,73 +55,75 @@ export default function TopBar({
   }
 
   return (
-    <div className="glass glass-shadow h-12 rounded-none border-b-0 px-6 py-2 flex items-center justify-between">
+    <div className="mac-topbar h-12 rounded-none px-6 py-2 flex items-center justify-between backdrop-blur-xl bg-linear-to-b from-white/16 to-white/10 border-b border-white/20">
       {/* Left - Control Buttons */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <button
           onClick={onPowerOff}
           style={{ backgroundColor: '#ff5f57' }}
-          className="w-3 h-3 rounded-full transition-all hover:shadow-lg cursor-pointer hover:brightness-95"
+          className="w-3 h-3 rounded-full transition-all hover:shadow-lg hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
           title={t('topbar.close')}
         />
         <button
           onClick={onMinimizeAll}
           style={{ backgroundColor: '#febc2e' }}
-          className="w-3 h-3 rounded-full transition-all hover:shadow-lg cursor-pointer hover:brightness-95"
+          className="w-3 h-3 rounded-full transition-all hover:shadow-lg hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
           title={t('topbar.minimize')}
         />
         <button
           onClick={onMaximizeAll}
           style={{ backgroundColor: '#28c840' }}
-          className="w-3 h-3 rounded-full transition-all hover:shadow-lg cursor-pointer hover:brightness-95"
+          className="w-3 h-3 rounded-full transition-all hover:shadow-lg hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
           title={t('topbar.maximize')}
         />
       </div>
 
       {/* Right - Time + Language + Battery */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
         {/* Language Switcher */}
-        <div className="flex items-center gap-2 px-2 py-1 rounded border border-white/10 bg-white/5">
+        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-white/15 bg-white/8 backdrop-blur-sm hover:bg-white/12 transition-all">
           <button
             onClick={() => handleLanguageChange('en')}
             className={`text-xs font-medium px-2 py-0.5 rounded transition-all ${
               i18n.language === 'en'
-                ? 'text-white bg-white/20'
-                : 'text-white/50 hover:text-white/70'
+                ? 'text-white bg-white/25 shadow-md'
+                : 'text-white/60 hover:text-white/80'
             }`}
           >
             EN
           </button>
-          <span className="text-white/30">|</span>
+          <span className="text-white/25 text-xs">•</span>
           <button
             onClick={() => handleLanguageChange('tr')}
             className={`text-xs font-medium px-2 py-0.5 rounded transition-all ${
               i18n.language === 'tr'
-                ? 'text-white bg-white/20'
-                : 'text-white/50 hover:text-white/70'
+                ? 'text-white bg-white/25 shadow-md'
+                : 'text-white/60 hover:text-white/80'
             }`}
           >
             TR
           </button>
         </div>
         {mounted && (
-          <span className="text-white font-semibold text-xs">
+          <span className="text-white/80 font-medium text-xs tracking-tight">
             {currentTime}
           </span>
         )}
 
         {/* Battery Status */}
         {mounted && (
-          <div className="flex items-center gap-1">
-            <span className="text-white text-xs">{batteryLevel}%</span>
-
+          <div className="flex items-center gap-1.5 text-white/70 hover:text-white transition-all">
             {batteryLevel < 100 && (
-              <BatteryCharging size={18} className="text-white animate-pulse" />
+              <BatteryCharging
+                size={16}
+                className="animate-pulse text-blue-300"
+              />
             )}
 
             {batteryLevel === 100 && (
-              <BatteryFull size={18} className="text-white" />
+              <BatteryFull size={16} className="text-green-300" />
             )}
+            <span className="text-xs font-medium">{batteryLevel}%</span>
           </div>
         )}
       </div>
