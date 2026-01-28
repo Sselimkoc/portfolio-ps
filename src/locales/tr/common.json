@@ -10,6 +10,11 @@
   "sleep": {
     "wakeUpMessage": "Uyan"
   },
+  "auth": {
+    "lostMessage": "Sanırım kayboldunuz...",
+    "clickToReturn": "Geri dönmek için buraya tıklayın",
+    "fullMessage": "Sanırım kayboldunuz...\nGeri dönmek için buraya tıklayın"
+  },
   "profile": {
     "aboutTitle": "Hakkımda",
     "educationTitle": "Eğitim",

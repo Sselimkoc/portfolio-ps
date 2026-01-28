@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import ProtectedRoute from '../components/ProtectedRoute'
 import {
   addExperience,
   addProject,
@@ -19,8 +20,16 @@ import type {
 
 export const Route = createFileRoute('/tedi')({
   loader: () => (getPortfolioData as any)({ data: { language: 'tr' } }),
-  component: AdminPanel,
+  component: AdminPanelWrapper,
 })
+
+function AdminPanelWrapper() {
+  return (
+    <ProtectedRoute>
+      <AdminPanel />
+    </ProtectedRoute>
+  )
+}
 
 function AdminPanel() {
   const data = Route.useLoaderData()

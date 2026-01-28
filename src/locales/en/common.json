@@ -10,6 +10,11 @@
   "sleep": {
     "wakeUpMessage": "Wake"
   },
+  "auth": {
+    "lostMessage": "Looks like you're lost...",
+    "clickToReturn": "Click here to return",
+    "fullMessage": "Looks like you're lost...\nClick here to return"
+  },
   "profile": {
     "aboutTitle": "About",
     "educationTitle": "Education",

@@ -31,7 +31,13 @@ const fadeKeyframes = `
 
 const BLOOM_LAYER = 1
 
-export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
+export default function SleepScreenThree({
+  onWake,
+  customMessage,
+}: {
+  onWake?: () => void
+  customMessage?: string | null
+}) {
   const { t } = useTranslation()
   const mountRef = useRef<HTMLDivElement | null>(null)
   const [isFadingOut, setIsFadingOut] = useState(false)
@@ -157,7 +163,7 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
       starLayers.forEach((p: any) => {
         if (sceneToClean) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (sceneToClean as any).remove(p)
+          ;(sceneToClean as any).remove(p)
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(p.geometry as any).dispose()
@@ -501,7 +507,9 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
         }
 
         // Update line geometry draw range (progressive drawing)
-        const totalLineCount = linesGeometry ? linesGeometry.attributes.position.count : 0
+        const totalLineCount = linesGeometry
+          ? linesGeometry.attributes.position.count
+          : 0
         const visibleLineCount = Math.floor(eased * totalLineCount)
         if (piscesGlowLine && piscesThinLine) {
           ;(piscesGlowLine.geometry as any).setDrawRange(0, visibleLineCount)
@@ -547,8 +555,8 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
           const x1 = x0 + (160 + Math.random() * 220)
           const y1 = y0 - (90 + Math.random() * 140)
 
-          const arr = shooting.line!.geometry
-            .attributes.position.array as Float32Array
+          const arr = shooting.line!.geometry.attributes.position
+            .array as Float32Array
           arr[0] = x0
           arr[1] = y0
           arr[2] = z
@@ -728,27 +736,30 @@ export default function SleepScreenThree({ onWake }: { onWake?: () => void }) {
       />
 
       {/* Help text with premium fade animation */}
-      <div
-        style={{
-          position: 'fixed',
-          left: 0,
-          right: 0,
-          bottom: 48,
-          textAlign: 'center',
-          fontFamily:
-            'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial',
-          fontWeight: 600,
-          fontSize: 16,
-          letterSpacing: '0.22em',
-          color: 'rgba(255,255,255,0.92)',
-          pointerEvents: 'none',
-          userSelect: 'none',
-          textShadow: '0 2px 12px rgba(0,0,0,0.22)',
-          animation: 'sleepHelpFade 3.8s ease-in-out infinite',
-        }}
-      >
-        {t('sleep.wakeUpMessage')}
-      </div>
+      {customMessage !== null && (
+        <div
+          style={{
+            position: 'fixed',
+            left: 0,
+            right: 0,
+            bottom: 48,
+            textAlign: 'center',
+            fontFamily:
+              'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial',
+            fontWeight: 600,
+            fontSize: 16,
+            letterSpacing: '0.22em',
+            color: 'rgba(255,255,255,0.92)',
+            pointerEvents: 'none',
+            userSelect: 'none',
+            textShadow: '0 2px 12px rgba(0,0,0,0.22)',
+            animation: 'sleepHelpFade 3.8s ease-in-out infinite',
+            whiteSpace: 'pre-line',
+          }}
+        >
+          {customMessage || t('sleep.wakeUpMessage')}
+        </div>
+      )}
     </div>
   )
 }
