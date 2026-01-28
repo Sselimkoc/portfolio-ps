@@ -43,32 +43,19 @@ export default function CanvasArea() {
   const [data, setData] = useState(initialData)
   const canvasRef = useRef<HTMLDivElement>(null)
   const [showDockHint, setShowDockHint] = useState(false)
-  const [showIntro, setShowIntro] = useState(true)
-  const [isSleeping, setIsSleeping] = useState(false)
-  const [backgroundStyle, setBackgroundStyle] = useState({
-    backgroundImage: 'url(/desktop-bg2.jpg)',
+  const [showIntro, setShowIntro] = useState(() => {
+    // Initialize from localStorage to avoid hydration mismatch
+    if (typeof window === 'undefined') return false
+    return localStorage.getItem(INTRO_KEY) !== '1'
   })
+  const [isSleeping, setIsSleeping] = useState(false)
 
-  const [openWindows, setOpenWindows] = useState<Array<OpenWindowState>>(
-    apps.map((app) => ({
-      id: app.id,
-      isOpen: false,
-      isMinimized: false,
-      position: app.defaultPosition || { x: 100, y: 100 },
-    })),
-  )
-
-  // Load saved wallpaper on mount
-  useEffect(() => {
-    const savedWallpaper = localStorage.getItem(WALLPAPER_KEY)
-    if (savedWallpaper) {
-      applyWallpaper(savedWallpaper)
-    }
-  }, [])
-
-  const applyWallpaper = (wallpaperId: string) => {
+  // Initialize wallpaper from localStorage immediately
+  const getInitialWallpaper = () => {
     const wallpapers: Record<string, { url: string; gradient?: boolean }> = {
       default: { url: '/desktop-bg2.jpg' },
+      'desktop-bg': { url: '/desktop-bg.jpg' },
+      cat: { url: '/railroad-cat.jpg' },
       dark: {
         url: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
         gradient: true,
@@ -91,6 +78,54 @@ export default function CanvasArea() {
       },
     }
 
+    const savedWallpaper = localStorage.getItem(WALLPAPER_KEY) || 'default'
+    const wallpaper = wallpapers[savedWallpaper] || wallpapers.default
+
+    return {
+      backgroundImage: wallpaper.gradient
+        ? wallpaper.url
+        : `url(${wallpaper.url})`,
+    }
+  }
+
+  const [backgroundStyle, setBackgroundStyle] = useState(getInitialWallpaper)
+
+  const [openWindows, setOpenWindows] = useState<Array<OpenWindowState>>(
+    apps.map((app) => ({
+      id: app.id,
+      isOpen: false,
+      isMinimized: false,
+      position: app.defaultPosition || { x: 100, y: 100 },
+    })),
+  )
+
+  const applyWallpaper = (wallpaperId: string) => {
+    const wallpapers: Record<string, { url: string; gradient?: boolean }> = {
+      default: { url: '/desktop-bg2.jpg' },
+      'desktop-bg': { url: '/desktop-bg.jpg' },
+      dark: {
+        url: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+        gradient: true,
+      },
+      purple: {
+        url: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        gradient: true,
+      },
+      sunset: {
+        url: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        gradient: true,
+      },
+      ocean: {
+        url: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+        gradient: true,
+      },
+      forest: {
+        url: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
+        gradient: true,
+      },
+      cat: { url: '/railroad-cat.jpg' },
+    }
+
     const wallpaper = wallpapers[wallpaperId] || wallpapers.default
     if (wallpaper.gradient) {
       setBackgroundStyle({
@@ -102,11 +137,6 @@ export default function CanvasArea() {
       })
     }
   }
-  // Set intro state after hydration to avoid mismatch
-  useEffect(() => {
-    const seen = localStorage.getItem(INTRO_KEY) === '1'
-    setShowIntro(!seen)
-  }, [])
 
   const skipIntro = () => {
     localStorage.setItem(INTRO_KEY, '1')

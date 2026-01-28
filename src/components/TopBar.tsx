@@ -81,24 +81,23 @@ export default function TopBar({
       {/* Right - Time + Language + Battery */}
       <div className="flex items-center gap-5">
         {/* Language Switcher */}
-        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-white/15 bg-white/8 backdrop-blur-sm hover:bg-white/12 transition-all">
+        <div className="flex gap-1.5">
           <button
             onClick={() => handleLanguageChange('en')}
-            className={`text-xs font-medium px-2 py-0.5 rounded transition-all ${
+            className={`text-xs font-medium px-1.5 py-0.5 rounded transition-all ${
               i18n.language === 'en'
-                ? 'text-white bg-white/25 shadow-md'
-                : 'text-white/60 hover:text-white/80'
+                ? 'text-white bg-white/25'
+                : 'text-white/50 hover:text-white/70'
             }`}
           >
             EN
           </button>
-          <span className="text-white/25 text-xs">•</span>
           <button
             onClick={() => handleLanguageChange('tr')}
-            className={`text-xs font-medium px-2 py-0.5 rounded transition-all ${
+            className={`text-xs font-medium px-1.5 py-0.5 rounded transition-all ${
               i18n.language === 'tr'
-                ? 'text-white bg-white/25 shadow-md'
-                : 'text-white/60 hover:text-white/80'
+                ? 'text-white bg-white/25'
+                : 'text-white/50 hover:text-white/70'
             }`}
           >
             TR

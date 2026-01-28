@@ -13,7 +13,6 @@ export default function IntroOverlay({
 }: IntroOverlayProps) {
   const { t } = useTranslation()
 
-  // Keyboard close (Enter / Esc)
   useEffect(() => {
     if (!showIntro) return
     const onKeyDown = (e: KeyboardEvent) => {
@@ -29,59 +28,98 @@ export default function IntroOverlay({
     <AnimatePresence>
       {showIntro && (
         <motion.div
-          className="absolute inset-0 z-50 flex items-center justify-center"
-          onMouseDown={onSkipIntro}
-          role="button"
-          aria-label="Skip intro"
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.25 } }}
+          exit={{
+            opacity: 0,
+            transition: { duration: 0.5, ease: 'easeInOut' },
+          }}
         >
-          {/* Stronger, clearer backdrop */}
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-[6px]" />
+          {/* Arka Plan: Daha derin bir degrade ve blur */}
+          <div
+            className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/40 via-black/80 to-black backdrop-blur-[20px]"
+            onMouseDown={onSkipIntro}
+          />
 
           <motion.div
-            className="relative text-center px-6"
-            initial={{ opacity: 0, scale: 0.98, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 6, filter: 'blur(6px)' }}
-            transition={{ type: 'spring', stiffness: 200, damping: 22 }}
+            className="relative z-10 w-full max-w-4xl px-6 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1
-              className="text-6xl md:text-7xl font-black text-white tracking-tight"
+            {/* 1. Ana Başlık - Hiyerarşinin En Üstü */}
+            <motion.h1
+              className="text-5xl md:text-[84px] font-bold text-white leading-[1.1] tracking-[-0.04em]"
               style={{
-                textShadow:
-                  '0 18px 55px rgba(0,0,0,0.75), 0 2px 0 rgba(0,0,0,0.35)',
+                fontFamily: 'SF Pro Display, -apple-system, sans-serif',
+                textShadow: '0 10px 40px rgba(0,0,0,0.5)',
               }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
             >
               {t('hero.title')}
-            </h1>
+            </motion.h1>
 
-            {/* subtitle highlight pill */}
-            <div className="mt-5 inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-xl">
-              <p
-                className="text-base md:text-lg text-white/95 font-semibold"
-                style={{ textShadow: '0 10px 26px rgba(0,0,0,0.65)' }}
-              >
+            {/* 2. İsim - İkinci Derece Önem */}
+            <motion.p
+              className="mt-6 text-xl md:text-3xl text-zinc-300 font-medium tracking-tight"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              {t('hero.subtitleName')}
+            </motion.p>
+
+            {/* 3. Role Badge - Görsel Odak Noktası */}
+            <motion.div
+              className="mt-6 inline-flex"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <span className="px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-sm md:text-base font-medium text-zinc-200 shadow-2xl">
                 {t('hero.subtitle')}
-              </p>
-            </div>
+              </span>
+            </motion.div>
 
-            <p
-              className="mt-4 text-base md:text-lg text-white/85 max-w-2xl mx-auto"
-              style={{ textShadow: '0 8px 22px rgba(0,0,0,0.55)' }}
+            {/* 4. Açıklama - Destekleyici Metin */}
+            <motion.p
+              className="mt-10 max-w-2xl mx-auto text-base md:text-lg text-zinc-400 leading-relaxed font-light"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
             >
               {t('hero.description')}
-            </p>
+            </motion.p>
 
-            {/* clear CTA */}
-            <div className="mt-10 flex items-center justify-center gap-3">
-              <span className="text-white/80 text-sm font-medium">
+            {/* 5. CTA & Etkileşim - Hiyerarşinin Altı */}
+            <motion.div
+              className="mt-16 flex flex-col items-center gap-6"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+            >
+              <button
+                onClick={onSkipIntro}
+                className="group relative px-8 py-3 rounded-full bg-zinc-100 text-black font-semibold text-sm transition-all hover:bg-white hover:scale-105 active:scale-95"
+              >
                 {t('hero.clickToContinue')}
-              </span>
-              <span className="text-white/40 text-sm">•</span>
-              <span className="text-white/60 text-sm">Enter / Esc</span>
-            </div>
+              </button>
+
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">
+                <div className="flex gap-1.5">
+                  <kbd className="min-w-[40px] px-1.5 py-1 rounded border border-zinc-800 bg-zinc-900/50 flex items-center justify-center font-sans">
+                    Enter
+                  </kbd>
+                  <span className="text-zinc-700">/</span>
+                  <kbd className="min-w-[40px] px-1.5 py-1 rounded border border-zinc-800 bg-zinc-900/50 flex items-center justify-center font-sans">
+                    Esc
+                  </kbd>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         </motion.div>
       )}

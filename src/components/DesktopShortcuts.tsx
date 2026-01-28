@@ -44,14 +44,16 @@ export default function DesktopShortcuts({ shortcuts }: DesktopShortcutsProps) {
                 className={`w-16 h-16 flex items-center justify-center rounded-2xl ring-2 backdrop-blur-md transition-all ${
                   isHovered ? 'ring-white/40' : 'ring-white/20'
                 }`}
-                style={{
-                  backgroundColor: isHovered
-                    ? 'hsla(0 0% 100% / 0.25)'
-                    : 'hsla(0 0% 100% / 0.12)',
-                  boxShadow: isHovered
-                    ? '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.3)'
-                    : '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.15)',
-                } as any}
+                style={
+                  {
+                    backgroundColor: isHovered
+                      ? 'hsla(0 0% 100% / 0.25)'
+                      : 'hsla(0 0% 100% / 0.12)',
+                    boxShadow: isHovered
+                      ? '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.3)'
+                      : '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.15)',
+                  } as any
+                }
                 animate={isHovered ? { y: -4 } : { y: 0 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               >
@@ -67,7 +69,10 @@ export default function DesktopShortcuts({ shortcuts }: DesktopShortcutsProps) {
                 className="text-center"
                 animate={isHovered ? { opacity: 1 } : { opacity: 0.7 }}
               >
-                <p className="text-white text-xs font-medium text-center leading-tight max-w-16 wrap-break-word">
+                <p
+                  className="text-white text-xs font-medium text-center leading-tight max-w-16 wrap-break-word"
+                  style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)' }}
+                >
                   {t(shortcut.title)}
                 </p>
               </motion.div>

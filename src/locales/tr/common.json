@@ -27,10 +27,11 @@
     "selectItem": "Bir deneyim seçin"
   },
   "hero": {
-    "title": "Merhaba, ben Selim",
-    "subtitle": "Full Stack Developer",
-    "description": "Her gün dünden daha iyi olma motivasyonuyla yaşıyorum.",
-    "clickToContinue": "Takımyıldızı uyandırmak için bir tuşa basın veya tıklayın"
+    "title": "Sistem tasarlamayı, kod yazmaktan önde tutan biri.",
+    "subtitleName": "Selim Koç",
+    "subtitle": "Software Engineer · Full-Stack Developer",
+    "description": "Problem çözmeyi, sistem tasarlamayı ve ürünü uçtan uca geliştirmeyi seviyorum.",
+    "clickToContinue": "Deneyimi başlat"
   },
   "dock": {
     "hint": "Bir uygulamayı açmak için tıklayın"
@@ -87,7 +88,8 @@
     "purple": "Mor Rüyalar",
     "sunset": "Gün Batımı",
     "ocean": "Okyanus",
-    "forest": "Orman"
+    "forest": "Orman",
+    "cat": "Kedi"
   },
   "admin": {
     "title": "Yönetim Paneli",

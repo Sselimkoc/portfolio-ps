@@ -24,6 +24,12 @@ const WALLPAPERS: Array<Wallpaper> = [
     thumbnail: '/desktop-bg.jpg',
   },
   {
+    id: 'cat',
+    name: 'wallpapers.cat',
+    url: '/railroad-cat.png',
+    thumbnail: '/railroad-cat.png',
+  },
+  {
     id: 'dark',
     name: 'wallpapers.dark',
     url: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
@@ -125,7 +131,7 @@ export default function WallpaperSelector({ onApply }: WallpaperSelectorProps) {
                   {/* Check mark indicator */}
                   {appliedId === wallpaper.id && (
                     <motion.div
-                      initial={{ scale: 0}}
+                      initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       className="absolute inset-0 flex items-center justify-center bg-black/40"
                     >

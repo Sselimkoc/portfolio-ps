@@ -43,7 +43,20 @@ code {
 
   /* Glass Window - For draggable windows */
   .glass-window {
-    @apply bg-linear-to-br from-white/18 to-white/10 backdrop-blur-[32px] ring-1 ring-white/35;
+    @apply bg-linear-to-br from-white/10 to-white/5 backdrop-blur-[16px] ring-1 ring-white/25;
+  }
+
+  /* Improve text readability inside windows */
+  .glass-window p,
+  .glass-window h1,
+  .glass-window h2,
+  .glass-window h3,
+  .glass-window h4,
+  .glass-window h5,
+  .glass-window h6,
+  .glass-window span,
+  .glass-window a {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   }
 
   /* Glass Button - For interactive elements */

@@ -41,9 +41,11 @@ export default function Dock({
   return (
     <motion.div
       className="fixed bottom-6 left-1/2 -translate-x-1/2 mac-dock glass-dock-shadow h-20 flex items-center justify-center px-3 z-50 opacity-95 hover:opacity-100 transition-opacity duration-300"
-      style={{
-        overflow: 'visible',
-      } as any}
+      style={
+        {
+          overflow: 'visible',
+        } as any
+      }
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{
@@ -65,9 +67,11 @@ export default function Dock({
             <motion.div
               key={dockApp.id}
               className="relative"
-              style={{
-                zIndex: isHovered ? 10 : 0,
-              } as any}
+              style={
+                {
+                  zIndex: isHovered ? 10 : 0,
+                } as any
+              }
               onMouseEnter={() => setHoveredApp(dockApp.id)}
               onMouseLeave={() => setHoveredApp(null)}
             >
@@ -96,14 +100,18 @@ export default function Dock({
               <motion.button
                 onClick={() => onDockAction(() => dockApp.action(dockApp.id))}
                 className="relative transition-all duration-150 focus:outline-none"
-                style={{
-                  width: isHovered ? 64 : 56,
-                  height: isHovered ? 64 : 56,
-                } as any}
-                animate={{
-                  width: isHovered ? 64 : 56,
-                  height: isHovered ? 64 : 56,
-                } as any}
+                style={
+                  {
+                    width: isHovered ? 64 : 56,
+                    height: isHovered ? 64 : 56,
+                  } as any
+                }
+                animate={
+                  {
+                    width: isHovered ? 64 : 56,
+                    height: isHovered ? 64 : 56,
+                  } as any
+                }
                 whileHover={{
                   y: -8,
                 }}
@@ -163,9 +171,11 @@ export default function Dock({
             <motion.div
               key={`minimized-${windowState.id}`}
               className="relative"
-              style={{
-                zIndex: isHovered ? 10 : 0,
-              } as any}
+              style={
+                {
+                  zIndex: isHovered ? 10 : 0,
+                } as any
+              }
               onMouseEnter={() => setHoveredApp(`minimized-${windowState.id}`)}
               onMouseLeave={() => setHoveredApp(null)}
             >
@@ -194,14 +204,18 @@ export default function Dock({
               <motion.button
                 onClick={() => onRestoreWindow(windowState.id)}
                 className="relative transition-all duration-150 focus:outline-none"
-                style={{
-                  width: isHovered ? 52 : 44,
-                  height: isHovered ? 52 : 44,
-                } as any}
-                animate={{
-                  width: isHovered ? 52 : 44,
-                  height: isHovered ? 52 : 44,
-                } as any}
+                style={
+                  {
+                    width: isHovered ? 52 : 44,
+                    height: isHovered ? 52 : 44,
+                  } as any
+                }
+                animate={
+                  {
+                    width: isHovered ? 52 : 44,
+                    height: isHovered ? 52 : 44,
+                  } as any
+                }
                 whileHover={{
                   y: -6,
                 }}

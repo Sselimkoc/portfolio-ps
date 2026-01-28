@@ -27,10 +27,11 @@
     "selectItem": "Select an experience"
   },
   "hero": {
-    "title": "Hi, I'm Selim",
-    "subtitle": "Full Stack Developer",
-    "description": "I live with the motivation to be better than yesterday every day.",
-    "clickToContinue": "Wake up the constellation — press any key or click"
+    "title": "Someone who prioritizes system design over coding.",
+    "subtitleName": "Selim Koç",
+    "subtitle": "Software Engineer · Full-Stack Developer",
+    "description": "I love solving problems, designing systems, and developing products end-to-end.",
+    "clickToContinue": "Start the experience"
   },
   "dock": {
     "hint": "Click on an app to open it"
@@ -87,7 +88,8 @@
     "purple": "Purple Dreams",
     "sunset": "Sunset",
     "ocean": "Ocean",
-    "forest": "Forest"
+    "forest": "Forest",
+    "cat": "Cat"
   },
   "admin": {
     "title": "Admin Panel",

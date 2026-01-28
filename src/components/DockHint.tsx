@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
 export default function DockHint() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <motion.div
@@ -13,6 +13,7 @@ export default function DockHint() {
     >
       <motion.div
         className="relative glass glass-shadow rounded-xl px-5 py-3 text-white text-sm font-medium backdrop-blur-xl"
+        style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)' }}
         animate={{ y: [0, -6, 0] }}
         transition={{
           duration: 1.6,
@@ -29,5 +30,5 @@ export default function DockHint() {
         />
       </motion.div>
     </motion.div>
-  );
+  )
 }
