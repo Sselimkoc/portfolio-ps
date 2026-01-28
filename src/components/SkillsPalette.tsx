@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion, AnimatePresence } from 'framer-motion'
 
 type SkillGroup = {
   title: string
@@ -17,67 +18,54 @@ export default function SkillsPalette({
   )
 
   return (
-    <div className="h-full w-full overflow-hidden flex flex-col">
-      {/* Header */}
-      <div className="bg-linear-to-b from-white/10 via-white/5 to-transparent sticky top-0 z-10 px-6 py-5">
-        <h2
-          className="text-white font-semibold text-2xl"
-          style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
-        >
-          {t('apps.skills.title')}
-        </h2>
+    <div className="h-full w-full overflow-hidden flex">
+      {/* Categories - Left Side */}
+      <div className="w-64 border-r border-white/10 overflow-y-auto">
+        <div className="p-4 space-y-2">
+          {groups.map((group) => (
+            <button
+              key={group.title}
+              onClick={() => setSelectedGroup(group)}
+              className={`
+                w-full text-left py-3 px-4 rounded-lg transition-all duration-200
+                ${
+                  selectedGroup?.title === group.title
+                    ? 'bg-white/12 border border-white/20 text-white'
+                    : 'text-white/60 hover:text-white/80 hover:bg-white/6'
+                }
+              `}
+            >
+              <p className="font-semibold text-sm">{group.title}</p>
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Categories - Left Side */}
-        <div className="w-72 border-r border-white/10 overflow-y-auto">
-          <div className="p-4 space-y-2">
-            {groups.map((group) => (
-              <button
-                key={group.title}
-                onClick={() => setSelectedGroup(group)}
-                className={`
-                  w-full text-left py-3 px-3 rounded-lg transition-all duration-200
-                  ${
-                    selectedGroup?.title === group.title
-                      ? 'bg-white/12 border border-white/20 text-white'
-                      : 'text-white/60 hover:text-white/80 hover:bg-white/6'
-                  }
-                `}
-              >
-                <p className="font-semibold text-sm">{group.title}</p>
-                <p className="text-xs text-white/50 mt-1">
-                  {group.items.length} skill
-                  {group.items.length !== 1 ? 's' : ''}
-                </p>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Skills - Right Side */}
-        <div className="flex-1 overflow-y-auto">
+      {/* Skills Grid - Right Side */}
+      <div className="flex-1 overflow-y-auto">
+        <AnimatePresence mode="wait">
           {selectedGroup ? (
-            <div className="p-7 pb-12 space-y-6">
-              {/* Skills Grid */}
-              <div className="flex flex-wrap gap-2">
+            <motion.div
+              key={selectedGroup.title}
+              initial={{ opacity: 0, x: 10, filter: 'blur(5px)' }}
+              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, x: -10, filter: 'blur(5px)' }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="p-6 pb-12"
+            >
+              <div className="flex flex-wrap gap-3">
                 {selectedGroup.items.map((skill) => (
                   <span
                     key={skill}
-                    className="text-sm text-white/70 border border-white/15 bg-white/8 rounded-lg px-3 py-1.5 hover:bg-white/12 hover:text-white/90 transition"
+                    className="text-[13px] text-white/70 border border-white/15 bg-white/8 rounded-xl px-4 py-3 hover:bg-white/12 transition cursor-default"
                   >
                     {skill}
                   </span>
                 ))}
               </div>
-            </div>
-          ) : (
-            <div className="h-full flex items-center justify-center">
-              <p className="text-white/40 text-sm">{t('apps.skills.title')}</p>
-            </div>
-          )}
-        </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </div>
     </div>
   )

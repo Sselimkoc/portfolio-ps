@@ -11,7 +11,12 @@ export default function IntroOverlay({
   showIntro,
   onSkipIntro,
 }: IntroOverlayProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'tr' : 'en'
+    i18n.changeLanguage(newLang)
+  }
 
   useEffect(() => {
     if (!showIntro) return
@@ -40,7 +45,7 @@ export default function IntroOverlay({
       filter: 'blur(10px)',
       transition: {
         duration: 0.6,
-        ease: [0.32, 0.72, 0, 1], // "Ease-out-sine" benzeri yumuşak çıkış
+        ease: [0.32, 0.72, 0, 1] as any, // "Ease-out-sine" benzeri yumuşak çıkış
       },
     },
   }
@@ -58,7 +63,7 @@ export default function IntroOverlay({
       filter: 'blur(0px)', // Netleşir
       transition: {
         duration: 1,
-        ease: [0.2, 0.65, 0.3, 0.9], // Özel "Lüks" hissi veren bezier eğrisi
+        ease: [0.2, 0.65, 0.3, 0.9] as any, // Özel "Lüks" hissi veren bezier eğrisi
       },
     },
   }
@@ -67,7 +72,7 @@ export default function IntroOverlay({
     <AnimatePresence mode="wait">
       {showIntro && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.8 } }}
@@ -81,6 +86,34 @@ export default function IntroOverlay({
             onMouseDown={onSkipIntro}
           />
 
+          {/* Language Toggle Button - Top Right */}
+          <motion.button
+            onClick={toggleLanguage}
+            className="fixed top-6 right-6 z-20 px-4 py-2.5 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 text-white font-semibold text-sm flex items-center gap-2 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.6,
+              delay: 0.5,
+              ease: [0.2, 0.65, 0.3, 0.9] as any,
+            }}
+            whileHover={{ y: -2 }}
+            style={
+              {
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
+              } as React.CSSProperties
+            }
+          >
+            {i18n.language === 'tr' && (
+              <img
+                src="/türkiye.svg"
+                alt="TR"
+                className="w-5 h-5 object-contain"
+              />
+            )}
+            <span className="uppercase">{i18n.language.toUpperCase()}</span>
+          </motion.button>
+
           <motion.div
             className="relative z-10 w-full max-w-4xl px-6 text-center"
             variants={containerVariants} // Kapsayıcı variantı bağladık
@@ -91,10 +124,12 @@ export default function IntroOverlay({
             {/* 1. Ana Başlık */}
             <motion.h1
               className="text-5xl md:text-[84px] font-bold text-white leading-[1.1] tracking-[-0.04em]"
-              style={{
-                textShadow:
-                  '0 2px 40px rgba(0, 0, 0, 0.8), 0 0 80px rgba(0, 0, 0, 0.6)',
-              }}
+              style={
+                {
+                  textShadow:
+                    '0 2px 40px rgba(0, 0, 0, 0.8), 0 0 80px rgba(0, 0, 0, 0.6)',
+                } as React.CSSProperties
+              }
               variants={itemVariants} // Alt variant
             >
               {t('hero.title')}
@@ -103,9 +138,11 @@ export default function IntroOverlay({
             {/* 2. İsim */}
             <motion.p
               className="mt-6 text-xl md:text-3xl text-white/90 font-medium tracking-tight"
-              style={{
-                textShadow: '0 2px 30px rgba(0, 0, 0, 0.7)',
-              }}
+              style={
+                {
+                  textShadow: '0 2px 30px rgba(0, 0, 0, 0.7)',
+                } as React.CSSProperties
+              }
               variants={itemVariants}
             >
               {t('hero.subtitleName')}
@@ -140,7 +177,7 @@ export default function IntroOverlay({
                   {t('hero.clickToContinue')}
                 </span>
                 {/* Buton içi parlama efekti */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/80 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
               </button>
             </motion.div>
           </motion.div>

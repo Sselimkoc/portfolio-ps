@@ -204,13 +204,7 @@ function AdminPanel() {
   }
 
   const handleAddProject = async () => {
-    if (
-      !newProject ||
-      !newProject.name ||
-      !newProject.tagline ||
-      !newProject.description
-    )
-      return
+    if (!newProject || !newProject.name || !newProject.description) return
     try {
       await (addProject as any)({
         data: {
@@ -579,17 +573,6 @@ function AdminPanel() {
                   setNewProject((prev: any) => ({
                     ...prev,
                     name: e.target.value,
-                  }))
-                }
-              />
-              <input
-                placeholder={t('admin.projects.taglinePlaceholder')}
-                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm outline-none focus:border-blue-500"
-                value={newProject?.tagline || ''}
-                onChange={(e) =>
-                  setNewProject((prev: any) => ({
-                    ...prev,
-                    tagline: e.target.value,
                   }))
                 }
               />

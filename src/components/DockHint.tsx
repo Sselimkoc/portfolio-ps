@@ -13,7 +13,9 @@ export default function DockHint() {
     >
       <motion.div
         className="relative glass glass-shadow rounded-xl px-5 py-3 text-white text-sm font-medium backdrop-blur-xl"
-        style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)' }}
+        style={
+          { textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)' } as React.CSSProperties
+        }
         animate={{ y: [0, -6, 0] }}
         transition={{
           duration: 1.6,

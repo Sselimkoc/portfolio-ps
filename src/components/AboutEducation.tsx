@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import ProfileHeader from './ProfileHeader'
 import BioSection from './BioSection'
 import EducationSection from './EducationSection'
@@ -20,8 +19,6 @@ interface AboutEducationProps {
 }
 
 export default function AboutEducation(props: AboutEducationProps) {
-  const { t } = useTranslation()
-
   return (
     <div className="h-full w-full overflow-y-auto flex flex-col">
       {/* CV Header - Top Section */}

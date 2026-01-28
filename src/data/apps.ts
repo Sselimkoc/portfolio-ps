@@ -32,7 +32,7 @@ export const apps: Array<App> = [
     title: 'apps.skills.title',
     content: 'apps.skills.content',
     icon: Code2,
-    defaultSize: { width: 650, height: 520 },
+    defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 80, y: 150 },
   },
   {

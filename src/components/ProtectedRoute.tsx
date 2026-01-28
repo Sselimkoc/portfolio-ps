@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
 import { verifyPassword } from './auth'
 import SleepScreenThree from './sleep/SleepScreenThree'
 
@@ -14,8 +13,6 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [password, setPassword] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isChecking, setIsChecking] = useState(true)
-  const [showError, setShowError] = useState(false)
-  const [isLeaving, setIsLeaving] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
@@ -37,35 +34,27 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setShowError(false)
 
     try {
-      const result = await verifyPassword({ data: { password } })
+      const result = await verifyPassword({
+        data: { password } as any,
+      })
 
       if (result.success) {
         sessionStorage.setItem('tedi_auth', 'true')
         setIsAuthenticated(true)
       } else {
         // Wrong password - show error and clear
-        setShowError(true)
         setPassword('')
-        setTimeout(() => {
-          setShowError(false)
-        }, 2000)
       }
     } catch (error) {
       console.error('Auth error:', error)
-      setShowError(true)
       setPassword('')
-      setTimeout(() => setShowError(false), 2000)
     }
   }
 
   const handleGoBack = () => {
-    setIsLeaving(true)
-    setTimeout(() => {
-      navigate({ to: '/' })
-    }, 220)
+    navigate({ to: '/' })
   }
 
   if (isChecking) {

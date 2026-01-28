@@ -90,12 +90,14 @@ export default function DraggableWindow({
       ref={windowRef}
       className="fixed glass-window glass-window-shadow flex flex-col rounded-2xl overflow-hidden group"
       onMouseDown={() => onBringToFront(id)}
-      style={{
-        width: size.width,
-        height: size.height,
-        left: position.x,
-        top: position.y,
-      }}
+      style={
+        {
+          width: size.width,
+          height: size.height,
+          left: position.x,
+          top: position.y,
+        } as React.CSSProperties
+      }
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
@@ -105,7 +107,7 @@ export default function DraggableWindow({
     >
       {/* Title Bar */}
       <div
-        className="py-3.5 px-4 border-b border-white/[0.06] relative select-none backdrop-blur-[28px]"
+        className="py-3.5 px-4 border-b border-white/6 relative select-none backdrop-blur-[28px]"
         style={{
           background:
             'linear-gradient(to bottom, rgba(30, 30, 34, 0.85), rgba(22, 22, 25, 0.75))',

@@ -45,7 +45,7 @@ code {
 
   /* Glass Window - For draggable windows */
   .glass-window {
-    @apply backdrop-blur-[30px] ring-1 ring-white/[0.12];
+    @apply backdrop-blur-[30px] ring-1 ring-white/12;
     background-color: rgba(18, 18, 20, 0.55);
     position: relative;
   }
