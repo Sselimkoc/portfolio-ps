@@ -43,7 +43,24 @@ code {
 
   /* Glass Window - For draggable windows */
   .glass-window {
-    @apply bg-linear-to-br from-white/10 to-white/5 backdrop-blur-[16px] ring-1 ring-white/25;
+    @apply backdrop-blur-[30px] ring-1 ring-white/[0.12];
+    background-color: rgba(18, 18, 20, 0.55);
+    position: relative;
+  }
+
+  /* Light edge effect - sanal cam çerçeve hissi */
+  .glass-window::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.02) 30%,
+      rgba(255, 255, 255, 0.01)
+    );
   }
 
   /* Improve text readability inside windows */
@@ -56,7 +73,7 @@ code {
   .glass-window h6,
   .glass-window span,
   .glass-window a {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 
   /* Glass Button - For interactive elements */
@@ -66,7 +83,7 @@ code {
 
   /* Glass Dock - For fixed taskbar */
   .glass-dock {
-    @apply bg-linear-to-t from-white/24 to-white/14 backdrop-blur-[32px] ring-1 ring-white/40 rounded-3xl;
+    @apply bg-linear-to-t from-white/24 to-white/14 backdrop-blur-[32px] rounded-3xl;
   }
 
   /* Mac TopBar - Menu bar */
@@ -84,8 +101,9 @@ code {
   /* Glass Window Shadow - Premium feel */
   .glass-window-shadow {
     box-shadow:
-      0 25px 80px rgba(0, 0, 0, 0.5),
-      0 0 1px rgba(255, 255, 255, 0.5) inset;
+      0 30px 90px rgba(0, 0, 0, 0.65),
+      0 0 0 0.5px rgba(255, 255, 255, 0.08) inset,
+      0 0 40px rgba(0, 0, 0, 0.3);
   }
 
   /* Glass Dock Shadow - Elevated dock */

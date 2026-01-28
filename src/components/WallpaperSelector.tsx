@@ -24,10 +24,16 @@ const WALLPAPERS: Array<Wallpaper> = [
     thumbnail: '/desktop-bg.jpg',
   },
   {
-    id: 'cat',
-    name: 'wallpapers.cat',
-    url: '/railroad-cat.png',
-    thumbnail: '/railroad-cat.png',
+    id: 'windowsXp',
+    name: 'wallpapers.windowsXp',
+    url: '/windows-xp.jpg',
+    thumbnail: '/windows-xp.jpg',
+  },
+  {
+    id: 'trippy',
+    name: 'wallpapers.trippy',
+    url: '/trippy-purple.png',
+    thumbnail: '/trippy-purple.png',
   },
   {
     id: 'dark',
@@ -46,12 +52,6 @@ const WALLPAPERS: Array<Wallpaper> = [
     name: 'wallpapers.sunset',
     url: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
     thumbnail: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-  },
-  {
-    id: 'ocean',
-    name: 'wallpapers.ocean',
-    url: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    thumbnail: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
   },
   {
     id: 'forest',
@@ -99,11 +99,7 @@ export default function WallpaperSelector({ onApply }: WallpaperSelectorProps) {
       <div className="w-full h-full overflow-y-auto">
         <div className="grid grid-cols-2 gap-4">
           {WALLPAPERS.map((wallpaper) => (
-            <motion.div
-              key={wallpaper.id}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <motion.div key={wallpaper.id} whileTap={{ scale: 0.95 }}>
               <button
                 onClick={() => {
                   setSelectedId(wallpaper.id)

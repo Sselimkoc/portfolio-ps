@@ -71,7 +71,7 @@
     },
     "contact": {
       "title": "Contact",
-      "content": "You can reach me at: example@example.com"
+      "content": "You can reach me at: selokoc1@gmail.com"
     },
     "github": {
       "title": "GitHub"
@@ -89,7 +89,8 @@
     "sunset": "Sunset",
     "ocean": "Ocean",
     "forest": "Forest",
-    "cat": "Cat"
+    "windowsXp": "Windows XP",
+    "trippy": "Trippy"
   },
   "admin": {
     "title": "Admin Panel",

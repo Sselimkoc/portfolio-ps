@@ -24,8 +24,16 @@ export default function ProfileHeader({
   return (
     <div className="flex items-start justify-between gap-6">
       <div className="min-w-0">
-        <h1 className="text-4xl font-bold text-white tracking-tight">{name}</h1>
-        <p className="mt-2 text-white/60 text-sm font-medium">
+        <h1
+          className="text-4xl font-bold text-white tracking-tight"
+          style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+        >
+          {name}
+        </h1>
+        <p
+          className="mt-2 text-white/60 text-sm font-medium"
+          style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+        >
           {roleLine} · {displayLocation}
         </p>
       </div>

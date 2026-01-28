@@ -18,8 +18,13 @@ export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
   return (
     <div className="h-full w-full overflow-hidden flex flex-col">
       {/* Header */}
-      <div className="bg-linear-to-b from-white/16 via-white/12 to-transparent sticky top-0 z-10 px-6 py-5">
-        <h2 className="text-white font-semibold text-2xl">{t('apps.experience.title')}</h2>
+      <div className="bg-linear-to-b from-white/10 via-white/5 to-transparent sticky top-0 z-10 px-6 py-5">
+        <h2
+          className="text-white font-semibold text-2xl"
+          style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+        >
+          {t('apps.experience.title')}
+        </h2>
       </div>
 
       {/* Main Content */}
@@ -51,36 +56,56 @@ export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
         {/* Details - Right Side */}
         <div className="flex-1 overflow-y-auto">
           {selectedItem ? (
-            <div className="p-7 space-y-6">
+            <div className="p-7 pb-12 space-y-6">
               {/* Title */}
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold text-white">
+                <h3
+                  className="text-2xl font-bold text-white"
+                  style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+                >
                   {selectedItem.role}
                 </h3>
-                <p className="text-white/60">{selectedItem.company}</p>
+                <p
+                  className="text-white/60"
+                  style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+                >
+                  {selectedItem.company}
+                </p>
               </div>
 
               {/* Period & Location */}
               <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-white/45 uppercase tracking-widest">
+                <h4
+                  className="text-xs font-semibold text-white/45 uppercase tracking-widest"
+                  style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+                >
                   {t('experience.details')}
                 </h4>
                 <p className="text-white/70 text-sm">
                   {selectedItem.period}
                   {selectedItem.location && (
-                    <span className="text-white/50"> · {selectedItem.location}</span>
+                    <span className="text-white/50">
+                      {' '}
+                      · {selectedItem.location}
+                    </span>
                   )}
                 </p>
               </div>
 
               {/* Bullets */}
               <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-white/45 uppercase tracking-widest">
+                <h4
+                  className="text-xs font-semibold text-white/45 uppercase tracking-widest"
+                  style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+                >
                   {t('experience.achievements')}
                 </h4>
                 <ul className="space-y-2">
                   {selectedItem.bullets.map((bullet, idx) => (
-                    <li key={idx} className="text-white/70 text-sm leading-relaxed">
+                    <li
+                      key={idx}
+                      className="text-white/70 text-sm leading-relaxed"
+                    >
                       <span className="text-white/40 mr-2">—</span>
                       {bullet}
                     </li>
@@ -90,18 +115,11 @@ export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
             </div>
           ) : (
             <div className="h-full flex items-center justify-center">
-              <p className="text-white/40 text-sm">{t('experience.selectItem')}</p>
+              <p className="text-white/40 text-sm">
+                {t('experience.selectItem')}
+              </p>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="bg-linear-to-t from-white/8 via-white/4 to-transparent border-t border-white/10">
-        <div className="px-6 py-4 text-center">
-          <p className="text-white/30 text-xs font-light tracking-widest">
-            — {items.length} experience{items.length !== 1 ? 's' : ''} —
-          </p>
         </div>
       </div>
     </div>

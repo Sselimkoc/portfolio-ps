@@ -23,8 +23,13 @@ export default function ProjectsGallery({
   return (
     <div className="h-full w-full overflow-hidden flex flex-col">
       {/* Header */}
-      <div className="bg-linear-to-b from-white/16 via-white/12 to-transparent sticky top-0 z-10 px-6 py-5">
-        <h2 className="text-white font-semibold text-2xl">{t('apps.projects.title')}</h2>
+      <div className="bg-linear-to-b from-white/10 via-white/5 to-transparent sticky top-0 z-10 px-6 py-5">
+        <h2
+          className="text-white font-semibold text-2xl"
+          style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+        >
+          {t('apps.projects.title')}
+        </h2>
       </div>
 
       {/* Main Content */}
@@ -63,8 +68,12 @@ export default function ProjectsGallery({
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-xs truncate">{project.name}</p>
-                    <p className="text-xs text-white/50 mt-0.5 truncate">{project.tagline}</p>
+                    <p className="font-semibold text-xs truncate">
+                      {project.name}
+                    </p>
+                    <p className="text-xs text-white/50 mt-0.5 truncate">
+                      {project.tagline}
+                    </p>
                   </div>
                 </div>
               </button>
@@ -75,18 +84,29 @@ export default function ProjectsGallery({
         {/* Details - Right Side */}
         <div className="flex-1 overflow-y-auto">
           {selectedProject ? (
-            <div className="p-7 space-y-6">
+            <div className="p-7 pb-12 space-y-6">
               {/* Title */}
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold text-white">
+                <h3
+                  className="text-2xl font-bold text-white"
+                  style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+                >
                   {selectedProject.name}
                 </h3>
-                <p className="text-white/60">{selectedProject.tagline}</p>
+                <p
+                  className="text-white/60"
+                  style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+                >
+                  {selectedProject.tagline}
+                </p>
               </div>
 
               {/* Description */}
               <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-white/45 uppercase tracking-widest">
+                <h4
+                  className="text-xs font-semibold text-white/45 uppercase tracking-widest"
+                  style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+                >
                   {t('projects.description')}
                 </h4>
                 <p className="text-white/70 text-sm leading-relaxed">
@@ -96,7 +116,10 @@ export default function ProjectsGallery({
 
               {/* Technologies */}
               <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-white/45 uppercase tracking-widest">
+                <h4
+                  className="text-xs font-semibold text-white/45 uppercase tracking-widest"
+                  style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+                >
                   {t('projects.technologies')}
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -121,25 +144,20 @@ export default function ProjectsGallery({
                     className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors"
                   >
                     <ExternalLink size={18} />
-                    <span className="text-sm font-medium">{t('projects.viewProject')}</span>
+                    <span className="text-sm font-medium">
+                      {t('projects.viewProject')}
+                    </span>
                   </a>
                 </div>
               )}
             </div>
           ) : (
             <div className="h-full flex items-center justify-center">
-              <p className="text-white/40 text-sm">{t('projects.selectProject')}</p>
+              <p className="text-white/40 text-sm">
+                {t('projects.selectProject')}
+              </p>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="bg-linear-to-t from-white/8 via-white/4 to-transparent border-t border-white/10">
-        <div className="px-6 py-4 text-center">
-          <p className="text-white/30 text-xs font-light tracking-widest">
-            — {projects.length} project{projects.length !== 1 ? 's' : ''} —
-          </p>
         </div>
       </div>
     </div>

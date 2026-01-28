@@ -6,7 +6,7 @@ export default function DockHint() {
 
   return (
     <motion.div
-      className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
+      className="fixed bottom-30 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 6 }}

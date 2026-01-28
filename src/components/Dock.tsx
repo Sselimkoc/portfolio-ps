@@ -40,7 +40,7 @@ export default function Dock({
 
   return (
     <motion.div
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 mac-dock glass-dock-shadow h-20 flex items-center justify-center px-3 z-50 opacity-95 hover:opacity-100 transition-opacity duration-300"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 glass-dock-shadow h-20 flex items-center justify-center px-3 z-50 opacity-95 hover:opacity-100 transition-opacity duration-300 ring-0"
       style={
         {
           overflow: 'visible',
@@ -125,23 +125,15 @@ export default function Dock({
                 <div
                   className="w-full h-full flex items-center justify-center rounded-2xl backdrop-blur-xl transition-all duration-150"
                   style={{
-                    backgroundColor: isHovered
-                      ? 'rgba(255, 255, 255, 0.28)'
-                      : 'rgba(255, 255, 255, 0.16)',
-                    boxShadow: isHovered
-                      ? '0 8px 32px rgba(255, 255, 255, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.4)'
-                      : '0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                    boxShadow:
+                      '0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
                   }}
                 >
-                  <motion.div
-                    animate={isHovered ? { scale: 1.2 } : { scale: 1 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <motion.div>
                     <Icon
-                      size={isHovered ? 32 : 28}
-                      className={`transition-colors duration-150 ${
-                        isHovered ? 'text-white' : 'text-white/70'
-                      }`}
+                      size={28}
+                      className="transition-colors duration-150 text-white/70"
                     />
                   </motion.div>
                 </div>

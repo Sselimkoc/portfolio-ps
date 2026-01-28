@@ -13,10 +13,13 @@ interface EducationSectionProps {
 
 export default function EducationSection({ education }: EducationSectionProps) {
   const { t } = useTranslation()
-  
+
   return (
     <div className="space-y-2">
-      <h3 className="text-xs font-semibold text-white/45 uppercase tracking-widest">
+      <h3
+        className="text-xs font-semibold text-white/45 uppercase tracking-widest"
+        style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+      >
         {t('profile.educationTitle')}
       </h3>
 

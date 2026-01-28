@@ -71,7 +71,7 @@
     },
     "contact": {
       "title": "İletişim",
-      "content": "Bana şu adresten ulaşabilirsiniz: example@example.com"
+      "content": "Bana şu adresten ulaşabilirsiniz: selokoc1@gmail.com"
     },
     "github": {
       "title": "GitHub"
@@ -89,7 +89,8 @@
     "sunset": "Gün Batımı",
     "ocean": "Okyanus",
     "forest": "Orman",
-    "cat": "Kedi"
+    "windowsXp": "Windows XP",
+    "trippy": "Trippy"
   },
   "admin": {
     "title": "Yönetim Paneli",

@@ -104,7 +104,13 @@ export default function DraggableWindow({
       }
     >
       {/* Title Bar */}
-      <div className="bg-linear-to-b from-white/22 to-white/14 py-3.5 px-4 border-b border-white/20 relative select-none backdrop-blur-xl">
+      <div
+        className="py-3.5 px-4 border-b border-white/[0.06] relative select-none backdrop-blur-[28px]"
+        style={{
+          background:
+            'linear-gradient(to bottom, rgba(30, 30, 34, 0.85), rgba(22, 22, 25, 0.75))',
+        }}
+      >
         {/* Left controls (NON-DRAG area) */}
         <div
           className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-3 cursor-default"
@@ -146,7 +152,13 @@ export default function DraggableWindow({
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-6 bg-white/8 backdrop-blur-sm">
+      <div
+        className="flex-1 overflow-y-auto p-6 backdrop-blur-[28px]"
+        style={{
+          background:
+            'radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 35%, rgba(10, 10, 12, 0.55) 100%)',
+        }}
+      >
         {children}
       </div>
 
@@ -155,37 +167,37 @@ export default function DraggableWindow({
         <>
           {/* Edges */}
           <div
-            className="absolute top-0 left-0 right-0 h-1 cursor-n-resize hover:bg-blue-500/20 group-hover:opacity-100 opacity-0 transition"
+            className="absolute top-0 left-0 right-0 h-1 cursor-n-resize hover:bg-white/10 group-hover:opacity-100 opacity-0 transition"
             onMouseDown={(e) => handleInteractionStart(e, 'resize', 'n')}
           />
           <div
-            className="absolute bottom-0 left-0 right-0 h-1 cursor-s-resize hover:bg-blue-500/20 group-hover:opacity-100 opacity-0 transition"
+            className="absolute bottom-0 left-0 right-0 h-1 cursor-s-resize hover:bg-white/10 group-hover:opacity-100 opacity-0 transition"
             onMouseDown={(e) => handleInteractionStart(e, 'resize', 's')}
           />
           <div
-            className="absolute top-0 left-0 bottom-0 w-1 cursor-w-resize hover:bg-blue-500/20 group-hover:opacity-100 opacity-0 transition"
+            className="absolute top-0 left-0 bottom-0 w-1 cursor-w-resize hover:bg-white/10 group-hover:opacity-100 opacity-0 transition"
             onMouseDown={(e) => handleInteractionStart(e, 'resize', 'w')}
           />
           <div
-            className="absolute top-0 right-0 bottom-0 w-1 cursor-e-resize hover:bg-blue-500/20 group-hover:opacity-100 opacity-0 transition"
+            className="absolute top-0 right-0 bottom-0 w-1 cursor-e-resize hover:bg-white/10 group-hover:opacity-100 opacity-0 transition"
             onMouseDown={(e) => handleInteractionStart(e, 'resize', 'e')}
           />
 
           {/* Corners */}
           <div
-            className="absolute top-0 left-0 w-2 h-2 cursor-nw-resize hover:bg-blue-500/40 group-hover:opacity-100 opacity-0 transition"
+            className="absolute top-0 left-0 w-2 h-2 cursor-nw-resize hover:bg-white/20 group-hover:opacity-100 opacity-0 transition"
             onMouseDown={(e) => handleInteractionStart(e, 'resize', 'nw')}
           />
           <div
-            className="absolute top-0 right-0 w-2 h-2 cursor-ne-resize hover:bg-blue-500/40 group-hover:opacity-100 opacity-0 transition"
+            className="absolute top-0 right-0 w-2 h-2 cursor-ne-resize hover:bg-white/20 group-hover:opacity-100 opacity-0 transition"
             onMouseDown={(e) => handleInteractionStart(e, 'resize', 'ne')}
           />
           <div
-            className="absolute bottom-0 left-0 w-2 h-2 cursor-sw-resize hover:bg-blue-500/40 group-hover:opacity-100 opacity-0 transition"
+            className="absolute bottom-0 left-0 w-2 h-2 cursor-sw-resize hover:bg-white/20 group-hover:opacity-100 opacity-0 transition"
             onMouseDown={(e) => handleInteractionStart(e, 'resize', 'sw')}
           />
           <div
-            className="absolute bottom-0 right-0 w-2 h-2 cursor-se-resize hover:bg-blue-500/40 group-hover:opacity-100 opacity-0 transition"
+            className="absolute bottom-0 right-0 w-2 h-2 cursor-se-resize hover:bg-white/20 group-hover:opacity-100 opacity-0 transition"
             onMouseDown={(e) => handleInteractionStart(e, 'resize', 'se')}
           />
         </>

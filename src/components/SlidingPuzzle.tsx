@@ -187,14 +187,15 @@ export default function SlidingPuzzle({
                 key={tile.id}
                 onClick={() => handleTileClick(tile.position)}
                 className="relative bg-cover bg-center rounded cursor-pointer hover:brightness-110 transition-all overflow-hidden ring-1 ring-white/20 shadow-lg active:scale-95"
-                style={{
-                  gridRow: row + 1,
-                  gridColumn: col + 1,
-                  backgroundImage: `url(${imageUrl})`,
-                  backgroundPosition: `${tileCol * (100 / (gridSize - 1))}% ${tileRow * (100 / (gridSize - 1))}%`,
-                  backgroundSize: `${gridSize * 100}% ${gridSize * 100}%`,
-                } as any}
-                whileHover={{ scale: 1.02 }}
+                style={
+                  {
+                    gridRow: row + 1,
+                    gridColumn: col + 1,
+                    backgroundImage: `url(${imageUrl})`,
+                    backgroundPosition: `${tileCol * (100 / (gridSize - 1))}% ${tileRow * (100 / (gridSize - 1))}%`,
+                    backgroundSize: `${gridSize * 100}% ${gridSize * 100}%`,
+                  } as any
+                }
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="absolute inset-0 flex items-center justify-center text-white/20 text-xs font-bold pointer-events-none">
