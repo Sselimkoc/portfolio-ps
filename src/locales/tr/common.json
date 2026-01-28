@@ -76,7 +76,21 @@
     },
     "contact": {
       "title": "İletişim",
-      "content": "Bana şu adresten ulaşabilirsiniz: selokoc1@gmail.com"
+      "content": "Bana şu adresten ulaşabilirsiniz: selokoc1@gmail.com",
+      "description": "Aşağıdaki formu doldurarak benimle iletişime geçebilirsiniz. Lütfen size geri dönebilmem için e-posta adresinizi doğru girdiğinizden emin olun.",
+      "name": "İsim",
+      "namePlaceholder": "Adınız Soyadınız",
+      "email": "E-posta Adresiniz",
+      "emailPlaceholder": "ornek@email.com",
+      "subject": "Konu",
+      "subjectPlaceholder": "Mesajınızın konusu",
+      "message": "Mesaj",
+      "messagePlaceholder": "Mesajınızı buraya yazın...",
+      "send": "Gönder",
+      "sending": "Gönderiliyor...",
+      "success": "Gönderildi!",
+      "error": "Hata oluştu",
+      "footer": "Mesajınız direkt olarak e-posta adresime iletilecektir."
     },
     "github": {
       "title": "GitHub"

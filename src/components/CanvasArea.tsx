@@ -18,6 +18,7 @@ import ProjectsGallery from './ProjectsGallery'
 import ExperienceTimeline from './ExperienceTimeline'
 import WallpaperSelector from './WallpaperSelector'
 import SlidingPuzzle from './SlidingPuzzle'
+import ContactForm from './ContactForm'
 import DesktopShortcuts from './DesktopShortcuts'
 
 interface OpenWindowState {
@@ -253,12 +254,6 @@ export default function CanvasArea() {
         action: handleOpenWindow,
       })),
     {
-      id: 'contact',
-      titleKey: 'apps.contact.title',
-      icon: MailQuestion,
-      action: () => alert(t('apps.contact.content')),
-    },
-    {
       id: 'github',
       titleKey: 'apps.github.title',
       icon: Github,
@@ -370,6 +365,7 @@ export default function CanvasArea() {
                     />
                   )}
                   {app.id === 'puzzle' && <SlidingPuzzle />}
+                  {app.id === 'contact' && <ContactForm />}
                   {![
                     'about',
                     'skills',
@@ -377,6 +373,7 @@ export default function CanvasArea() {
                     'experience',
                     'wallpaper',
                     'puzzle',
+                    'contact',
                   ].includes(app.id) && (
                     <div className="p-5 text-white/80">{t(app.content)}</div>
                   )}

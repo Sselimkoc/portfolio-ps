@@ -76,7 +76,21 @@
     },
     "contact": {
       "title": "Contact",
-      "content": "You can reach me at: selokoc1@gmail.com"
+      "content": "You can reach me at: selokoc1@gmail.com",
+      "description": "Fill out the form below to get in touch with me. Please make sure to enter your email address correctly so I can get back to you.",
+      "name": "Name",
+      "namePlaceholder": "Your Name",
+      "email": "Your Email Address",
+      "emailPlaceholder": "example@email.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "Subject of your message",
+      "message": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "send": "Send",
+      "sending": "Sending...",
+      "success": "Sent!",
+      "error": "Error occurred",
+      "footer": "Your message will be sent directly to my email address."
     },
     "github": {
       "title": "GitHub"

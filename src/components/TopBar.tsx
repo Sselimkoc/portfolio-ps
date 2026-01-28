@@ -80,6 +80,9 @@ export default function TopBar({
 
       {/* Right - Time + Language + Battery */}
       <div className="flex items-center gap-5">
+        {/* Turkey Flag */}
+        <img src="/türkiye.svg" alt="TR" className="w-6 h-6 opacity-80" />
+
         {/* Language Switcher */}
         <div className="flex gap-1.5">
           <button
@@ -103,6 +106,7 @@ export default function TopBar({
             TR
           </button>
         </div>
+
         {mounted && (
           <span className="text-white/80 font-medium text-xs tracking-tight">
             {currentTime}
