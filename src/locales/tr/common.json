@@ -36,10 +36,21 @@
     "subtitleName": "Selim Koç",
     "subtitle": "Software Engineer · Full-Stack Developer",
     "description": "Problem çözmeyi, sistem tasarlamayı ve ürünü uçtan uca geliştirmeyi seviyorum.",
-    "clickToContinue": "Deneyimi başlat"
+    "clickToContinue": "Deneyimi başlat",
+    "desktopNotice": "Bu site masaüstü için tasarlanmıştır. En iyi deneyim için tam ekrana alınız (F11)"
   },
   "dock": {
     "hint": "Bir uygulamayı açmak için tıklayın"
+  },
+  "links": {
+    "warningTitle": "Harici Bağlantı",
+    "externalWarning": "Bu sayfadan ayrılıyorsunuz. Devam etmek istiyor musunuz?"
+  },
+  "dialog": {
+    "cancel": "İptal",
+    "continue": "Devam Et",
+    "dontAskAgain": "Bir daha sorma",
+    "targetLink": "Hedef Ba\u011flant\u0131"
   },
   "apps": {
     "about": {
@@ -78,7 +89,7 @@
       "title": "İletişim",
       "content": "Bana şu adresten ulaşabilirsiniz: selokoc1@gmail.com",
       "description": "Aşağıdaki formu doldurarak benimle iletişime geçebilirsiniz. Lütfen size geri dönebilmem için e-posta adresinizi doğru girdiğinizden emin olun.",
-      "name": "İsim",
+      "name": "Isim",
       "namePlaceholder": "Adınız Soyadınız",
       "email": "E-posta Adresiniz",
       "emailPlaceholder": "ornek@email.com",

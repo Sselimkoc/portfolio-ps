@@ -8,6 +8,7 @@ interface ProfileHeaderProps {
   githubUrl: string
   linkedinUrl: string
   email: string
+  onExternalLink?: (url: string) => void
 }
 
 export default function ProfileHeader({
@@ -17,6 +18,7 @@ export default function ProfileHeader({
   githubUrl,
   linkedinUrl,
   email,
+  onExternalLink,
 }: ProfileHeaderProps) {
   const { t } = useTranslation()
   const displayLocation = location || t('admin.profile.defaultLocation')
@@ -50,6 +52,15 @@ export default function ProfileHeader({
             target="_blank"
             rel="noreferrer"
             aria-label={label}
+            onClick={(e) => {
+              if (
+                (label === 'GitHub' || label === 'LinkedIn') &&
+                onExternalLink
+              ) {
+                e.preventDefault()
+                onExternalLink(href)
+              }
+            }}
             className="
               flex h-10 w-10 items-center justify-center
               rounded-lg

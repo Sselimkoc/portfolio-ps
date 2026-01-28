@@ -36,10 +36,21 @@
     "subtitleName": "Selim Koç",
     "subtitle": "Software Engineer · Full-Stack Developer",
     "description": "I love solving problems, designing systems, and developing products end-to-end.",
-    "clickToContinue": "Start the experience"
+    "clickToContinue": "Start the experience",
+    "desktopNotice": "Designed for desktop. For best experience, view in fullscreen (F11)"
   },
   "dock": {
     "hint": "Click on an app to open it"
+  },
+  "links": {
+    "warningTitle": "External Link",
+    "externalWarning": "You are leaving this page. Do you want to continue?"
+  },
+  "dialog": {
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "dontAskAgain": "Don't ask again",
+    "targetLink": "Target Link"
   },
   "apps": {
     "about": {

@@ -9,14 +9,19 @@ type Project = {
   href?: string
 }
 
+interface ProjectsGalleryProps {
+  projects: Array<Project>
+  onExternalLink?: (url: string) => void
+}
+
 export default function ProjectsGallery({
   projects,
-}: {
-  projects: Array<Project>
-}) {
+  onExternalLink,
+}: ProjectsGalleryProps) {
   const { t } = useTranslation()
+  const reversedProjects = [...projects].reverse()
   const [selectedProject, setSelectedProject] = useState<Project | null>(
-    projects[0] || null,
+    reversedProjects[0] || null,
   )
 
   return (
@@ -24,7 +29,7 @@ export default function ProjectsGallery({
       {/* Timeline - Left Side */}
       <div className="w-72 border-r border-white/10 overflow-y-auto">
         <div className="p-4 space-y-2">
-          {projects.map((project, index) => (
+          {reversedProjects.map((project, index) => (
             <button
               key={project.name}
               onClick={() => setSelectedProject(project)}
@@ -50,7 +55,7 @@ export default function ProjectsGallery({
                         }
                       `}
                   />
-                  {index < projects.length - 1 && (
+                  {index < reversedProjects.length - 1 && (
                     <div className="absolute top-2.5 left-1 w-0.5 h-10 bg-linear-to-b from-white/20 to-transparent" />
                   )}
                 </div>
@@ -115,17 +120,22 @@ export default function ProjectsGallery({
             {/* Link */}
             {selectedProject.href && (
               <div className="pt-4 border-t border-white/10">
-                <a
-                  href={selectedProject.href}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    if (onExternalLink) {
+                      onExternalLink(selectedProject.href!)
+                    } else {
+                      window.open(selectedProject.href, '_blank')
+                    }
+                  }}
                   className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors"
                 >
                   <ExternalLink size={18} />
                   <span className="text-sm font-medium">
                     {t('projects.viewProject')}
                   </span>
-                </a>
+                </button>
               </div>
             )}
           </div>

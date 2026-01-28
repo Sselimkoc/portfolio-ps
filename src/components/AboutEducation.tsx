@@ -16,6 +16,7 @@ interface AboutEducationProps {
     years?: string
     gpa?: string
   }
+  onExternalLink?: (url: string) => void
 }
 
 export default function AboutEducation(props: AboutEducationProps) {

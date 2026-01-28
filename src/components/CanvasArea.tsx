@@ -20,6 +20,7 @@ import WallpaperSelector from './WallpaperSelector'
 import SlidingPuzzle from './SlidingPuzzle'
 import ContactForm from './ContactForm'
 import DesktopShortcuts from './DesktopShortcuts'
+import WarningDialog from './WarningDialog'
 
 interface OpenWindowState {
   id: string
@@ -37,6 +38,7 @@ interface DockApp {
 
 const INTRO_KEY = 'portfolio:introSeen:v1'
 const WALLPAPER_KEY = 'portfolio:wallpaper'
+const EXTERNAL_LINK_WARNING_KEY = 'portfolio:externalLinkWarningDisabled'
 
 export default function CanvasArea() {
   const { t, i18n } = useTranslation()
@@ -50,6 +52,26 @@ export default function CanvasArea() {
     return localStorage.getItem(INTRO_KEY) !== '1'
   })
   const [isSleeping, setIsSleeping] = useState(false)
+  const [warningDialog, setWarningDialog] = useState<{
+    isOpen: boolean
+    title: string
+    message: string
+    url: string
+  }>({ isOpen: false, title: '', message: '', url: '' })
+
+  const handleExternalLink = (url: string) => {
+    const warningDisabled = localStorage.getItem(EXTERNAL_LINK_WARNING_KEY) === '1'
+    if (warningDisabled) {
+      window.open(url, '_blank')
+    } else {
+      setWarningDialog({
+        isOpen: true,
+        title: t('links.warningTitle'),
+        message: t('links.externalWarning'),
+        url,
+      })
+    }
+  }
 
   // Initialize wallpaper from localStorage immediately
   const getInitialWallpaper = () => {
@@ -257,14 +279,13 @@ export default function CanvasArea() {
       id: 'github',
       titleKey: 'apps.github.title',
       icon: Github,
-      action: () => window.open('https://github.com/Sselimkoc', '_blank'),
+      action: () => handleExternalLink('https://github.com/Sselimkoc'),
     },
     {
       id: 'linkedin',
       titleKey: 'apps.linkedin.title',
       icon: Linkedin,
-      action: () =>
-        window.open('https://www.linkedin.com/in/sselimkoc462/', '_blank'),
+      action: () => handleExternalLink('https://www.linkedin.com/in/sselimkoc462/'),
     },
   ]
 
@@ -340,13 +361,24 @@ export default function CanvasArea() {
                         years: data.profile.years,
                         gpa: data.profile.gpa,
                       }}
+                      onExternalLink={(url) => {
+                        setWarningDialog({
+                          isOpen: true,
+                          title: t('links.warningTitle'),
+                          message: t('links.externalWarning'),
+                          url,
+                        })
+                      }}
                     />
                   )}
                   {app.id === 'skills' && (
                     <SkillsPalette groups={data.skills} />
                   )}
                   {app.id === 'projects' && (
-                    <ProjectsGallery projects={data.projects} />
+                    <ProjectsGallery 
+                      projects={data.projects}
+                      onExternalLink={handleExternalLink}
+                    />
                   )}
                   {app.id === 'experience' && (
                     <ExperienceTimeline items={data.experience} />
@@ -407,6 +439,24 @@ export default function CanvasArea() {
 
       {/* Sleep Screen */}
       <SleepOverlay isActive={isSleeping} onWakeUp={handleWake} />
+
+      {/* Warning Dialog */}
+      <WarningDialog
+        isOpen={warningDialog.isOpen}
+        title={warningDialog.title}
+        message={warningDialog.message}
+        url={warningDialog.url}
+        onConfirm={() => {
+          window.open(warningDialog.url, '_blank')
+          setWarningDialog({ isOpen: false, title: '', message: '', url: '' })
+        }}
+        onCancel={() => {
+          setWarningDialog({ isOpen: false, title: '', message: '', url: '' })
+        }}
+        onDontAskAgain={() => {
+          localStorage.setItem(EXTERNAL_LINK_WARNING_KEY, '1')
+        }}
+      />
     </motion.div>
   )
 }

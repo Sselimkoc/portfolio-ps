@@ -7,6 +7,7 @@ interface ContactLinksProps {
   githubUrl: string
   linkedinUrl: string
   onCopy: (text: string) => Promise<void>
+  onExternalLink?: (url: string) => void
 }
 
 export default function ContactLinks({
@@ -14,6 +15,7 @@ export default function ContactLinks({
   githubUrl,
   linkedinUrl,
   onCopy,
+  onExternalLink,
 }: ContactLinksProps) {
   return (
     <div className="mt-4">
@@ -32,6 +34,7 @@ export default function ContactLinks({
           value={githubUrl}
           href={githubUrl}
           onCopy={() => onCopy(githubUrl)}
+          onExternalLink={onExternalLink}
         />
         <LinkRow
           icon={Linkedin}
@@ -39,6 +42,7 @@ export default function ContactLinks({
           value={linkedinUrl}
           href={linkedinUrl}
           onCopy={() => onCopy(linkedinUrl)}
+          onExternalLink={onExternalLink}
         />
       </div>
     </div>

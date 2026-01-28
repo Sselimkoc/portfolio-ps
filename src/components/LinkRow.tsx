@@ -1,12 +1,15 @@
 import React from 'react'
 import { Copy } from 'lucide-react'
 
+import { useTranslation } from 'react-i18next'
+
 type LinkRowProps = {
   icon: React.ElementType
   label: string
   value: string
   href: string
   onCopy: () => void
+  onExternalLink?: (url: string) => void
 }
 
 export default function LinkRow({
@@ -15,13 +18,22 @@ export default function LinkRow({
   value,
   href,
   onCopy,
+  onExternalLink,
 }: LinkRowProps) {
+  const { t } = useTranslation()
+
   return (
     <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2">
       <a
         href={href}
         target={href.startsWith('mailto:') ? undefined : '_blank'}
         rel="noreferrer"
+        onClick={(e) => {
+          if ((label === 'GitHub' || label === 'LinkedIn') && onExternalLink) {
+            e.preventDefault()
+            onExternalLink(href)
+          }
+        }}
         className="flex items-center gap-2 min-w-0 hover:opacity-90 transition"
       >
         <Icon size={18} className="text-white/70" />

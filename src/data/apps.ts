@@ -16,7 +16,7 @@ export const apps: Array<App> = [
     title: 'apps.about.title',
     content: 'apps.about.content',
     icon: FileText,
-    defaultSize: { width: 900, height: 600 },
+    defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 80, y: 60 },
   },
   {
@@ -24,7 +24,7 @@ export const apps: Array<App> = [
     title: 'apps.projects.title',
     content: 'apps.projects.content',
     icon: Briefcase,
-    defaultSize: { width: 900, height: 600 },
+    defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 150, y: 80 },
   },
   {
@@ -32,7 +32,7 @@ export const apps: Array<App> = [
     title: 'apps.skills.title',
     content: 'apps.skills.content',
     icon: Code2,
-    defaultSize: { width: 900, height: 600 },
+    defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 80, y: 150 },
   },
   {
@@ -40,7 +40,7 @@ export const apps: Array<App> = [
     title: 'apps.experience.title',
     content: 'apps.experience.content',
     icon: Clock,
-    defaultSize: { width: 900, height: 600 },
+    defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 150, y: 100 },
   },
   {
@@ -48,7 +48,7 @@ export const apps: Array<App> = [
     title: 'apps.wallpaper.title',
     content: 'apps.wallpaper.content',
     icon: Image,
-    defaultSize: { width: 900, height: 600 },
+    defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 150, y: 100 },
   },
   {
@@ -56,7 +56,7 @@ export const apps: Array<App> = [
     title: 'apps.puzzle.title',
     content: 'apps.puzzle.content',
     icon: Puzzle,
-    defaultSize: { width: 900, height: 600 },
+    defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 350, y: 80 },
   },
   {
@@ -64,7 +64,7 @@ export const apps: Array<App> = [
     title: 'apps.contact.title',
     content: 'apps.contact.content',
     icon: Mail,
-    defaultSize: { width: 900, height: 600 },
+    defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 200, y: 100 },
   },
 ]
