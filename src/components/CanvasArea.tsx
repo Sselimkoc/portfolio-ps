@@ -37,8 +37,6 @@ interface DockApp {
 }
 
 const INTRO_KEY = 'portfolio:introSeen:v1'
-const WALLPAPER_KEY = 'portfolio:wallpaper'
-const EXTERNAL_LINK_WARNING_KEY = 'portfolio:externalLinkWarningDisabled'
 
 export default function CanvasArea() {
   const { t, i18n } = useTranslation()
@@ -59,59 +57,7 @@ export default function CanvasArea() {
     url: string
   }>({ isOpen: false, title: '', message: '', url: '' })
 
-  const handleExternalLink = (url: string) => {
-    const warningDisabled = localStorage.getItem(EXTERNAL_LINK_WARNING_KEY) === '1'
-    if (warningDisabled) {
-      window.open(url, '_blank')
-    } else {
-      setWarningDialog({
-        isOpen: true,
-        title: t('links.warningTitle'),
-        message: t('links.externalWarning'),
-        url,
-      })
-    }
-  }
-
-  // Initialize wallpaper from localStorage immediately
-  const getInitialWallpaper = () => {
-    const wallpapers: Record<string, { url: string; gradient?: boolean }> = {
-      default: { url: '/desktop-bg2.jpg' },
-      'desktop-bg': { url: '/desktop-bg.jpg' },
-      cat: { url: '/railroad-cat.jpg' },
-      dark: {
-        url: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        gradient: true,
-      },
-      purple: {
-        url: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        gradient: true,
-      },
-      sunset: {
-        url: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-        gradient: true,
-      },
-      ocean: {
-        url: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-        gradient: true,
-      },
-      forest: {
-        url: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
-        gradient: true,
-      },
-    }
-
-    const savedWallpaper = localStorage.getItem(WALLPAPER_KEY) || 'default'
-    const wallpaper = wallpapers[savedWallpaper] || wallpapers.default
-
-    return {
-      backgroundImage: wallpaper.gradient
-        ? wallpaper.url
-        : `url(${wallpaper.url})`,
-    }
-  }
-
-  const [backgroundStyle, setBackgroundStyle] = useState(getInitialWallpaper)
+  // Background is controlled via CSS variable on :root (see styles.css)
 
   const [openWindows, setOpenWindows] = useState<Array<OpenWindowState>>(
     apps.map((app) => ({
@@ -122,44 +68,8 @@ export default function CanvasArea() {
     })),
   )
 
-  const applyWallpaper = (wallpaperId: string) => {
-    const wallpapers: Record<string, { url: string; gradient?: boolean }> = {
-      default: { url: '/desktop-bg2.jpg' },
-      'desktop-bg': { url: '/desktop-bg.jpg' },
-      dark: {
-        url: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        gradient: true,
-      },
-      purple: {
-        url: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        gradient: true,
-      },
-      sunset: {
-        url: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-        gradient: true,
-      },
-      ocean: {
-        url: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-        gradient: true,
-      },
-      forest: {
-        url: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
-        gradient: true,
-      },
-      cat: { url: '/railroad-cat.jpg' },
-    }
-
-    const wallpaper = wallpapers[wallpaperId] || wallpapers.default
-    if (wallpaper.gradient) {
-      setBackgroundStyle({
-        backgroundImage: wallpaper.url,
-      })
-    } else {
-      setBackgroundStyle({
-        backgroundImage: `url(${wallpaper.url})`,
-      })
-    }
-  }
+  // Note: Wallpaper changes are handled by WallpaperSelector by updating
+  // the `.canvas-background` element and localStorage.
 
   const skipIntro = () => {
     localStorage.setItem(INTRO_KEY, '1')
@@ -279,13 +189,27 @@ export default function CanvasArea() {
       id: 'github',
       titleKey: 'apps.github.title',
       icon: Github,
-      action: () => handleExternalLink('https://github.com/Sselimkoc'),
+      action: () => {
+        setWarningDialog({
+          isOpen: true,
+          title: t('links.warningTitle'),
+          message: t('links.externalWarning'),
+          url: 'https://github.com/Sselimkoc',
+        })
+      },
     },
     {
       id: 'linkedin',
       titleKey: 'apps.linkedin.title',
       icon: Linkedin,
-      action: () => handleExternalLink('https://www.linkedin.com/in/sselimkoc462/'),
+      action: () => {
+        setWarningDialog({
+          isOpen: true,
+          title: t('links.warningTitle'),
+          message: t('links.externalWarning'),
+          url: 'https://www.linkedin.com/in/sselimkoc462/',
+        })
+      },
     },
   ]
 
@@ -308,8 +232,7 @@ export default function CanvasArea() {
   return (
     <motion.div
       ref={canvasRef}
-      className="flex-1 overflow-hidden relative flex flex-col bg-cover bg-center"
-      style={backgroundStyle}
+      className="flex-1 overflow-hidden relative flex flex-col bg-cover bg-center canvas-background"
     >
       {/* Desktop content */}
       <div
@@ -375,27 +298,12 @@ export default function CanvasArea() {
                     <SkillsPalette groups={data.skills} />
                   )}
                   {app.id === 'projects' && (
-                    <ProjectsGallery 
-                      projects={data.projects}
-                      onExternalLink={handleExternalLink}
-                    />
+                    <ProjectsGallery projects={data.projects} />
                   )}
                   {app.id === 'experience' && (
                     <ExperienceTimeline items={data.experience} />
                   )}
-                  {app.id === 'wallpaper' && (
-                    <WallpaperSelector
-                      onApply={(wallpaper) => {
-                        if (wallpaper.url.includes('gradient')) {
-                          setBackgroundStyle({ backgroundImage: wallpaper.url })
-                        } else {
-                          setBackgroundStyle({
-                            backgroundImage: `url(${wallpaper.url})`,
-                          })
-                        }
-                      }}
-                    />
-                  )}
+                  {app.id === 'wallpaper' && <WallpaperSelector />}
                   {app.id === 'puzzle' && <SlidingPuzzle />}
                   {app.id === 'contact' && <ContactForm />}
                   {![
@@ -452,9 +360,6 @@ export default function CanvasArea() {
         }}
         onCancel={() => {
           setWarningDialog({ isOpen: false, title: '', message: '', url: '' })
-        }}
-        onDontAskAgain={() => {
-          localStorage.setItem(EXTERNAL_LINK_WARNING_KEY, '1')
         }}
       />
     </motion.div>

@@ -36,6 +36,31 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* Early inline script to set wallpaper from localStorage before paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var key = localStorage.getItem('portfolio:wallpaper') || 'default';
+                var MAP = {
+                  default: '/desktop-bg2.jpg',
+                  'desktop-bg': '/desktop-bg.jpg',
+                  cat: '/railroad-cat.png',
+                  windowsXp: '/windows-xp.jpg',
+                  trippy: '/trippy-purple.png',
+                  dark: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+                  purple: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  sunset: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                  ocean: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                  forest: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)'
+                };
+                var val = MAP[key] || MAP.default;
+                var css = String(val).startsWith('linear-gradient(') ? val : 'url(' + val + ')';
+                document.documentElement.style.setProperty('--wallpaper-image', css);
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
       <body className="h-screen w-full flex flex-col">
         <div className="flex-1 flex flex-col">{children}</div>

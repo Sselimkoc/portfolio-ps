@@ -9,6 +9,18 @@ body {
   background-color: #000;
 }
 
+/* Initial wallpaper variable with SSR-safe default */
+:root {
+  --wallpaper-image: url(/desktop-bg2.jpg);
+}
+
+/* Canvas background uses CSS variable to avoid hydration mismatch */
+.canvas-background {
+  background-image: var(--wallpaper-image);
+  background-size: cover;
+  background-position: center;
+}
+
 #root {
   display: flex;
   flex-direction: column;

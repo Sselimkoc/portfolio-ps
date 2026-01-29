@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { Check } from 'lucide-react'
@@ -22,6 +22,12 @@ const WALLPAPERS: Array<Wallpaper> = [
     name: 'wallpapers.desktopBg',
     url: '/desktop-bg.jpg',
     thumbnail: '/desktop-bg.jpg',
+  },
+  {
+    id: 'cat',
+    name: 'wallpapers.cat',
+    url: '/railroad-cat.png',
+    thumbnail: '/railroad-cat.png',
   },
   {
     id: 'windowsXp',
@@ -69,28 +75,44 @@ interface WallpaperSelectorProps {
 
 export default function WallpaperSelector({ onApply }: WallpaperSelectorProps) {
   const { t } = useTranslation()
-  const [selectedId, setSelectedId] = useState<string>(
-    localStorage.getItem(WALLPAPER_KEY) || 'default',
+  const [selectedId, setSelectedId] = useState<string>(() =>
+    typeof window === 'undefined' ? 'default' : localStorage.getItem(WALLPAPER_KEY) || 'default',
   )
   const [appliedId, setAppliedId] = useState<string>(selectedId)
+
+  // Sync initial state from localStorage on client to avoid SSR access
+  useEffect(() => {
+    try {
+      const current = localStorage.getItem(WALLPAPER_KEY) || 'default'
+      setSelectedId(current)
+      setAppliedId(current)
+    } catch {}
+  }, [])
 
   const handleApply = (wallpaper: Wallpaper) => {
     setAppliedId(wallpaper.id)
     localStorage.setItem(WALLPAPER_KEY, wallpaper.id)
 
-    // Update background in parent
-    const canvasElement = document.querySelector('.canvas-background')
-    if (canvasElement instanceof HTMLDivElement) {
-      if (wallpaper.url.includes('gradient')) {
-        canvasElement.style.background = wallpaper.url
-        canvasElement.style.backgroundImage = 'none'
-      } else {
-        canvasElement.style.backgroundImage = `url(${wallpaper.url})`
-        canvasElement.style.background = 'none'
-      }
+    const isGradient = wallpaper.url.startsWith('linear-gradient(')
+    const applyCssVar = (val: string) =>
+      document.documentElement.style.setProperty(
+        '--wallpaper-image',
+        val,
+      )
+
+    if (isGradient) {
+      applyCssVar(wallpaper.url)
+      onApply?.(wallpaper)
+      return
     }
 
-    onApply?.(wallpaper)
+    // Preload the image before switching the background to avoid flash
+    const img = new Image()
+    img.src = wallpaper.url
+    img.onload = () => {
+      applyCssVar(`url(${wallpaper.url})`)
+      onApply?.(wallpaper)
+    }
   }
 
   return (
