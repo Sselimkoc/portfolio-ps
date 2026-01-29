@@ -48,17 +48,26 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
         data: { password } as any,
       })
 
-      console.log('Verification result:', result)
-
-      if (result.success) {
-        // HTTP-only cookie is set automatically by server
-        // No need to set sessionStorage
-        console.log('Authentication successful')
-        setIsAuthenticated(true)
+      if (result instanceof Response) {
+        const data = await result.json()
+        console.log('Verification result (Response):', data)
+        if (data && data.success) {
+          // HTTP-only cookie is set automatically by server
+          console.log('Authentication successful')
+          setIsAuthenticated(true)
+        } else {
+          console.log('Authentication failed')
+          setPassword('')
+        }
       } else {
-        // Wrong password - show error and clear
-        console.log('Authentication failed:', result.error)
-        setPassword('')
+        console.log('Verification result (data):', result)
+        if ((result as any).success) {
+          console.log('Authentication successful')
+          setIsAuthenticated(true)
+        } else {
+          console.log('Authentication failed:', (result as any).error)
+          setPassword('')
+        }
       }
     } catch (error) {
       console.error('Auth error:', error)

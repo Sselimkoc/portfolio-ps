@@ -55,8 +55,37 @@ export const verifyPassword = createServerFn({ method: 'POST' }).handler(
         // Success - clear attempts and set HTTP-only cookie
         loginAttempts.delete(ip)
 
-        // Note: cookie should be set by the route/server layer. Here we just return success.
-        return { success: true }
+        // Decide whether to mark cookie as Secure
+        let isHttps = false
+        try {
+          const forwardedProto = request.headers.get('x-forwarded-proto')
+          if (forwardedProto) {
+            isHttps = forwardedProto === 'https'
+          } else if (request.url) {
+            const u = new URL(request.url)
+            isHttps = u.protocol === 'https:'
+          }
+        } catch {
+          // Default stays false on local/dev
+        }
+
+        const cookieParts = [
+          'tedi_auth=verified',
+          'Path=/',
+          'Max-Age=86400',
+          'HttpOnly',
+          'SameSite=Strict',
+        ]
+        if (isHttps) cookieParts.push('Secure')
+        const cookieHeader = cookieParts.join('; ')
+
+        // Return Response to set the cookie on the server
+        return new Response(JSON.stringify({ success: true }), {
+          headers: {
+            'Set-Cookie': cookieHeader,
+            'Content-Type': 'application/json',
+          },
+        })
       } else {
         // Failed - increment attempts
         const currentAttempts = loginAttempts.get(ip)
