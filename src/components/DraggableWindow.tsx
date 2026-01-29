@@ -13,6 +13,7 @@ interface DraggableWindowProps {
   defaultPosition?: { x: number; y: number }
   defaultSize?: { width: number; height: number }
   dragConstraintsRef: React.RefObject<HTMLDivElement | null>
+  isMinimized?: boolean
 }
 
 export default function DraggableWindow({
@@ -25,6 +26,7 @@ export default function DraggableWindow({
   defaultPosition = { x: 100, y: 100 },
   defaultSize = { width: 500, height: 400 },
   dragConstraintsRef,
+  isMinimized = false,
 }: DraggableWindowProps) {
   const { t } = useTranslation()
   const {
@@ -98,11 +100,17 @@ export default function DraggableWindow({
           top: position.y,
         } as React.CSSProperties
       }
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
+      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      animate={
+        isMinimized
+          ? { opacity: 0, scale: 0.3, y: 100 }
+          : { opacity: 1, scale: 1, y: 0 }
+      }
+      exit={{ opacity: 0, scale: 0.8, y: 20 }}
       transition={
-        isInteracting ? { type: 'tween', duration: 0.01 } : springTransition
+        isInteracting
+          ? { type: 'tween', duration: 0.01 }
+          : { type: 'spring', stiffness: 300, damping: 30 }
       }
     >
       {/* Title Bar */}
@@ -123,20 +131,20 @@ export default function DraggableWindow({
           <button
             onClick={() => onClose(id)}
             className="mac-traffic close hover:shadow-md transition-all"
-            aria-label={t('topbar.close')}
-            title={t('topbar.close')}
+            aria-label={t('window.close')}
+            title={t('window.close')}
           />
           <button
             onClick={() => onMinimize(id)}
             className="mac-traffic minimize hover:shadow-md transition-all"
-            aria-label={t('topbar.minimize')}
-            title={t('topbar.minimize')}
+            aria-label={t('window.minimize')}
+            title={t('window.minimize')}
           />
           <button
             onClick={handleMaximize}
             className="mac-traffic maximize hover:shadow-md transition-all"
-            aria-label={t('topbar.maximize')}
-            title={t('topbar.maximize')}
+            aria-label={t('window.maximize')}
+            title={t('window.maximize')}
           />
         </div>
 

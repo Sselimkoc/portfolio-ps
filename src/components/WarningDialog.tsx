@@ -62,12 +62,14 @@ export default function WarningDialog({
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div 
+              <div
                 className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl"
                 style={{
-                  background: 'linear-gradient(180deg, rgba(32, 32, 35, 0.85) 0%, rgba(15, 15, 18, 0.95) 100%)',
+                  background:
+                    'linear-gradient(180deg, rgba(32, 32, 35, 0.85) 0%, rgba(15, 15, 18, 0.95) 100%)',
                   backdropFilter: 'blur(24px)',
-                  boxShadow: '0 0 0 1px rgba(255,255,255,0.05) inset, 0 20px 40px -10px rgba(0,0,0,0.5)'
+                  boxShadow:
+                    '0 0 0 1px rgba(255,255,255,0.05) inset, 0 20px 40px -10px rgba(0,0,0,0.5)',
                 }}
               >
                 {/* Header */}
@@ -82,11 +84,13 @@ export default function WarningDialog({
                   <p className="text-[15px] text-zinc-300 leading-relaxed font-normal">
                     {message}
                   </p>
-                  
+
                   {url && (
                     <div className="group relative overflow-hidden rounded-lg border border-white/10 p-3">
                       <div className="flex flex-col gap-1">
-                        <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-wider">{t('dialog.targetLink')}</span>
+                        <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-wider">
+                          {t('dialog.targetLink')}
+                        </span>
                         <code className="text-xs text-white/80 font-mono break-all selection:bg-white/30">
                           {url}
                         </code>
@@ -122,7 +126,7 @@ export default function WarningDialog({
                   >
                     {t('dialog.cancel')}
                   </motion.button>
-                  
+
                   <motion.button
                     onClick={() => {
                       if (dontAsk && onDontAskAgain) {
@@ -134,7 +138,9 @@ export default function WarningDialog({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <span className="relative z-10">{t('dialog.continue')}</span>
+                    <span className="relative z-10">
+                      {t('dialog.continue')}
+                    </span>
                     {/* Parlama efekti */}
                     <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent transition-transform duration-500" />
                   </motion.button>
@@ -145,6 +151,6 @@ export default function WarningDialog({
         </>
       )}
     </AnimatePresence>,
-    document.body
+    document.body,
   )
 }

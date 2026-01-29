@@ -3,6 +3,23 @@ import { useTranslation } from 'react-i18next'
 import { Send, Mail, User, MessageSquare } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
+const RATE_LIMIT_KEY = 'contact_last_send'
+const RATE_LIMIT_SECONDS = 30
+const MAX_NAME_LENGTH = 100
+const MAX_EMAIL_LENGTH = 100
+const MAX_SUBJECT_LENGTH = 200
+const MAX_MESSAGE_LENGTH = 2000
+
+// Simple email validation regex
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// Sanitize input to prevent XSS
+const sanitizeInput = (input: string): string => {
+  return input
+    .replace(/[<>]/g, '') // Remove < and >
+    .trim()
+}
+
 export default function ContactForm() {
   const { t } = useTranslation()
   const [formData, setFormData] = useState({
@@ -12,11 +29,40 @@ export default function ContactForm() {
     message: '',
   })
   const [status, setStatus] = useState<
-    'idle' | 'sending' | 'success' | 'error'
+    'idle' | 'sending' | 'success' | 'error' | 'ratelimit'
   >('idle')
+  const [rateLimitRemaining, setRateLimitRemaining] = useState(0)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Rate limiting check
+    const lastSend = localStorage.getItem(RATE_LIMIT_KEY)
+    if (lastSend) {
+      const elapsed = (Date.now() - parseInt(lastSend)) / 1000
+      if (elapsed < RATE_LIMIT_SECONDS) {
+        setStatus('ratelimit')
+        setRateLimitRemaining(Math.ceil(RATE_LIMIT_SECONDS - elapsed))
+        setTimeout(() => setStatus('idle'), 3000)
+        return
+      }
+    }
+
+    // Validate email format
+    if (!EMAIL_REGEX.test(formData.email)) {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 3000)
+      return
+    }
+
+    // Sanitize inputs
+    const sanitizedData = {
+      name: sanitizeInput(formData.name),
+      email: sanitizeInput(formData.email),
+      subject: sanitizeInput(formData.subject),
+      message: sanitizeInput(formData.message),
+    }
+
     setStatus('sending')
 
     try {
@@ -25,15 +71,21 @@ export default function ContactForm() {
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          from_name: formData.name,
-          from_email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
+          from_name: sanitizedData.name,
+          from_email: sanitizedData.email,
+          subject: sanitizedData.subject,
+          message: sanitizedData.message,
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       )
 
-      console.log('Email sent successfully:', result)
+      if (import.meta.env.DEV) {
+        console.log('Email sent successfully:', result)
+      }
+      
+      // Save timestamp for rate limiting
+      localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString())
+      
       setStatus('success')
 
       setTimeout(() => {
@@ -41,7 +93,9 @@ export default function ContactForm() {
         setStatus('idle')
       }, 3000)
     } catch (error) {
-      console.error('Email sending failed:', error)
+      if (import.meta.env.DEV) {
+        console.error('Email sending failed:', error)
+      }
       setStatus('error')
       setTimeout(() => setStatus('idle'), 3000)
     }
@@ -83,6 +137,7 @@ export default function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                maxLength={MAX_NAME_LENGTH}
                 className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.08] transition-all"
                 placeholder={t('apps.contact.namePlaceholder')}
               />
@@ -100,10 +155,11 @@ export default function ContactForm() {
               <input
                 type="email"
                 id="email"
-                name="name"
+                name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
+                maxLength={MAX_EMAIL_LENGTH}
                 className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.08] transition-all"
                 placeholder={t('apps.contact.emailPlaceholder')}
               />
@@ -125,6 +181,7 @@ export default function ContactForm() {
                 value={formData.subject}
                 onChange={handleChange}
                 required
+                maxLength={MAX_SUBJECT_LENGTH}
                 className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.08] transition-all"
                 placeholder={t('apps.contact.subjectPlaceholder')}
               />
@@ -151,6 +208,7 @@ export default function ContactForm() {
               onChange={handleChange}
               required
               rows={10}
+              maxLength={MAX_MESSAGE_LENGTH}
               className="px-4 py-3 bg-white/[0.05] border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.08] transition-all resize-none"
               placeholder={t('apps.contact.messagePlaceholder')}
             />
@@ -161,7 +219,7 @@ export default function ContactForm() {
             <div className="space-y-3">
               <button
                 type="submit"
-                disabled={status === 'sending'}
+                disabled={status === 'sending' || status === 'ratelimit'}
                 className="w-full py-3 px-6 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-white font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === 'sending' ? (
@@ -185,6 +243,23 @@ export default function ContactForm() {
                       />
                     </svg>
                     {t('apps.contact.success')}
+                  </>
+                ) : status === 'ratelimit' ? (
+                  <>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    {t('apps.contact.ratelimit', { seconds: rateLimitRemaining })}
                   </>
                 ) : status === 'error' ? (
                   <>

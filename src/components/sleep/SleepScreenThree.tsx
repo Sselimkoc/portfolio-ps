@@ -552,8 +552,8 @@ export default function SleepScreenThree({
           const z = -140
           const x0 = -260 + Math.random() * 520
           const y0 = 80 + Math.random() * 180
-          const x1 = x0 + (160 + Math.random() * 220)
-          const y1 = y0 - (90 + Math.random() * 140)
+          const x1 = x0 + (80 + Math.random() * 110)
+          const y1 = y0 - (45 + Math.random() * 70)
 
           const arr = shooting.line!.geometry.attributes.position
             .array as Float32Array

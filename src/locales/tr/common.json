@@ -1,8 +1,13 @@
 {
   "topbar": {
-    "close": "Tümünü Kapat - Uyku moduna gir",
+    "close": "Uyku Moduna Geç",
     "minimize": "Tümünü Küçült - Açık tüm pencereleri küçült",
     "maximize": "Tümünü Geri Yükle - Küçültülmüş tüm pencereleri geri aç"
+  },
+  "window": {
+    "close": "Kapat",
+    "minimize": "Küçült",
+    "maximize": "Tam Ekran"
   },
   "poweroff": {
     "message": "Açmak için tıklayın"
@@ -101,6 +106,7 @@
       "sending": "Gönderiliyor...",
       "success": "Gönderildi!",
       "error": "Hata oluştu",
+      "ratelimit": "Lütfen {{seconds}} saniye bekleyin",
       "footer": "Mesajınız direkt olarak e-posta adresime iletilecektir."
     },
     "github": {
@@ -113,6 +119,7 @@
   "wallpapers": {
     "default": "Varsayılan",
     "desktopBg": "Desktop Bg",
+    "cat": "Tren Kedisi",
     "custom": "Özel",
     "dark": "Koyu Mavi",
     "purple": "Mor Rüyalar",

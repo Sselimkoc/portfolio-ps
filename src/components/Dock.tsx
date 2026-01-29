@@ -63,6 +63,9 @@ export default function Dock({
         {dockApps.map((dockApp) => {
           const Icon = dockApp.icon
           const isHovered = hoveredApp === dockApp.id
+          const appWindow = openWindows.find((w) => w.id === dockApp.id)
+          const isActive = appWindow?.isOpen && !appWindow?.isMinimized
+
           return (
             <motion.div
               key={dockApp.id}
@@ -123,9 +126,11 @@ export default function Dock({
                 }}
               >
                 <div
-                  className="w-full h-full flex items-center justify-center rounded-2xl backdrop-blur-xl transition-all duration-150"
+                  className="relative w-full h-full flex flex-col items-center justify-center rounded-2xl backdrop-blur-xl transition-all duration-150"
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                    backgroundColor: isActive
+                      ? 'rgba(255, 255, 255, 0.45)'
+                      : 'rgba(255, 255, 255, 0.16)',
                     boxShadow:
                       '0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.25)',
                   }}
@@ -136,6 +141,11 @@ export default function Dock({
                       className="transition-colors duration-150 text-white/70"
                     />
                   </motion.div>
+
+                  {/* Active Indicator - Inside the box */}
+                  {isActive && (
+                    <div className="absolute bottom-2 w-1 h-1 rounded-full bg-white shadow-lg" />
+                  )}
                 </div>
               </motion.button>
             </motion.div>

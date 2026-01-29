@@ -1,8 +1,13 @@
 {
   "topbar": {
-    "close": "Close All - Enter sleep mode",
+    "close": "Enter Sleep Mode",
     "minimize": "Minimize All - Minimize all open windows",
     "maximize": "Restore All - Restore all minimized windows"
+  },
+  "window": {
+    "close": "Close",
+    "minimize": "Minimize",
+    "maximize": "Maximize"
   },
   "poweroff": {
     "message": "Click to power on"
@@ -101,6 +106,7 @@
       "sending": "Sending...",
       "success": "Sent!",
       "error": "Error occurred",
+      "ratelimit": "Please wait {{seconds}} seconds",
       "footer": "Your message will be sent directly to my email address."
     },
     "github": {
@@ -113,6 +119,7 @@
   "wallpapers": {
     "default": "Default",
     "desktopBg": "Desktop Bg",
+    "cat": "Railroad Cat",
     "custom": "Custom",
     "dark": "Dark Blue",
     "purple": "Purple Dreams",

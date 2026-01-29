@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { verifyPassword } from './auth'
+import { verifyPassword, checkAuthCookie } from './auth'
 import SleepScreenThree from './sleep/SleepScreenThree'
 
 interface ProtectedRouteProps {
@@ -17,12 +17,19 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Check if already authenticated
-    const auth = sessionStorage.getItem('tedi_auth')
-    if (auth === 'true') {
-      setIsAuthenticated(true)
+    // Check if already authenticated via HTTP-only cookie
+    const checkAuth = async () => {
+      try {
+        const result = await checkAuthCookie()
+        setIsAuthenticated(result.authenticated)
+      } catch (error) {
+        // Network error or endpoint doesn't exist, require login
+        setIsAuthenticated(false)
+      }
+      setIsChecking(false)
     }
-    setIsChecking(false)
+
+    checkAuth()
 
     // Auto-focus input after mount
     setTimeout(() => {
@@ -34,17 +41,23 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('Password submitted:', password)
 
     try {
       const result = await verifyPassword({
         data: { password } as any,
       })
+      
+      console.log('Verification result:', result)
 
       if (result.success) {
-        sessionStorage.setItem('tedi_auth', 'true')
+        // HTTP-only cookie is set automatically by server
+        // No need to set sessionStorage
+        console.log('Authentication successful')
         setIsAuthenticated(true)
       } else {
         // Wrong password - show error and clear
+        console.log('Authentication failed:', result.error)
         setPassword('')
       }
     } catch (error) {
@@ -72,20 +85,21 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
           />
         </div>
 
-        {/* Invisible Password Input */}
+        {/* Password Input - Visible for debugging */}
         <form
           onSubmit={handlePasswordSubmit}
-          className="absolute opacity-0 pointer-events-none"
+          className="absolute inset-0 flex items-center justify-center"
         >
           <input
             ref={inputRef}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-0 h-0"
+            className="w-0 h-0 opacity-0"
             autoComplete="off"
             tabIndex={-1}
             maxLength={10}
+            placeholder="Password"
           />
         </form>
       </div>

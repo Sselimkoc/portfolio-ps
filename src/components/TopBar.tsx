@@ -60,20 +60,29 @@ export default function TopBar({
       <div className="flex items-center gap-4">
         <button
           onClick={onPowerOff}
-          style={{ backgroundColor: '#ff5f57' }}
-          className="w-3 h-3 rounded-full transition-all hover:shadow-lg hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
+          className="w-3 h-3 rounded-full transition-all hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
+          style={{ 
+            background: 'linear-gradient(135deg, #ff5f57 0%, #e63234 100%)',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 0.5px rgba(0, 0, 0, 0.15)'
+          }}
           title={t('topbar.close')}
         />
         <button
           onClick={onMinimizeAll}
-          style={{ backgroundColor: '#febc2e' }}
-          className="w-3 h-3 rounded-full transition-all hover:shadow-lg hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
+          className="w-3 h-3 rounded-full transition-all hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
+          style={{ 
+            background: 'linear-gradient(135deg, #febc2e 0%, #f8a500 100%)',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 0.5px rgba(0, 0, 0, 0.15)'
+          }}
           title={t('topbar.minimize')}
         />
         <button
           onClick={onMaximizeAll}
-          style={{ backgroundColor: '#28c840' }}
-          className="w-3 h-3 rounded-full transition-all hover:shadow-lg hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
+          className="w-3 h-3 rounded-full transition-all hover:scale-110 cursor-pointer hover:brightness-110 active:scale-95"
+          style={{ 
+            background: 'linear-gradient(135deg, #28c840 0%, #1ba839 100%)',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 0.5px rgba(0, 0, 0, 0.15)'
+          }}
           title={t('topbar.maximize')}
         />
       </div>
