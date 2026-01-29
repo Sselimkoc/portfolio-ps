@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BatteryFull, BatteryCharging } from 'lucide-react'
+import { BatteryCharging, BatteryFull } from 'lucide-react'
 
 interface TopBarProps {
   onPowerOff: () => void

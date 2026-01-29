@@ -132,12 +132,12 @@ export default function SleepScreenThree({
 
       if (piscesGroup) {
         piscesGroup.traverse((obj: THREE.Object3D) => {
-          const mesh = obj as THREE.Mesh
-          mesh.geometry?.dispose()
-          if (mesh.material) {
-            if (Array.isArray(mesh.material))
-              mesh.material.forEach((m: THREE.Material) => m.dispose())
-            else mesh.material.dispose()
+          if (obj instanceof THREE.Mesh) {
+            const mesh = obj
+            mesh.geometry.dispose()
+            const mat = mesh.material
+            if (Array.isArray(mat)) mat.forEach((m) => m.dispose())
+            else mat.dispose()
           }
         })
       }
@@ -159,25 +159,21 @@ export default function SleepScreenThree({
       starMat = null
       starGeo = null
       starPoints = null
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      starLayers.forEach((p: any) => {
+      starLayers.forEach((p) => {
         if (sceneToClean) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ;(sceneToClean as any).remove(p)
+          sceneToClean.remove(p)
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ;(p.geometry as any).dispose()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const material: any = p.material
+        p.geometry.dispose()
+        const material = p.material
         if (Array.isArray(material)) {
-          material.forEach((m: any) => {
+          material.forEach((m) => {
             try {
               m.dispose()
             } catch {
               // Material already disposed
             }
           })
-        } else if (material) {
+        } else {
           try {
             material.dispose()
           } catch {
@@ -188,21 +184,18 @@ export default function SleepScreenThree({
       starLayers = []
 
       if (shooting.line && sceneToClean) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ;(sceneToClean as any).remove(shooting.line)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ;(shooting.line.geometry as any).dispose()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const lineMaterial: any = shooting.line.material
+        sceneToClean.remove(shooting.line)
+        shooting.line.geometry.dispose()
+        const lineMaterial = shooting.line.material
         if (Array.isArray(lineMaterial)) {
-          lineMaterial.forEach((m: any) => {
+          lineMaterial.forEach((m) => {
             try {
               m.dispose()
             } catch {
               // Material already disposed
             }
           })
-        } else if (lineMaterial) {
+        } else {
           try {
             lineMaterial.dispose()
           } catch {
@@ -555,7 +548,7 @@ export default function SleepScreenThree({
           const x1 = x0 + (80 + Math.random() * 110)
           const y1 = y0 - (45 + Math.random() * 70)
 
-          const arr = shooting.line!.geometry.attributes.position
+          const arr = shooting.line.geometry.attributes.position
             .array as Float32Array
           arr[0] = x0
           arr[1] = y0
@@ -563,7 +556,7 @@ export default function SleepScreenThree({
           arr[3] = x1
           arr[4] = y1
           arr[5] = z
-          shooting.line!.geometry.attributes.position.needsUpdate = true
+          shooting.line.geometry.attributes.position.needsUpdate = true
         }
 
         if (shooting.active && shooting.line) {

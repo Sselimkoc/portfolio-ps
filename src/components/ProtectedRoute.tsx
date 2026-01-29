@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { verifyPassword, checkAuthCookie } from './auth'
+import { checkAuthCookie, verifyPassword } from './auth'
 import SleepScreenThree from './sleep/SleepScreenThree'
 
 interface ProtectedRouteProps {

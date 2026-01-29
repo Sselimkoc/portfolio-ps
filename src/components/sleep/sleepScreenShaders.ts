@@ -80,7 +80,7 @@ export function createStarShaderMaterial(
 export function createPiscesStarMaterial(
   baseStarMat: THREE.ShaderMaterial
 ): THREE.ShaderMaterial {
-  const mat = baseStarMat.clone() as THREE.ShaderMaterial
+  const mat = baseStarMat.clone()
 
   mat.uniforms = {
     ...baseStarMat.uniforms,

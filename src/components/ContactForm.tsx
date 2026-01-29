@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Send, Mail, User, MessageSquare } from 'lucide-react'
+import { Mail, MessageSquare, Send, User } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
 const RATE_LIMIT_KEY = 'contact_last_send'
