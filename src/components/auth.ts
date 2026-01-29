@@ -54,15 +54,8 @@ export const verifyPassword = createServerFn({ method: 'POST' }).handler(
       if (isPasswordValid) {
         // Success - clear attempts and set HTTP-only cookie
         loginAttempts.delete(ip)
-        
-        // Set HTTP-only cookie for 24 hours
-        const response = new Response(JSON.stringify({ success: true }), {
-          headers: {
-            'Set-Cookie': `tedi_auth=verified; Path=/; Max-Age=86400; HttpOnly; Secure; SameSite=Strict`,
-            'Content-Type': 'application/json',
-          },
-        })
-        
+
+        // Note: cookie should be set by the route/server layer. Here we just return success.
         return { success: true }
       } else {
         // Failed - increment attempts
@@ -91,15 +84,15 @@ export async function hashPassword(password: string): Promise<string> {
 
 // Check if user is authenticated via cookie
 export const checkAuthCookie = createServerFn({ method: 'GET' }).handler(
-  async ({ request }: any) => {
+  ({ request }: any) => {
     try {
       const cookie = request.headers.get('cookie')
-      
+
       // Check if tedi_auth cookie exists and is set to "verified"
       if (!cookie || !cookie.includes('tedi_auth=verified')) {
         return { authenticated: false }
       }
-      
+
       return { authenticated: true }
     } catch (error) {
       console.error('Auth check error:', error)

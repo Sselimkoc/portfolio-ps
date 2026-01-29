@@ -78,12 +78,14 @@ export default function PowerOff({ onPowerOn }: PowerOffProps) {
             key={star.id}
             className="absolute rounded-full bg-white"
             variants={starVariants}
-            style={{
-              left: `${star.left}%`,
-              top: `${star.top}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-            }}
+            style={
+              {
+                left: `${star.left}%`,
+                top: `${star.top}%`,
+                width: `${star.size}px`,
+                height: `${star.size}px`,
+              } as React.CSSProperties
+            }
             animate={{
               opacity: [0.3, 1, 0.3],
             }}

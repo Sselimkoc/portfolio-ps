@@ -76,7 +76,9 @@ interface WallpaperSelectorProps {
 export default function WallpaperSelector({ onApply }: WallpaperSelectorProps) {
   const { t } = useTranslation()
   const [selectedId, setSelectedId] = useState<string>(() =>
-    typeof window === 'undefined' ? 'default' : localStorage.getItem(WALLPAPER_KEY) || 'default',
+    typeof window === 'undefined'
+      ? 'default'
+      : localStorage.getItem(WALLPAPER_KEY) || 'default',
   )
   const [appliedId, setAppliedId] = useState<string>(selectedId)
 
@@ -95,10 +97,7 @@ export default function WallpaperSelector({ onApply }: WallpaperSelectorProps) {
 
     const isGradient = wallpaper.url.startsWith('linear-gradient(')
     const applyCssVar = (val: string) =>
-      document.documentElement.style.setProperty(
-        '--wallpaper-image',
-        val,
-      )
+      document.documentElement.style.setProperty('--wallpaper-image', val)
 
     if (isGradient) {
       applyCssVar(wallpaper.url)

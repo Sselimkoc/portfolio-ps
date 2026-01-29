@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { AnimatePresence, motion } from 'framer-motion'
 
 type SkillGroup = {
@@ -12,7 +11,7 @@ export default function SkillsPalette({
 }: {
   groups: Array<SkillGroup>
 }) {
-  const { t } = useTranslation()
+  // No translation use needed here
   const [selectedGroup, setSelectedGroup] = useState<SkillGroup | null>(
     groups[0] || null,
   )

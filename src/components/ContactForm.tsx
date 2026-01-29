@@ -82,10 +82,10 @@ export default function ContactForm() {
       if (import.meta.env.DEV) {
         console.log('Email sent successfully:', result)
       }
-      
+
       // Save timestamp for rate limiting
       localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString())
-      
+
       setStatus('success')
 
       setTimeout(() => {
@@ -259,7 +259,9 @@ export default function ContactForm() {
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    {t('apps.contact.ratelimit', { seconds: rateLimitRemaining })}
+                    {t('apps.contact.ratelimit', {
+                      seconds: rateLimitRemaining,
+                    })}
                   </>
                 ) : status === 'error' ? (
                   <>

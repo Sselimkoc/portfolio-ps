@@ -64,7 +64,8 @@ export default function Dock({
           const Icon = dockApp.icon
           const isHovered = hoveredApp === dockApp.id
           const appWindow = openWindows.find((w) => w.id === dockApp.id)
-          const isActive = !!appWindow && appWindow.isOpen && !appWindow.isMinimized
+          const isActive =
+            !!appWindow && appWindow.isOpen && !appWindow.isMinimized
 
           return (
             <motion.div

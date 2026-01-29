@@ -1,7 +1,4 @@
-import React from 'react'
 import { Copy } from 'lucide-react'
-
-import { useTranslation } from 'react-i18next'
 
 type LinkRowProps = {
   icon: React.ElementType
@@ -20,7 +17,7 @@ export default function LinkRow({
   onCopy,
   onExternalLink,
 }: LinkRowProps) {
-  const { t } = useTranslation()
+  // Translation not used here; simple labels
 
   return (
     <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2">

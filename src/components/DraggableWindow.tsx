@@ -81,11 +81,7 @@ export default function DraggableWindow({
     onInteractionStart(e, action, edge)
   }
 
-  const springTransition = {
-    type: 'spring',
-    stiffness: 300,
-    damping: 30,
-  } as const
+  // Removed unused springTransition
 
   return (
     <motion.div

@@ -47,7 +47,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       const result = await verifyPassword({
         data: { password } as any,
       })
-      
+
       console.log('Verification result:', result)
 
       if (result.success) {
