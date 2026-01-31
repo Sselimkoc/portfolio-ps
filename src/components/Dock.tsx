@@ -116,9 +116,6 @@ export default function Dock({
                     height: isHovered ? 64 : 56,
                   } as any
                 }
-                whileHover={{
-                  y: -8,
-                }}
                 whileTap={{ scale: 0.92 }}
                 transition={{
                   type: 'spring',
@@ -219,9 +216,6 @@ export default function Dock({
                     height: isHovered ? 52 : 44,
                   } as any
                 }
-                whileHover={{
-                  y: -6,
-                }}
                 whileTap={{ scale: 0.92 }}
                 transition={{
                   type: 'spring',

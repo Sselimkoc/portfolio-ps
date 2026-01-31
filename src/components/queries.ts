@@ -93,6 +93,16 @@ export const getPortfolioData = createServerFn({ method: 'POST' }).handler(
       return acc
     }, [])
 
+    // Skills'i frontend, backend, data sırasında sırala
+    const skillOrder = ['frontend', 'backend', 'data']
+    groupedSkills.sort((a: any, b: any) => {
+      const aIndex = skillOrder.indexOf(a.title.toLowerCase())
+      const bIndex = skillOrder.indexOf(b.title.toLowerCase())
+      const aPos = aIndex === -1 ? 999 : aIndex
+      const bPos = bIndex === -1 ? 999 : bIndex
+      return aPos - bPos
+    })
+
     return {
       profile,
       skills: groupedSkills,

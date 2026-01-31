@@ -105,7 +105,7 @@ export default function DraggableWindow({
       exit={{ opacity: 0, scale: 0.8, y: 20 }}
       transition={
         isInteracting
-          ? { type: 'tween', duration: 0.01 }
+          ? { duration: 0 }
           : { type: 'spring', stiffness: 300, damping: 30 }
       }
     >

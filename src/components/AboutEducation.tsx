@@ -23,7 +23,7 @@ export default function AboutEducation(props: AboutEducationProps) {
   return (
     <div className="h-full w-full overflow-y-auto flex flex-col">
       {/* CV Header - Top Section */}
-      <div className="bg-linear-to-b from-white/10 via-white/5 to-transparent sticky top-0 z-10">
+      <div className="sticky top-0 z-10">
         <div className="p-8 pb-6">
           <ProfileHeader {...props} />
         </div>

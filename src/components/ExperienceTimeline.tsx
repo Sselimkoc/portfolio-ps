@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type Item = {
@@ -11,23 +11,40 @@ type Item = {
 
 export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
   const { t } = useTranslation()
+
+  // En yeni deneyim önce gösterilsin diye reverse ediyoruz
+  const reversedItems = [...items].reverse()
+
   const [selectedItem, setSelectedItem] = useState<Item | null>(
-    items[0] || null,
+    reversedItems[0] || null,
   )
+  const [selectedIndex, setSelectedIndex] = useState<number>(0)
+
+  // Dil değiştiğinde seçili öğeyi güncelle
+  useEffect(() => {
+    if (reversedItems.length > 0) {
+      // Aynı index'teki öğeyi seç (mevcut seçimi koru)
+      const newItem = reversedItems[selectedIndex] || reversedItems[0]
+      setSelectedItem(newItem)
+    }
+  }, [items, selectedIndex])
 
   return (
     <div className="h-full w-full overflow-hidden flex">
       {/* Timeline - Left Side */}
       <div className="w-72 border-r border-white/10 overflow-y-auto">
         <div className="p-4 space-y-2">
-          {items.map((item, index) => (
+          {reversedItems.map((item, index) => (
             <button
               key={`${item.company}-${index}`}
-              onClick={() => setSelectedItem(item)}
+              onClick={() => {
+                setSelectedItem(item)
+                setSelectedIndex(index)
+              }}
               className={`
                 w-full text-left py-3 px-3 rounded-lg transition-all duration-200
                 ${
-                  selectedItem === item
+                  selectedIndex === index
                     ? 'bg-white/12 border border-white/20 text-white'
                     : 'text-white/60 hover:text-white/80 hover:bg-white/6'
                 }
@@ -40,13 +57,13 @@ export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
                     className={`
                       w-2.5 h-2.5 rounded-full transition-all
                       ${
-                        selectedItem === item
+                        selectedIndex === index
                           ? 'bg-white ring-2 ring-white/30'
                           : 'bg-white/30'
                       }
                     `}
                   />
-                  {index < items.length - 1 && (
+                  {index < reversedItems.length - 1 && (
                     <div className="absolute top-2.5 left-1 w-0.5 h-10 bg-gradient-to-b from-white/20 to-transparent" />
                   )}
                 </div>

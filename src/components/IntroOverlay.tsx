@@ -84,13 +84,15 @@ export default function IntroOverlay({
           className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.8 } }}
+          exit={{ opacity: 0, transition: { duration: 0.5 } }}
+          suppressHydrationWarning
         >
           {/* Arka Plan: Hafif scale efekti ile nefes alma hissi */}
           <motion.div
             className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-purple-400/35 via-purple-500/25 to-purple-600/40 backdrop-blur-[20px]"
             initial={{ scale: 1.1, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: 'easeOut' }}
             onMouseDown={onSkipIntro}
           />
@@ -101,9 +103,9 @@ export default function IntroOverlay({
             className="fixed top-6 right-6 z-20 px-4 py-2.5 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 text-white font-semibold text-sm flex items-center gap-2 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
             transition={{
-              duration: 0.6,
-              delay: 0.5,
+              duration: 0.4,
               ease: [0.2, 0.65, 0.3, 0.9] as any,
             }}
             whileHover={{ y: -2 }}

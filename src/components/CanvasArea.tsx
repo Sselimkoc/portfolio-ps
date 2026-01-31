@@ -44,11 +44,8 @@ export default function CanvasArea() {
   const [data, setData] = useState(initialData)
   const canvasRef = useRef<HTMLDivElement>(null)
   const [showDockHint, setShowDockHint] = useState(false)
-  const [showIntro, setShowIntro] = useState(() => {
-    // Initialize from localStorage to avoid hydration mismatch
-    if (typeof window === 'undefined') return false
-    return localStorage.getItem(INTRO_KEY) !== '1'
-  })
+  // Start with true for first-time visitors, useEffect will hide if needed
+  const [showIntro, setShowIntro] = useState(true)
   const [isSleeping, setIsSleeping] = useState(false)
   const [warningDialog, setWarningDialog] = useState<{
     isOpen: boolean
@@ -56,6 +53,16 @@ export default function CanvasArea() {
     message: string
     url: string
   }>({ isOpen: false, title: '', message: '', url: '' })
+
+  // Check localStorage after mount - hide intro if already seen
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hasSeenIntro = localStorage.getItem(INTRO_KEY) === '1'
+      if (hasSeenIntro) {
+        setShowIntro(false)
+      }
+    }
+  }, [])
 
   // Background is controlled via CSS variable on :root (see styles.css)
 
@@ -130,30 +137,24 @@ export default function CanvasArea() {
 
       let updatedWindows: Array<OpenWindowState>
 
-      // macOS dock behavior: toggle minimize
+      // Pencere açık ve görünürse → focus yap (bring to front)
       if (window.isOpen && !window.isMinimized) {
-        // Pencere açık ve görünürse → minimize et
-        updatedWindows = prev.map((w) =>
-          w.id === appId ? { ...w, isMinimized: true } : w,
-        )
+        // Sadece z-index'i değiştir (en öne getir)
+        const windowToMove = prev.find((w) => w.id === appId)!
+        const otherWindows = prev.filter((w) => w.id !== appId)
+        return [...otherWindows, windowToMove]
       } else {
         // Pencere minimize veya kapalıysa → aç
         updatedWindows = prev.map((w) =>
           w.id === appId ? { ...w, isOpen: true, isMinimized: false } : w,
         )
-      }
 
-      // Bring to front when opening
-      if (!window.isMinimized || !window.isOpen) {
+        // Bring to front when opening
         const windowToMove = updatedWindows.find((w) => w.id === appId)!
         const otherWindows = updatedWindows.filter((w) => w.id !== appId)
         return [...otherWindows, windowToMove]
       }
-      return updatedWindows
     })
-
-    // Bring to front in z-index
-    bringToFront(appId)
   }
 
   const handleCloseWindow = (appId: string) => {
@@ -221,12 +222,12 @@ export default function CanvasArea() {
       icon: apps.find((a) => a.id === 'wallpaper')?.icon || MailQuestion,
       onOpen: handleOpenWindow,
     },
-    {
-      id: 'puzzle',
-      title: 'apps.puzzle.title',
-      icon: apps.find((a) => a.id === 'puzzle')?.icon || MailQuestion,
-      onOpen: handleOpenWindow,
-    },
+    // {
+    //   id: 'puzzle',
+    //   title: 'apps.puzzle.title',
+    //   icon: apps.find((a) => a.id === 'puzzle')?.icon || MailQuestion,
+    //   onOpen: handleOpenWindow,
+    // },
   ]
 
   return (
@@ -304,7 +305,7 @@ export default function CanvasArea() {
                     <ExperienceTimeline items={data.experience} />
                   )}
                   {app.id === 'wallpaper' && <WallpaperSelector />}
-                  {app.id === 'puzzle' && <SlidingPuzzle />}
+                  {/* {app.id === 'puzzle' && <SlidingPuzzle />} */}
                   {app.id === 'contact' && <ContactForm />}
                   {![
                     'about',
@@ -312,7 +313,7 @@ export default function CanvasArea() {
                     'projects',
                     'experience',
                     'wallpaper',
-                    'puzzle',
+                    // 'puzzle',
                     'contact',
                   ].includes(app.id) && (
                     <div className="p-5 text-white/80">{t(app.content)}</div>

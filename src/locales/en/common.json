@@ -117,17 +117,14 @@
     }
   },
   "wallpapers": {
-    "default": "Default",
-    "desktopBg": "Desktop Bg",
-    "cat": "Railroad Cat",
-    "custom": "Custom",
-    "dark": "Dark Blue",
-    "purple": "Purple Dreams",
-    "sunset": "Sunset",
-    "ocean": "Ocean",
-    "forest": "Forest",
+    "abstractSwirls": "Abstract Swirls",
+    "swirls": "Swirls",
+    "railroadCat": "Railroad Cat",
     "windowsXp": "Windows XP",
-    "trippy": "Trippy"
+    "cosmicPurple": "Cosmic Purple",
+    "deepBlue": "Deep Ocean Blue",
+    "violetDream": "Violet Dream",
+    "emeraldForest": "Emerald Forest"
   },
   "admin": {
     "title": "Admin Panel",

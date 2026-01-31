@@ -13,19 +13,19 @@ interface Wallpaper {
 const WALLPAPERS: Array<Wallpaper> = [
   {
     id: 'default',
-    name: 'wallpapers.default',
+    name: 'wallpapers.abstractSwirls',
     url: '/desktop-bg2.jpg',
     thumbnail: '/desktop-bg2.jpg',
   },
   {
     id: 'desktop-bg',
-    name: 'wallpapers.desktopBg',
+    name: 'wallpapers.swirls',
     url: '/desktop-bg.jpg',
     thumbnail: '/desktop-bg.jpg',
   },
   {
     id: 'cat',
-    name: 'wallpapers.cat',
+    name: 'wallpapers.railroadCat',
     url: '/railroad-cat.png',
     thumbnail: '/railroad-cat.png',
   },
@@ -37,31 +37,25 @@ const WALLPAPERS: Array<Wallpaper> = [
   },
   {
     id: 'trippy',
-    name: 'wallpapers.trippy',
+    name: 'wallpapers.cosmicPurple',
     url: '/trippy-purple.png',
     thumbnail: '/trippy-purple.png',
   },
   {
     id: 'dark',
-    name: 'wallpapers.dark',
+    name: 'wallpapers.deepBlue',
     url: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
     thumbnail: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
   },
   {
     id: 'purple',
-    name: 'wallpapers.purple',
+    name: 'wallpapers.violetDream',
     url: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     thumbnail: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   },
   {
-    id: 'sunset',
-    name: 'wallpapers.sunset',
-    url: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    thumbnail: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-  },
-  {
     id: 'forest',
-    name: 'wallpapers.forest',
+    name: 'wallpapers.emeraldForest',
     url: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
     thumbnail: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
   },
@@ -107,11 +101,18 @@ export default function WallpaperSelector({ onApply }: WallpaperSelectorProps) {
 
     // Preload the image before switching the background to avoid flash
     const img = new Image()
-    img.src = wallpaper.url
+    img.loading = 'eager'
     img.onload = () => {
       applyCssVar(`url(${wallpaper.url})`)
       onApply?.(wallpaper)
     }
+    img.onerror = () => {
+      console.warn(`Failed to load wallpaper: ${wallpaper.url}`)
+      // Fallback to apply anyway in case of error
+      applyCssVar(`url(${wallpaper.url})`)
+      onApply?.(wallpaper)
+    }
+    img.src = wallpaper.url
   }
 
   return (
@@ -135,15 +136,15 @@ export default function WallpaperSelector({ onApply }: WallpaperSelectorProps) {
                       ? 'ring-white/60'
                       : 'ring-white/20'
                   }`}
-                  style={
-                    wallpaper.thumbnail.includes('gradient')
+                  style={{
+                    ...(wallpaper.thumbnail.includes('gradient')
                       ? { background: wallpaper.thumbnail }
                       : {
                           backgroundImage: `url(${wallpaper.thumbnail})`,
                           backgroundSize: 'cover',
                           backgroundPosition: 'center',
-                        }
-                  }
+                        }),
+                  }}
                 >
                   {/* Check mark indicator */}
                   {appliedId === wallpaper.id && (

@@ -104,6 +104,7 @@ export default function TopBar({
                 ? 'text-white bg-white/25'
                 : 'text-white/50 hover:text-white/70'
             }`}
+            aria-pressed={i18n.language === 'en'}
           >
             EN
           </button>
@@ -114,6 +115,7 @@ export default function TopBar({
                 ? 'text-white bg-white/25'
                 : 'text-white/50 hover:text-white/70'
             }`}
+            aria-pressed={i18n.language === 'tr'}
           >
             TR
           </button>

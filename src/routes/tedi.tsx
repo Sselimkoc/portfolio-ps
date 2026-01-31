@@ -718,14 +718,12 @@ function AdminPanel() {
               />
               <textarea
                 placeholder={t('admin.experience.bulletsPlaceholder')}
-                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 h-20"
+                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 h-20 resize-y"
                 value={newExperience?.bullets?.join('\n') || ''}
                 onChange={(e) =>
                   setNewExperience((prev: any) => ({
                     ...prev,
-                    bullets: e.target.value
-                      .split('\n')
-                      .filter((b: string) => b.trim()),
+                    bullets: e.target.value.split('\n'),
                   }))
                 }
               />

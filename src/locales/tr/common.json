@@ -21,19 +21,19 @@
     "fullMessage": "Sanırım kayboldunuz...\nGeri dönmek için buraya tıklayın"
   },
   "profile": {
-    "aboutTitle": "Hakkımda",
-    "educationTitle": "Eğitim",
+    "aboutTitle": "HAKKIMDA",
+    "educationTitle": "EĞİTİM",
     "endProfile": "Profilin Sonu"
   },
   "projects": {
-    "description": "Açıklama",
-    "technologies": "Teknolojiler",
+    "description": "AÇIKLAMA",
+    "technologies": "TEKNOLOJİLER",
     "viewProject": "Projeyi Gör",
     "selectProject": "Bir proje seçin"
   },
   "experience": {
-    "details": "Dönem ve Konum",
-    "achievements": "Temel Görevler",
+    "details": "DÖNEM VE KONUM",
+    "achievements": "TEMEL GÖREVLER",
     "selectItem": "Bir deneyim seçin"
   },
   "hero": {
@@ -94,13 +94,13 @@
       "title": "İletişim",
       "content": "Bana şu adresten ulaşabilirsiniz: selokoc1@gmail.com",
       "description": "Aşağıdaki formu doldurarak benimle iletişime geçebilirsiniz. Lütfen size geri dönebilmem için e-posta adresinizi doğru girdiğinizden emin olun.",
-      "name": "Isim",
+      "name": "İSİM",
       "namePlaceholder": "Adınız Soyadınız",
-      "email": "E-posta Adresiniz",
+      "email": "E-POSTA ADRESİNİZ",
       "emailPlaceholder": "ornek@email.com",
-      "subject": "Konu",
+      "subject": "KONU",
       "subjectPlaceholder": "Mesajınızın konusu",
-      "message": "Mesaj",
+      "message": "MESAJ",
       "messagePlaceholder": "Mesajınızı buraya yazın...",
       "send": "Gönder",
       "sending": "Gönderiliyor...",
@@ -117,17 +117,14 @@
     }
   },
   "wallpapers": {
-    "default": "Varsayılan",
-    "desktopBg": "Desktop Bg",
-    "cat": "Tren Kedisi",
-    "custom": "Özel",
-    "dark": "Koyu Mavi",
-    "purple": "Mor Rüyalar",
-    "sunset": "Gün Batımı",
-    "ocean": "Okyanus",
-    "forest": "Orman",
+    "abstractSwirls": "Soyut Girdaplar",
+    "swirls": "Girdaplar",
+    "railroadCat": "Tren Kedisi",
     "windowsXp": "Windows XP",
-    "trippy": "Trippy"
+    "cosmicPurple": "Kozmik Mor",
+    "deepBlue": "Derin Okyanus Mavisi",
+    "violetDream": "Mor Rüya",
+    "emeraldForest": "Zümrüt Orman"
   },
   "admin": {
     "title": "Yönetim Paneli",

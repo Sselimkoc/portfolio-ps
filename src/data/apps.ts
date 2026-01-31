@@ -1,4 +1,4 @@
-import { Briefcase, Clock, Code2, FileText, Image, Mail, Puzzle } from 'lucide-react'
+import { Binary, Briefcase, FolderGit2, Image, Mail, Puzzle, User } from 'lucide-react'
 import type React from 'react'
 
 export interface App {
@@ -15,7 +15,7 @@ export const apps: Array<App> = [
     id: 'about',
     title: 'apps.about.title',
     content: 'apps.about.content',
-    icon: FileText,
+    icon: User,
     defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 80, y: 60 },
   },
@@ -23,7 +23,7 @@ export const apps: Array<App> = [
     id: 'projects',
     title: 'apps.projects.title',
     content: 'apps.projects.content',
-    icon: Briefcase,
+    icon: FolderGit2,
     defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 150, y: 80 },
   },
@@ -31,7 +31,7 @@ export const apps: Array<App> = [
     id: 'skills',
     title: 'apps.skills.title',
     content: 'apps.skills.content',
-    icon: Code2,
+    icon: Binary,
     defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 80, y: 150 },
   },
@@ -39,7 +39,7 @@ export const apps: Array<App> = [
     id: 'experience',
     title: 'apps.experience.title',
     content: 'apps.experience.content',
-    icon: Clock,
+    icon: Briefcase,
     defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 150, y: 100 },
   },
@@ -51,14 +51,14 @@ export const apps: Array<App> = [
     defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 150, y: 100 },
   },
-  {
-    id: 'puzzle',
-    title: 'apps.puzzle.title',
-    content: 'apps.puzzle.content',
-    icon: Puzzle,
-    defaultSize: { width: 900, height: 550 },
-    defaultPosition: { x: 350, y: 80 },
-  },
+  // {
+  //   id: 'puzzle',
+  //   title: 'apps.puzzle.title',
+  //   content: 'apps.puzzle.content',
+  //   icon: Puzzle,
+  //   defaultSize: { width: 900, height: 550 },
+  //   defaultPosition: { x: 350, y: 80 },
+  // },
   {
     id: 'contact',
     title: 'apps.contact.title',

@@ -44,7 +44,6 @@ export default function ProfileHeader({
         {[
           { href: githubUrl, icon: Github, label: 'GitHub' },
           { href: linkedinUrl, icon: Linkedin, label: 'LinkedIn' },
-          { href: `mailto:${email}`, icon: Mail, label: 'Email' },
         ].map(({ href, icon: Icon, label }) => (
           <a
             key={label}
@@ -53,10 +52,7 @@ export default function ProfileHeader({
             rel="noreferrer"
             aria-label={label}
             onClick={(e) => {
-              if (
-                (label === 'GitHub' || label === 'LinkedIn') &&
-                onExternalLink
-              ) {
+              if (onExternalLink) {
                 e.preventDefault()
                 onExternalLink(href)
               }
