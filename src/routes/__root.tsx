@@ -43,14 +43,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               try {
                 var key = localStorage.getItem('portfolio:wallpaper') || 'default';
                 var MAP = {
-                  default: '/desktop-bg2.jpg',
-                  'desktop-bg': '/desktop-bg.jpg',
-                  cat: '/railroad-cat.png',
-                  windowsXp: '/windows-xp.jpg',
-                  trippy: '/trippy-purple.png',
+                  default: '/wallpapers/abstract-swirls.webp',
+                  'desktop-bg': '/wallpapers/swirls.webp',
+                  cat: '/wallpapers/railroad-cat.webp',
+                  windowsXp: '/wallpapers/windows-xp.webp',
+                  trippy: '/wallpapers/cosmic-purple.webp',
                   dark: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
                   purple: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  sunset: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
                   ocean: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
                   forest: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)'
                 };

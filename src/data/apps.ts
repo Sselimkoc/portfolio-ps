@@ -17,7 +17,7 @@ export const apps: Array<App> = [
     content: 'apps.about.content',
     icon: User,
     defaultSize: { width: 900, height: 550 },
-    defaultPosition: { x: 80, y: 60 },
+    defaultPosition: { x: 210, y: 60 },
   },
   {
     id: 'projects',
@@ -25,7 +25,7 @@ export const apps: Array<App> = [
     content: 'apps.projects.content',
     icon: FolderGit2,
     defaultSize: { width: 900, height: 550 },
-    defaultPosition: { x: 150, y: 80 },
+    defaultPosition: { x: 290, y: 110 },
   },
   {
     id: 'skills',
@@ -33,7 +33,7 @@ export const apps: Array<App> = [
     content: 'apps.skills.content',
     icon: Binary,
     defaultSize: { width: 900, height: 550 },
-    defaultPosition: { x: 80, y: 150 },
+    defaultPosition: { x: 370, y: 160 },
   },
   {
     id: 'experience',
@@ -41,7 +41,15 @@ export const apps: Array<App> = [
     content: 'apps.experience.content',
     icon: Briefcase,
     defaultSize: { width: 900, height: 550 },
-    defaultPosition: { x: 150, y: 100 },
+    defaultPosition: { x: 450, y: 210 },
+  },
+  {
+    id: 'contact',
+    title: 'apps.contact.title',
+    content: 'apps.contact.content',
+    icon: Mail,
+    defaultSize: { width: 900, height: 550 },
+    defaultPosition: { x: 530, y: 260 },
   },
   {
     id: 'wallpaper',
@@ -49,22 +57,6 @@ export const apps: Array<App> = [
     content: 'apps.wallpaper.content',
     icon: Image,
     defaultSize: { width: 900, height: 550 },
-    defaultPosition: { x: 150, y: 100 },
-  },
-  // {
-  //   id: 'puzzle',
-  //   title: 'apps.puzzle.title',
-  //   content: 'apps.puzzle.content',
-  //   icon: Puzzle,
-  //   defaultSize: { width: 900, height: 550 },
-  //   defaultPosition: { x: 350, y: 80 },
-  // },
-  {
-    id: 'contact',
-    title: 'apps.contact.title',
-    content: 'apps.contact.content',
-    icon: Mail,
-    defaultSize: { width: 900, height: 550 },
-    defaultPosition: { x: 200, y: 100 },
+    defaultPosition: { x: 400, y: 120 },
   },
 ]

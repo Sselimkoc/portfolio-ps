@@ -12,19 +12,19 @@ type Item = {
 export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
   const { t } = useTranslation()
 
-  // En yeni deneyim önce gösterilsin diye reverse ediyoruz
-  const reversedItems = [...items].reverse()
+  // Deneyimler eski tarihten yeniye doğru sıralanıyor
+  const orderedItems = [...items]
 
   const [selectedItem, setSelectedItem] = useState<Item | null>(
-    reversedItems[0] || null,
+    orderedItems[0] || null,
   )
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
 
   // Dil değiştiğinde seçili öğeyi güncelle
   useEffect(() => {
-    if (reversedItems.length > 0) {
+    if (orderedItems.length > 0) {
       // Aynı index'teki öğeyi seç (mevcut seçimi koru)
-      const newItem = reversedItems[selectedIndex] || reversedItems[0]
+      const newItem = orderedItems[selectedIndex] || orderedItems[0]
       setSelectedItem(newItem)
     }
   }, [items, selectedIndex])
@@ -34,7 +34,7 @@ export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
       {/* Timeline - Left Side */}
       <div className="w-72 border-r border-white/10 overflow-y-auto">
         <div className="p-4 space-y-2">
-          {reversedItems.map((item, index) => (
+          {orderedItems.map((item, index) => (
             <button
               key={`${item.company}-${index}`}
               onClick={() => {
@@ -63,7 +63,7 @@ export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
                       }
                     `}
                   />
-                  {index < reversedItems.length - 1 && (
+                  {index < orderedItems.length - 1 && (
                     <div className="absolute top-2.5 left-1 w-0.5 h-10 bg-gradient-to-b from-white/20 to-transparent" />
                   )}
                 </div>
