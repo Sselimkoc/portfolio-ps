@@ -42,7 +42,8 @@
     "subtitle": "Software Engineer · Full-Stack Developer",
     "description": "Problem çözmeyi, sistem tasarlamayı ve ürünü uçtan uca geliştirmeyi seviyorum.",
     "clickToContinue": "Deneyimi başlat",
-    "desktopNotice": "Bu site masaüstü için tasarlanmıştır. En iyi deneyim için tam ekrana alınız (F11)"
+    "desktopNotice": "Bu site masaüstü için tasarlanmıştır. En iyi deneyim için tam ekrana alınız (F11)",
+    "underConstruction": "Yapım Aşamasında..."
   },
   "dock": {
     "hint": "Bir uygulamayı açmak için tıklayın"
@@ -117,7 +118,7 @@
     }
   },
   "wallpapers": {
-    "abstractSwirls": "Soyut Girdaplar",
+    "default": "Varsayılan",
     "swirls": "Girdaplar",
     "railroadCat": "Kedi",
     "windowsXp": "Windows XP",

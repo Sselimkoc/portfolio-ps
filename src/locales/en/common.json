@@ -42,7 +42,8 @@
     "subtitle": "Software Engineer · Full-Stack Developer",
     "description": "I love solving problems, designing systems, and developing products end-to-end.",
     "clickToContinue": "Start the experience",
-    "desktopNotice": "Designed for desktop. For best experience, view in fullscreen (F11)"
+    "desktopNotice": "Designed for desktop. For best experience, view in fullscreen (F11)",
+    "underConstruction": "Work in Progress..."
   },
   "dock": {
     "hint": "Click on an app to open it"
@@ -117,7 +118,7 @@
     }
   },
   "wallpapers": {
-    "abstractSwirls": "Abstract Swirls",
+    "default": "Default",
     "swirls": "Swirls",
     "railroadCat": "Cat",
     "windowsXp": "Windows XP",

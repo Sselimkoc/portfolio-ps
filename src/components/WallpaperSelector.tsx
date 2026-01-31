@@ -13,7 +13,7 @@ interface Wallpaper {
 const WALLPAPERS: Array<Wallpaper> = [
   {
     id: 'default',
-    name: 'wallpapers.abstractSwirls',
+    name: 'wallpapers.default',
     url: '/wallpapers/abstract-swirls.webp',
     thumbnail: '/wallpapers/abstract-swirls-thumb.webp',
   },
