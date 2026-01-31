@@ -1,6 +1,17 @@
 import { createServerFn } from '@tanstack/react-start'
 import { compare, hash } from 'bcryptjs'
-import { prisma } from './queries'
+
+// Dynamic prisma import to prevent client bundling
+async function initializePrisma() {
+  const isServer = typeof window === 'undefined'
+  if (!isServer) return null
+  
+  const { PrismaNeon } = await import('@prisma/adapter-neon')
+  const { PrismaClient } = await import('@prisma/client')
+  
+  const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! })
+  return new PrismaClient({ adapter })
+}
 
 // Rate limiting storage (in-memory)
 const loginAttempts = new Map<string, { count: number; lastAttempt: number }>()
@@ -42,6 +53,11 @@ export const verifyPassword = createServerFn({ method: 'POST' }).handler(
       }
 
       // Get the stored password hash from database
+      const prisma = await initializePrisma()
+      if (!prisma) {
+        return { error: 'Database not available' }
+      }
+      
       const auth = await prisma.adminAuth.findFirst()
 
       if (!auth) {

@@ -1,7 +1,4 @@
 import { createServerFn } from '@tanstack/react-start'
-import { PrismaNeon } from '@prisma/adapter-neon'
-// Import runtime instance
-import { PrismaClient as PrismaCtor } from '@prisma/client'
 
 export type ProfilePayload = {
   id?: number
@@ -60,19 +57,24 @@ const globalForPrisma = globalThis as unknown as { prisma?: any }
 
 let prismaClient: any = globalForPrisma.prisma
 
-if (isServer && !prismaClient) {
-  const adapter = new PrismaNeon({ connectionString: databaseUrl! })
-  prismaClient = new PrismaCtor({ adapter })
+async function initializePrisma() {
+  if (isServer && !prismaClient) {
+    const { PrismaNeon } = await import('@prisma/adapter-neon')
+    const { PrismaClient } = await import('@prisma/client')
+    
+    const adapter = new PrismaNeon({ connectionString: databaseUrl! })
+    prismaClient = new PrismaClient({ adapter })
 
-  if (process.env.NODE_ENV !== 'production') {
-    globalForPrisma.prisma = prismaClient
+    if (process.env.NODE_ENV !== 'production') {
+      globalForPrisma.prisma = prismaClient
+    }
   }
+  return prismaClient
 }
-
-export const prisma = prismaClient
 
 export const getPortfolioData = createServerFn({ method: 'POST' }).handler(
   async ({ data }: any) => {
+    const prisma = await initializePrisma()
     const language = (data?.language || 'tr') as string
     const [profile, skills, projects, experience] = await Promise.all([
       prisma.profile.findFirst({ where: { language } }),
@@ -103,6 +105,7 @@ export const getPortfolioData = createServerFn({ method: 'POST' }).handler(
 
 export const updateProfile = createServerFn({ method: 'POST' }).handler(
   async ({ data }: any) => {
+    const prisma = await initializePrisma()
     const payload = data as unknown as ProfilePayload
     const { id, language, ...rest } = payload
     const lang = language || 'tr'
@@ -126,34 +129,39 @@ export const updateProfile = createServerFn({ method: 'POST' }).handler(
 )
 
 export const addSkill = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
+    const prisma = await initializePrisma()
     const payload = data as unknown as SkillPayload
     return prisma.skill.create({ data: payload })
   },
 )
 
 export const deleteSkill = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
+    const prisma = await initializePrisma()
     const { id } = data as unknown as IdentifiedRecord
     return prisma.skill.delete({ where: { id } })
   },
 )
 
 export const addProject = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
+    const prisma = await initializePrisma()
     return prisma.project.create({ data: data as unknown as Record<string, any> })
   },
 )
 
 export const deleteProject = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
+    const prisma = await initializePrisma()
     const { id } = data as unknown as IdentifiedRecord
     return prisma.project.delete({ where: { id } })
   },
 )
 
 export const updateProject = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
+    const prisma = await initializePrisma()
     const payload = data as unknown as ProjectPayload
     const { id, ...rest } = payload
     return prisma.project.update({
@@ -164,20 +172,23 @@ export const updateProject = createServerFn({ method: 'POST' }).handler(
 )
 
 export const addExperience = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
+    const prisma = await initializePrisma()
     return prisma.experience.create({ data: data as unknown as Record<string, any> })
   },
 )
 
 export const deleteExperience = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
+    const prisma = await initializePrisma()
     const { id } = data as unknown as IdentifiedRecord
     return prisma.experience.delete({ where: { id } })
   },
 )
 
 export const updateExperience = createServerFn({ method: 'POST' }).handler(
-  ({ data }: any) => {
+  async ({ data }: any) => {
+    const prisma = await initializePrisma()
     const payload = data as unknown as ExperiencePayload
     const { id, ...rest } = payload
     return prisma.experience.update({
