@@ -16,10 +16,18 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Selim Koç — Full Stack Developer',
+      },
+      {
+        name: 'description',
+        content: 'Full Stack Developer specializing in Next.js, scalable web apps, and AI-driven systems.',
       },
     ],
     links: [
+      {
+        rel: 'icon',
+        href: '/sk.png',
+      },
       {
         rel: 'stylesheet',
         href: appCss,
@@ -63,6 +71,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="h-screen w-full flex flex-col">
         <div className="flex-1 flex flex-col">{children}</div>
+        <footer className="w-full py-2 text-center text-xs text-white/50 bg-black z-50">
+          &copy; Selim Koç
+        </footer>
         <TanStackDevtools
           config={{
             position: 'bottom-right',
