@@ -71,7 +71,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="h-screen w-full flex flex-col">
         <div className="flex-1 flex flex-col">{children}</div>
-        <footer className="w-full py-2 text-center text-xs text-white/50 bg-black z-50">
+        <footer className="fixed bottom-3 right-4 z-50 text-xs text-white/40 font-medium tracking-wide drop-shadow-md">
           &copy; Selim Koç
         </footer>
         <TanStackDevtools
