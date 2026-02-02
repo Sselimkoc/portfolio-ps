@@ -1,5 +1,5 @@
 import { ExternalLink } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 type Project = {
@@ -23,6 +23,10 @@ export default function ProjectsGallery({
   const [selectedProject, setSelectedProject] = useState<Project | null>(
     reversedProjects[0] || null,
   )
+
+  useEffect(() => {
+    setSelectedProject(reversedProjects[0] || null)
+  }, [projects])
 
   return (
     <div className="h-full w-full overflow-hidden flex">

@@ -64,6 +64,21 @@ export default function CanvasArea() {
     }
   }, [])
 
+  // Update data when language changes
+  useEffect(() => {
+    const updateData = async () => {
+      try {
+        const newData = await (getPortfolioData as any)({
+          data: { language: i18n.language },
+        })
+        setData(newData)
+      } catch (error) {
+        console.error('Failed to update portfolio data:', error)
+      }
+    }
+    updateData()
+  }, [i18n.language])
+
   // Background is controlled via CSS variable on :root (see styles.css)
 
   const [openWindows, setOpenWindows] = useState<Array<OpenWindowState>>(
