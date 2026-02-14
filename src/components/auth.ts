@@ -88,7 +88,7 @@ export const verifyPassword = createServerFn({ method: 'POST' }).handler(
         const cookieParts = [
           'tedi_auth=verified',
           'Path=/',
-          'Max-Age=86400',
+          'Max-Age=3600',
           'HttpOnly',
           'SameSite=Strict',
         ]
