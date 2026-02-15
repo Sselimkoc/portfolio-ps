@@ -7,6 +7,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #000;
+  overflow: hidden;
 }
 
 /* Initial wallpaper variable with SSR-safe default */
@@ -19,6 +20,7 @@ body {
   background-image: var(--wallpaper-image);
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
 }
 
 #root {
@@ -27,6 +29,7 @@ body {
   height: 100%;
   width: 100%;
   background-color: #000;
+  overflow: hidden;
 }
 
 body {
