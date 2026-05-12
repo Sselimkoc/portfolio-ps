@@ -86,7 +86,7 @@ export default function DraggableWindow({
   return (
     <motion.div
       ref={windowRef}
-      className="fixed glass-window glass-window-shadow flex flex-col rounded-2xl overflow-hidden group"
+      className={`fixed glass-window flex flex-col overflow-hidden group ${isMaximized ? '' : 'rounded-2xl glass-window-shadow'}`}
       onMouseDown={() => onBringToFront(id)}
       style={
         {

@@ -4,6 +4,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import appCss from '../styles.css?url'
 import '../i18n/config'
+import MobileGate from '../components/MobileGate'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -27,6 +28,19 @@ export const Route = createRootRoute({
       {
         rel: 'icon',
         href: '/sk.png',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossOrigin: 'anonymous',
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap',
       },
       {
         rel: 'stylesheet',
@@ -70,6 +84,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body className="h-screen w-full flex flex-col">
+        <MobileGate />
         <div className="flex-1 flex flex-col">{children}</div>
         <footer className="fixed bottom-3 right-4 z-50 text-xs text-white/40 font-medium tracking-wide drop-shadow-md">
           &copy; Selim Koç

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface IntroOverlayProps {
@@ -12,7 +12,6 @@ export default function IntroOverlay({
   onSkipIntro,
 }: IntroOverlayProps) {
   const { t, i18n } = useTranslation()
-  const [showNotice, setShowNotice] = useState(true)
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'tr' : 'en'
@@ -29,14 +28,6 @@ export default function IntroOverlay({
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [showIntro, onSkipIntro])
-
-  useEffect(() => {
-    if (!showIntro) return
-    const timer = setTimeout(() => {
-      setShowNotice(false)
-    }, 5000) // 5 saniye sonra kaldır
-    return () => clearTimeout(timer)
-  }, [showIntro])
 
   // 1. Kapsayıcı Variant: İçindekileri sırayla tetikler (Stagger)
   const containerVariants = {
@@ -198,26 +189,6 @@ export default function IntroOverlay({
             </motion.div>
           </motion.div>
 
-          {/* Desktop Notice - Top Center "Dynamic Island" Style */}
-          <AnimatePresence>
-            {showNotice && (
-              <motion.div
-                className="fixed top-8 left-1/2 -translate-x-1/2 z-20 inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-black/40 backdrop-blur-2xl border border-white/15 shadow-2xl"
-                initial={{ opacity: 0, y: -20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                transition={{
-                  duration: 0.7,
-                  delay: 0.3,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              >
-                <p className="text-xs text-white/90 font-medium tracking-tight">
-                  {t('hero.desktopNotice')}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>

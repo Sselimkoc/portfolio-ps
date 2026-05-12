@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLoaderData } from '@tanstack/react-router'
-import { Github, Linkedin, MailQuestion } from 'lucide-react'
+import { GithubIcon, LinkedinIcon, MailQuestion } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { apps } from '../data/apps'
 import { getPortfolioData } from './queries'
@@ -17,7 +17,6 @@ import SkillsPalette from './SkillsPalette'
 import ProjectsGallery from './ProjectsGallery'
 import ExperienceTimeline from './ExperienceTimeline'
 import WallpaperSelector from './WallpaperSelector'
-import SlidingPuzzle from './SlidingPuzzle'
 import ContactForm from './ContactForm'
 import DesktopShortcuts from './DesktopShortcuts'
 import WarningDialog from './WarningDialog'
@@ -131,28 +130,39 @@ export default function CanvasArea() {
   }
   const handleOpenWindow = (appId: string) => {
     setOpenWindows((prev) => {
-      const window = prev.find((w) => w.id === appId)
-      if (!window) return prev
+      const win = prev.find((w) => w.id === appId)
+      if (!win) return prev
 
-      let updatedWindows: Array<OpenWindowState>
-
-      // Pencere açık ve görünürse → focus yap (bring to front)
-      if (window.isOpen && !window.isMinimized) {
-        // Sadece z-index'i değiştir (en öne getir)
-        const windowToMove = prev.find((w) => w.id === appId)!
-        const otherWindows = prev.filter((w) => w.id !== appId)
-        return [...otherWindows, windowToMove]
-      } else {
-        // Pencere minimize veya kapalıysa → aç
-        updatedWindows = prev.map((w) =>
-          w.id === appId ? { ...w, isOpen: true, isMinimized: false } : w,
-        )
-
-        // Bring to front when opening
-        const windowToMove = updatedWindows.find((w) => w.id === appId)!
-        const otherWindows = updatedWindows.filter((w) => w.id !== appId)
-        return [...otherWindows, windowToMove]
+      // Pencere açık ve görünürse → minimize et
+      if (win.isOpen && !win.isMinimized) {
+        return prev.map((w) => w.id === appId ? { ...w, isMinimized: true } : w)
       }
+
+      // Kapalıysa → rastgele pozisyonda aç
+      let newPosition = win.position
+      if (!win.isOpen) {
+        const app = apps.find((a) => a.id === appId)
+        const winW = app?.defaultSize?.width ?? 900
+        const winH = app?.defaultSize?.height ?? 550
+        const topBar = 36
+        const dock = 90
+        const margin = 30
+        const vw = typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1440
+        const vh = typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight : 900
+        const maxX = Math.max(margin, vw - winW - margin)
+        const maxY = Math.max(topBar + margin, vh - winH - dock - margin)
+        newPosition = {
+          x: Math.floor(Math.random() * (maxX - margin) + margin),
+          y: Math.floor(Math.random() * (maxY - topBar - margin) + topBar + margin),
+        }
+      }
+
+      const updatedWindows = prev.map((w) =>
+        w.id === appId ? { ...w, isOpen: true, isMinimized: false, position: newPosition } : w,
+      )
+      const windowToMove = updatedWindows.find((w) => w.id === appId)!
+      const otherWindows = updatedWindows.filter((w) => w.id !== appId)
+      return [...otherWindows, windowToMove]
     })
   }
 
@@ -188,7 +198,7 @@ export default function CanvasArea() {
     {
       id: 'github',
       titleKey: 'apps.github.title',
-      icon: Github,
+      icon: GithubIcon,
       action: () => {
         setWarningDialog({
           isOpen: true,
@@ -201,7 +211,7 @@ export default function CanvasArea() {
     {
       id: 'linkedin',
       titleKey: 'apps.linkedin.title',
-      icon: Linkedin,
+      icon: LinkedinIcon,
       action: () => {
         setWarningDialog({
           isOpen: true,
