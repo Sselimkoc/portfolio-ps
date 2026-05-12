@@ -157,9 +157,6 @@ export default function IntroOverlay({
               <span className="px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl text-sm md:text-base font-medium text-zinc-200 shadow-[0_0_20px_rgba(0,0,0,0.3)]">
                 {t('hero.subtitle')}
               </span>
-              <p className="text-white/40 text-xs tracking-wider uppercase font-medium">
-                {t('hero.underConstruction')}
-              </p>
             </motion.div>
 
             {/* 4. Açıklama (Yorum satırındaydı, variant ile uyumlu bıraktım) */}
