@@ -251,6 +251,7 @@ export default function CanvasArea() {
             ? 'opacity-0 pointer-events-none transition-opacity duration-200'
             : 'opacity-100 transition-opacity duration-300'
         }
+        inert={showIntro || undefined}
       >
         {/* Desktop Shortcuts */}
         <DesktopShortcuts shortcuts={desktopShortcuts} />
