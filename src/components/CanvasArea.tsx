@@ -116,22 +116,6 @@ export default function CanvasArea() {
     setOpenWindows((prev) => prev.map((w) => ({ ...w, isMinimized: false })))
   }
 
-  // Dil değiştiğinde açık uygulamaların verilerini güncelle
-  useEffect(() => {
-    const loadDataForLanguage = async () => {
-      try {
-        const newData = await (getPortfolioData as any)({
-          data: { language: i18n.language },
-        })
-        setData(newData)
-      } catch (error) {
-        console.error('Failed to load data for language:', error)
-      }
-    }
-
-    loadDataForLanguage()
-  }, [i18n.language])
-
   const bringToFront = (appId: string) => {
     setOpenWindows((prev) => {
       const windowToMove = prev.find((w) => w.id === appId)
@@ -314,7 +298,17 @@ export default function CanvasArea() {
                     <SkillsPalette groups={data.skills} />
                   )}
                   {app.id === 'projects' && (
-                    <ProjectsGallery projects={data.projects} />
+                    <ProjectsGallery
+                      projects={data.projects}
+                      onExternalLink={(url) => {
+                        setWarningDialog({
+                          isOpen: true,
+                          title: t('links.warningTitle'),
+                          message: t('links.externalWarning'),
+                          url,
+                        })
+                      }}
+                    />
                   )}
                   {app.id === 'experience' && (
                     <ExperienceTimeline items={data.experience} />

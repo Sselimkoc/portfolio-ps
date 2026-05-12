@@ -64,7 +64,7 @@ export default function ExperienceTimeline({ items }: { items: Array<Item> }) {
                     `}
                   />
                   {index < orderedItems.length - 1 && (
-                    <div className="absolute top-2.5 left-1 w-0.5 h-10 bg-gradient-to-b from-white/20 to-transparent" />
+                    <div className="absolute top-2.5 left-1 w-0.5 h-10 bg-linear-to-b from-white/20 to-transparent" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">

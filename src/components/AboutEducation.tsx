@@ -7,7 +7,6 @@ interface AboutEducationProps {
   roleLine: string
   location?: string
   bio: string
-  email: string
   githubUrl: string
   linkedinUrl: string
   education: {

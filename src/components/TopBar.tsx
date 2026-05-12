@@ -67,6 +67,7 @@ export default function TopBar({
               '0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 0.5px rgba(0, 0, 0, 0.15)',
           }}
           title={t('topbar.close')}
+          aria-label={t('topbar.close')}
         />
         <button
           onClick={onMinimizeAll}
@@ -77,6 +78,7 @@ export default function TopBar({
               '0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 0.5px rgba(0, 0, 0, 0.15)',
           }}
           title={t('topbar.minimize')}
+          aria-label={t('topbar.minimize')}
         />
         <button
           onClick={onMaximizeAll}
@@ -87,6 +89,7 @@ export default function TopBar({
               '0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 0.5px rgba(0, 0, 0, 0.15)',
           }}
           title={t('topbar.maximize')}
+          aria-label={t('topbar.maximize')}
         />
       </div>
 

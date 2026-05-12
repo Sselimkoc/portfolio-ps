@@ -7,7 +7,6 @@ interface ProfileHeaderProps {
   location?: string
   githubUrl: string
   linkedinUrl: string
-  email: string
   onExternalLink?: (url: string) => void
 }
 
@@ -17,7 +16,6 @@ export default function ProfileHeader({
   location,
   githubUrl,
   linkedinUrl,
-  email,
   onExternalLink,
 }: ProfileHeaderProps) {
   const { t } = useTranslation()

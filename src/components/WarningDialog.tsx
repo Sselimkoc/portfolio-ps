@@ -46,7 +46,7 @@ export default function WarningDialog({
         <>
           {/* Backdrop: Daha koyu ve yumuşak blur */}
           <motion.div
-            className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-[4px]"
+            className="fixed inset-0 z-200 bg-black/60 backdrop-blur-xs"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -54,8 +54,11 @@ export default function WarningDialog({
           />
 
           {/* Dialog Container */}
-          <div className="fixed inset-0 z-[201] flex items-center justify-center p-4 pointer-events-none">
+          <div className="fixed inset-0 z-201 flex items-center justify-center p-4 pointer-events-none">
             <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="warning-dialog-title"
               className="w-full max-w-md pointer-events-auto"
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -74,7 +77,7 @@ export default function WarningDialog({
               >
                 {/* Header */}
                 <div className="px-6 pt-6 pb-2">
-                  <h2 className="text-lg font-semibold text-white tracking-wide">
+                  <h2 id="warning-dialog-title" className="text-lg font-semibold text-white tracking-wide">
                     {title}
                   </h2>
                 </div>
@@ -142,7 +145,7 @@ export default function WarningDialog({
                       {t('dialog.continue')}
                     </span>
                     {/* Parlama efekti */}
-                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent transition-transform duration-500" />
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-linear-to-r from-transparent via-white/50 to-transparent transition-transform duration-500" />
                   </motion.button>
                 </div>
               </div>

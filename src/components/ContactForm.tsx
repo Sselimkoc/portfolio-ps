@@ -111,7 +111,7 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="h-full w-full overflow-hidden flex">
+    <form onSubmit={handleSubmit} className="h-full w-full overflow-hidden flex">
       {/* Left Side - Form Fields */}
       <div className="w-96 border-r border-white/10 overflow-y-auto">
         <div className="p-6 space-y-4">
@@ -120,7 +120,7 @@ export default function ContactForm() {
             {t('apps.contact.description')}
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-4">
             {/* Name */}
             <div className="space-y-2">
               <label
@@ -138,7 +138,7 @@ export default function ContactForm() {
                 onChange={handleChange}
                 required
                 maxLength={MAX_NAME_LENGTH}
-                className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.08] transition-all"
+                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/8 transition-all"
                 placeholder={t('apps.contact.namePlaceholder')}
               />
             </div>
@@ -160,7 +160,7 @@ export default function ContactForm() {
                 onChange={handleChange}
                 required
                 maxLength={MAX_EMAIL_LENGTH}
-                className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.08] transition-all"
+                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/8 transition-all"
                 placeholder={t('apps.contact.emailPlaceholder')}
               />
             </div>
@@ -182,11 +182,11 @@ export default function ContactForm() {
                 onChange={handleChange}
                 required
                 maxLength={MAX_SUBJECT_LENGTH}
-                className="w-full px-3 py-2.5 bg-white/[0.05] border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.08] transition-all"
+                className="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/8 transition-all"
                 placeholder={t('apps.contact.subjectPlaceholder')}
               />
             </div>
-          </form>
+          </div>
         </div>
       </div>
 
@@ -209,19 +209,18 @@ export default function ContactForm() {
               required
               rows={10}
               maxLength={MAX_MESSAGE_LENGTH}
-              className="px-4 py-3 bg-white/[0.05] border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/[0.08] transition-all resize-none"
+              className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-white/30 focus:bg-white/8 transition-all resize-none"
               placeholder={t('apps.contact.messagePlaceholder')}
             />
           </div>
 
           {/* Submit Button */}
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-3">
-              <button
-                type="submit"
-                disabled={status === 'sending' || status === 'ratelimit'}
-                className="w-full py-3 px-6 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-white font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
+          <div className="space-y-3">
+            <button
+              type="submit"
+              disabled={status === 'sending' || status === 'ratelimit'}
+              className="w-full py-3 px-6 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-white font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
                 {status === 'sending' ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -293,9 +292,8 @@ export default function ContactForm() {
                 {t('apps.contact.footer')}
               </p>
             </div>
-          </form>
         </div>
       </div>
-    </div>
+    </form>
   )
 }

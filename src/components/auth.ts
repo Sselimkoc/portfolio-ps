@@ -1,16 +1,21 @@
 import { createServerFn } from '@tanstack/react-start'
 import { compare, hash } from 'bcryptjs'
 
-// Dynamic prisma import to prevent client bundling
+const globalForPrisma = globalThis as unknown as { authPrisma?: any }
+
 async function initializePrisma() {
   const isServer = typeof window === 'undefined'
   if (!isServer) return null
-  
-  const { PrismaNeon } = await import('@prisma/adapter-neon')
-  const { PrismaClient } = await import('@prisma/client')
-  
-  const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! })
-  return new PrismaClient({ adapter })
+
+  if (!globalForPrisma.authPrisma) {
+    const { PrismaNeon } = await import('@prisma/adapter-neon')
+    const { PrismaClient } = await import('@prisma/client')
+
+    const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! })
+    globalForPrisma.authPrisma = new PrismaClient({ adapter })
+  }
+
+  return globalForPrisma.authPrisma
 }
 
 // Rate limiting storage (in-memory)

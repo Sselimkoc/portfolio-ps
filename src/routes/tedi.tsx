@@ -283,8 +283,8 @@ function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <div className="max-w-2xl mx-auto">
+    <div className="h-screen overflow-y-auto bg-gray-900 text-white">
+      <div className="max-w-2xl mx-auto p-8">
         <h1 className="text-3xl font-bold mb-8">{t('admin.title')}</h1>
 
         <form

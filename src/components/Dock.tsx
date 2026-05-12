@@ -103,7 +103,8 @@ export default function Dock({
               {/* Button - with modern magnification */}
               <motion.button
                 onClick={() => onDockAction(() => dockApp.action(dockApp.id))}
-                className="relative transition-all duration-150 focus:outline-none"
+                aria-label={t(dockApp.titleKey)}
+                className="relative transition-all duration-150 cursor-pointer focus:outline-none"
                 style={
                   {
                     width: isHovered ? 64 : 56,
@@ -203,7 +204,8 @@ export default function Dock({
               {/* Minimized Button */}
               <motion.button
                 onClick={() => onRestoreWindow(windowState.id)}
-                className="relative transition-all duration-150 focus:outline-none"
+                aria-label={t(app.title)}
+                className="relative transition-all duration-150 cursor-pointer focus:outline-none"
                 style={
                   {
                     width: isHovered ? 52 : 44,

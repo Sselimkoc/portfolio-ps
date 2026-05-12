@@ -136,7 +136,7 @@ export default function IntroOverlay({
           >
             {/* 1. Ana Başlık */}
             <motion.h1
-              className="text-5xl md:text-[84px] font-bold text-white leading-[1.1] tracking-[-0.04em]"
+              className="text-[84px] font-bold text-white leading-[1.1] tracking-[-0.04em] font-heading"
               style={
                 {
                   textShadow:
@@ -150,7 +150,7 @@ export default function IntroOverlay({
 
             {/* 2. İsim */}
             <motion.p
-              className="mt-6 text-xl md:text-3xl text-white/90 font-medium tracking-tight"
+              className="mt-6 text-3xl text-white/90 font-medium tracking-tight font-heading"
               style={
                 {
                   textShadow: '0 2px 30px rgba(0, 0, 0, 0.7)',

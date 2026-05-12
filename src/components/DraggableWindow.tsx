@@ -151,7 +151,7 @@ export default function DraggableWindow({
           onDoubleClick={handleMaximize}
           title="Drag window"
         >
-          <span className="text-white font-semibold text-sm pointer-events-none tracking-[-0.3px]">
+          <span className="text-white font-semibold text-sm pointer-events-none tracking-[-0.3px] font-heading">
             {t(title)}
           </span>
         </div>

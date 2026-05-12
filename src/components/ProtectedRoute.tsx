@@ -41,7 +41,6 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Password submitted:', password)
 
     try {
       const result = await verifyPassword({
@@ -50,27 +49,19 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
       if (result instanceof Response) {
         const data = await result.json()
-        console.log('Verification result (Response):', data)
         if (data && data.success) {
-          // HTTP-only cookie is set automatically by server
-          console.log('Authentication successful')
           setIsAuthenticated(true)
         } else {
-          console.log('Authentication failed')
           setPassword('')
         }
       } else {
-        console.log('Verification result (data):', result)
         if ((result as any).success) {
-          console.log('Authentication successful')
           setIsAuthenticated(true)
         } else {
-          console.log('Authentication failed:', (result as any).error)
           setPassword('')
         }
       }
-    } catch (error) {
-      console.error('Auth error:', error)
+    } catch {
       setPassword('')
     }
   }

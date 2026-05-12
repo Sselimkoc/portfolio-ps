@@ -35,7 +35,8 @@ export default function DesktopShortcuts({ shortcuts }: DesktopShortcutsProps) {
           >
             <motion.button
               onClick={() => shortcut.onOpen(shortcut.id)}
-              className="flex flex-col items-center gap-2 group"
+              aria-label={t(shortcut.title)}
+              className="flex flex-col items-center gap-2 group cursor-pointer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >

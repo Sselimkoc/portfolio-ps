@@ -54,6 +54,12 @@ const WALLPAPERS: Array<Wallpaper> = [
     thumbnail: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   },
   {
+    id: 'ocean',
+    name: 'wallpapers.ocean',
+    url: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    thumbnail: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+  },
+  {
     id: 'forest',
     name: 'wallpapers.emeraldForest',
     url: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
