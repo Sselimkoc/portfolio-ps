@@ -399,6 +399,9 @@ export default function MobileGate() {
   const [data, setData] = useState<PortfolioData | null>(null)
   const [loading, setLoading] = useState(true)
   const tabBarRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  // Per-tab scroll memory: remembers where you left off, starts at 0 on first visit
+  const scrollPositions = useRef<Partial<Record<TabId, number>>>({})
 
   // Fetch portfolio data whenever language changes
   useEffect(() => {
@@ -411,6 +414,20 @@ export default function MobileGate() {
 
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === 'en' ? 'tr' : 'en')
+  }
+
+  const handleTabChange = (tab: TabId) => {
+    // Save current scroll position before leaving
+    if (scrollRef.current) {
+      scrollPositions.current[activeTab] = scrollRef.current.scrollTop
+    }
+    setActiveTab(tab)
+    // Restore saved position (or 0 for first visit) after paint
+    requestAnimationFrame(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = scrollPositions.current[tab] ?? 0
+      }
+    })
   }
 
   const profile = data?.profile
@@ -529,7 +546,7 @@ export default function MobileGate() {
             role="tab"
             aria-selected={activeTab === tab}
             aria-controls={`panel-${tab}`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => handleTabChange(tab)}
             className={`relative flex-1 py-3 text-[12px] font-semibold tracking-wide transition-colors duration-200 cursor-pointer ${
               activeTab === tab ? 'text-white' : 'text-white/40 hover:text-white/65'
             }`}
@@ -551,6 +568,7 @@ export default function MobileGate() {
           TAB CONTENT — scrollable
       ══════════════════════════════════════════ */}
       <div
+        ref={scrollRef}
         className="relative z-10 flex-1 overflow-y-auto overscroll-contain px-4"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
