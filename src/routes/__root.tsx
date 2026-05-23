@@ -85,7 +85,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="h-screen w-full flex flex-col">
         <MobileGate />
-        <main className="flex-1 flex flex-col">{children}</main>
+        {/* Desktop-only: hidden on mobile so the heavy canvas UI doesn't render/paint on small screens */}
+        <main className="hidden lg:flex flex-1 flex-col">{children}</main>
         <footer className="fixed bottom-3 right-4 z-50 text-xs text-white/40 font-medium tracking-wide drop-shadow-md">
           &copy; Selim Koç
         </footer>

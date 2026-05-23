@@ -8,20 +8,22 @@ export default function BioSection({ bio }: BioSectionProps) {
   const { t } = useTranslation()
 
   return (
-    <div className="space-y-2">
-      <h3
-        className="text-xs font-semibold text-white/45 uppercase tracking-widest"
-        style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
-      >
-        {t('profile.aboutTitle')}
-      </h3>
+    <div className="space-y-3">
+      {/* Section label */}
+      <div className="flex items-center gap-3">
+        <span className="text-[11px] font-bold text-white/40 uppercase tracking-[0.15em]">
+          {t('profile.aboutTitle')}
+        </span>
+        <div className="flex-1 h-px bg-white/8" />
+      </div>
+
+      {/* Bio text */}
       <p
-        className="text-white/70 text-sm leading-relaxed font-light pl-0.5"
-        style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
+        className="text-white/80 text-sm leading-[1.75] pl-0.5"
+        style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
       >
         {bio}
       </p>
-      <div className="h-px bg-linear-to-r from-white/10 to-transparent mt-4" />
     </div>
   )
 }

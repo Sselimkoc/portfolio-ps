@@ -29,7 +29,7 @@ export default function AboutEducation(props: AboutEducationProps) {
       </div>
 
       {/* CV Content - Main body */}
-      <div className="flex-1 px-8 py-6 pb-12 space-y-8">
+      <div className="flex-1 px-8 py-2 pb-12 space-y-7">
         <BioSection bio={props.bio} />
         <EducationSection education={props.education} />
       </div>
