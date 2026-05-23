@@ -435,7 +435,7 @@ export default function MobileGate() {
           HEADER — language toggle
       ══════════════════════════════════════════ */}
       <motion.header
-        className="relative z-10 flex items-center justify-end px-5 pt-12 pb-3"
+        className="relative z-10 flex items-center justify-end px-5 pt-12 pb-2"
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
@@ -465,7 +465,7 @@ export default function MobileGate() {
         transition={{ duration: 0.65, delay: 0.12, ease: [0.2, 0.65, 0.3, 0.9] }}
       >
         {/* Avatar */}
-        <div className="mb-4 w-24 h-24 rounded-full ring-2 ring-white/25 shadow-xl overflow-hidden">
+        <div className="mb-3 w-20 h-20 rounded-full ring-2 ring-white/25 shadow-xl overflow-hidden">
           <img
             src="/skpp.jpeg"
             alt={t('hero.subtitleName')}
@@ -482,12 +482,12 @@ export default function MobileGate() {
         </h1>
 
         {/* Role */}
-        <p className="mt-1.5 text-white/55 text-[13px] font-medium tracking-wide">
+        <p className="mt-1 text-white/55 text-[13px] font-medium tracking-wide">
           {t('hero.subtitle')}
         </p>
 
         {/* Social row */}
-        <div className="mt-4 flex items-center gap-2">
+        <div className="mt-3 flex items-center gap-2">
           <a
             href={profile?.githubUrl ?? 'https://github.com/Sselimkoc'}
             target="_blank"
