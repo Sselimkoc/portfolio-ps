@@ -478,12 +478,12 @@ export default function MobileGate() {
           className="font-heading text-2xl font-bold text-white tracking-tight"
           style={{ textShadow: '0 2px 24px rgba(0,0,0,0.7)' }}
         >
-          {profile?.name ?? t('hero.subtitleName')}
+          {t('hero.subtitleName')}
         </h1>
 
         {/* Role */}
         <p className="mt-1.5 text-white/55 text-[13px] font-medium tracking-wide">
-          {profile?.roleLine ?? t('hero.subtitle')}
+          {t('hero.subtitle')}
         </p>
 
         {/* Social row */}
