@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 type Project = {
   name: string
+  tagline?: string
   description: string
   tech: Array<string>
   href?: string
@@ -64,9 +65,10 @@ export default function ProjectsGallery({
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-xs truncate">
-                    {project.name}
-                  </p>
+                  <p className="font-semibold text-xs truncate">{project.name}</p>
+                  {project.tagline && (
+                    <p className="text-[11px] text-white/40 truncate mt-0.5">{project.tagline}</p>
+                  )}
                 </div>
               </div>
             </button>
@@ -79,13 +81,16 @@ export default function ProjectsGallery({
         {selectedProject ? (
           <div className="p-7 pb-12 space-y-6">
             {/* Title */}
-            <div className="space-y-2">
+            <div className="space-y-1">
               <h3
                 className="text-2xl font-bold text-white"
                 style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.4)' }}
               >
                 {selectedProject.name}
               </h3>
+              {selectedProject.tagline && (
+                <p className="text-white/50 text-sm">{selectedProject.tagline}</p>
+              )}
             </div>
 
             {/* Description */}
