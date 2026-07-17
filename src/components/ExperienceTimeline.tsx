@@ -5,7 +5,7 @@ type Item = {
   role: string
   company: string
   period: string
-  location?: string
+  location?: string | null
   bullets: Array<string>
 }
 
