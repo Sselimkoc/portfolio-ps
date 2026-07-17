@@ -1,5 +1,7 @@
 import { createServerFn } from '@tanstack/react-start'
 import { authMiddleware } from '../server/authMiddleware'
+import { groupAndSortSkills } from '../lib/skills'
+import type { PrismaClient } from '@prisma/client'
 
 export type ProfilePayload = {
   id?: number
@@ -47,6 +49,8 @@ export type ExperiencePayload = {
   language: string // "en" or "tr"
 }
 
+export type { SkillGroup } from '../lib/skills'
+
 const isServer = typeof window === 'undefined'
 const databaseUrl = process.env.DATABASE_URL
 
@@ -54,15 +58,15 @@ if (isServer && !databaseUrl) {
   throw new Error('DATABASE_URL is not set.')
 }
 
-const globalForPrisma = globalThis as unknown as { prisma?: any }
+const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
 
-let prismaClient: any = globalForPrisma.prisma
+let prismaClient: PrismaClient | undefined = globalForPrisma.prisma
 
-async function initializePrisma() {
+async function initializePrisma(): Promise<PrismaClient> {
   if (isServer && !prismaClient) {
     const { PrismaNeon } = await import('@prisma/adapter-neon')
     const { PrismaClient } = await import('@prisma/client')
-    
+
     const adapter = new PrismaNeon({ connectionString: databaseUrl! })
     prismaClient = new PrismaClient({ adapter })
 
@@ -70,13 +74,31 @@ async function initializePrisma() {
       globalForPrisma.prisma = prismaClient
     }
   }
-  return prismaClient
+  return prismaClient!
 }
 
-export const getPortfolioData = createServerFn({ method: 'POST' }).handler(
-  async ({ data }: any) => {
+function requireId(data: IdentifiedRecord): IdentifiedRecord {
+  if (!data || typeof data.id !== 'number') {
+    throw new Error('Invalid input: id is required')
+  }
+  return { id: data.id }
+}
+
+function requireStrings(data: Record<string, unknown>, fields: Array<string>) {
+  for (const field of fields) {
+    if (typeof data[field] !== 'string' || data[field] === '') {
+      throw new Error(`Invalid input: ${field} is required`)
+    }
+  }
+}
+
+export const getPortfolioData = createServerFn({ method: 'POST' })
+  .inputValidator((data?: { language?: string }) => ({
+    language: data?.language === 'en' ? 'en' : 'tr',
+  }))
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    const language = (data?.language || 'tr') as string
+    const { language } = data
     const [profile, skills, projects, experience] = await Promise.all([
       prisma.profile.findFirst({ where: { language } }),
       prisma.skill.findMany(),
@@ -84,145 +106,133 @@ export const getPortfolioData = createServerFn({ method: 'POST' }).handler(
       prisma.experience.findMany({ where: { language }, orderBy: { order: 'asc' } }),
     ])
 
-    const groupedSkills = skills.reduce((acc: Array<any>, skill: any) => {
-      const group = acc.find((g: any) => g.title === skill.group)
-      if (group) {
-        group.items.push(skill.name)
-      } else {
-        acc.push({ title: skill.group, items: [skill.name] })
-      }
-      return acc
-    }, [])
-
-    // Skills'i frontend, backend, data sırasında sırala
-    const skillOrder = ['frontend', 'backend', 'data']
-    groupedSkills.sort((a: any, b: any) => {
-      const aIndex = skillOrder.indexOf(a.title.toLowerCase())
-      const bIndex = skillOrder.indexOf(b.title.toLowerCase())
-      const aPos = aIndex === -1 ? 999 : aIndex
-      const bPos = bIndex === -1 ? 999 : bIndex
-      return aPos - bPos
-    })
-
     return {
       profile,
-      skills: groupedSkills,
+      skills: groupAndSortSkills(skills),
       rawSkills: skills,
       projects,
       experience,
     }
-  },
-)
+  })
+
+export type PortfolioData = Awaited<ReturnType<typeof getPortfolioData>>
 
 export const updateProfile = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator((data: ProfilePayload) => {
+    requireStrings(data, ['name', 'roleLine', 'bio', 'email'])
+    return data
+  })
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    const payload = data as unknown as ProfilePayload
-    const { id, language, ...rest } = payload
+    const { id: _id, language, ...rest } = data
     const lang = language || 'tr'
 
-    // First, find the profile by language
     const existing = await prisma.profile.findFirst({ where: { language: lang } })
 
     if (existing) {
-      // Update existing profile
       return prisma.profile.update({
         where: { id: existing.id },
         data: rest,
       })
     } else {
-      // Create new profile
       return prisma.profile.create({
         data: { ...rest, language: lang },
       })
     }
-  },
-)
+  })
 
 export const addSkill = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator((data: SkillPayload) => {
+    requireStrings(data, ['group', 'name'])
+    return data
+  })
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    const payload = data as unknown as SkillPayload
-    return prisma.skill.create({ data: payload })
-  },
-)
+    return prisma.skill.create({ data })
+  })
 
 export const deleteSkill = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator(requireId)
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    const { id } = data as unknown as IdentifiedRecord
-    return prisma.skill.delete({ where: { id } })
-  },
-)
+    return prisma.skill.delete({ where: { id: data.id } })
+  })
 
 export const addProject = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator((data: ProjectPayload) => {
+    requireStrings(data, ['name', 'description', 'language'])
+    return data
+  })
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    return prisma.project.create({ data: data as unknown as Record<string, any> })
-  },
-)
+    const { id: _id, ...rest } = data
+    return prisma.project.create({ data: rest })
+  })
 
 export const deleteProject = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator(requireId)
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    const { id } = data as unknown as IdentifiedRecord
-    return prisma.project.delete({ where: { id } })
-  },
-)
+    return prisma.project.delete({ where: { id: data.id } })
+  })
 
 export const updateProject = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator((data: ProjectPayload) => {
+    if (typeof data.id !== 'number') {
+      throw new Error('Invalid input: id is required')
+    }
+    requireStrings(data, ['name', 'description', 'language'])
+    return data
+  })
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    const payload = data as unknown as ProjectPayload
-    const { id, ...rest } = payload
+    const { id, ...rest } = data
     return prisma.project.update({
       where: { id: id! },
       data: rest,
     })
-  },
-)
+  })
 
 export const addExperience = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator((data: ExperiencePayload) => {
+    requireStrings(data, ['role', 'company', 'language'])
+    return data
+  })
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    return prisma.experience.create({ data: data as unknown as Record<string, any> })
-  },
-)
+    const { id: _id, ...rest } = data
+    return prisma.experience.create({ data: rest })
+  })
 
 export const deleteExperience = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator(requireId)
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    const { id } = data as unknown as IdentifiedRecord
-    return prisma.experience.delete({ where: { id } })
-  },
-)
+    return prisma.experience.delete({ where: { id: data.id } })
+  })
 
 export const updateExperience = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
-  .handler(
-  async ({ data }: any) => {
+  .inputValidator((data: ExperiencePayload) => {
+    if (typeof data.id !== 'number') {
+      throw new Error('Invalid input: id is required')
+    }
+    requireStrings(data, ['role', 'company', 'language'])
+    return data
+  })
+  .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    const payload = data as unknown as ExperiencePayload
-    const { id, ...rest } = payload
+    const { id, ...rest } = data
     return prisma.experience.update({
       where: { id: id! },
       data: rest,
     })
-  },
-)
+  })

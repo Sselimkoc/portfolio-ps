@@ -39,7 +39,7 @@ const INTRO_KEY = 'portfolio:introSeen:v1'
 
 export default function CanvasArea() {
   const { t, i18n } = useTranslation()
-  const initialData = useLoaderData({ from: '/' }) as any
+  const initialData = useLoaderData({ from: '/' })
   const [data, setData] = useState(initialData)
   const canvasRef = useRef<HTMLDivElement>(null)
   const [showDockHint, setShowDockHint] = useState(false)
@@ -67,7 +67,7 @@ export default function CanvasArea() {
   useEffect(() => {
     const updateData = async () => {
       try {
-        const newData = await (getPortfolioData as any)({
+        const newData = await getPortfolioData({
           data: { language: i18n.language },
         })
         setData(newData)
@@ -292,8 +292,8 @@ export default function CanvasArea() {
                       education={{
                         school: data.profile.school,
                         department: data.profile.department,
-                        years: data.profile.years,
-                        gpa: data.profile.gpa,
+                        years: data.profile.years ?? undefined,
+                        gpa: data.profile.gpa ?? undefined,
                       }}
                       onExternalLink={(url) => {
                         setWarningDialog({

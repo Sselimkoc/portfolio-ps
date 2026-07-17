@@ -7,7 +7,7 @@ type Project = {
   tagline?: string
   description: string
   tech: Array<string>
-  href?: string
+  href?: string | null
 }
 
 interface ProjectsGalleryProps {
@@ -132,10 +132,12 @@ export default function ProjectsGallery({
                 <button
                   onClick={(e) => {
                     e.preventDefault()
+                    const href = selectedProject.href
+                    if (!href) return
                     if (onExternalLink) {
-                      onExternalLink(selectedProject.href!)
+                      onExternalLink(href)
                     } else {
-                      window.open(selectedProject.href, '_blank')
+                      window.open(href, '_blank')
                     }
                   }}
                   className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors"
