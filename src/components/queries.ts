@@ -1,4 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
+import { authMiddleware } from '../server/authMiddleware'
 
 export type ProfilePayload = {
   id?: number
@@ -113,7 +114,9 @@ export const getPortfolioData = createServerFn({ method: 'POST' }).handler(
   },
 )
 
-export const updateProfile = createServerFn({ method: 'POST' }).handler(
+export const updateProfile = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     const payload = data as unknown as ProfilePayload
@@ -138,7 +141,9 @@ export const updateProfile = createServerFn({ method: 'POST' }).handler(
   },
 )
 
-export const addSkill = createServerFn({ method: 'POST' }).handler(
+export const addSkill = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     const payload = data as unknown as SkillPayload
@@ -146,7 +151,9 @@ export const addSkill = createServerFn({ method: 'POST' }).handler(
   },
 )
 
-export const deleteSkill = createServerFn({ method: 'POST' }).handler(
+export const deleteSkill = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     const { id } = data as unknown as IdentifiedRecord
@@ -154,14 +161,18 @@ export const deleteSkill = createServerFn({ method: 'POST' }).handler(
   },
 )
 
-export const addProject = createServerFn({ method: 'POST' }).handler(
+export const addProject = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     return prisma.project.create({ data: data as unknown as Record<string, any> })
   },
 )
 
-export const deleteProject = createServerFn({ method: 'POST' }).handler(
+export const deleteProject = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     const { id } = data as unknown as IdentifiedRecord
@@ -169,7 +180,9 @@ export const deleteProject = createServerFn({ method: 'POST' }).handler(
   },
 )
 
-export const updateProject = createServerFn({ method: 'POST' }).handler(
+export const updateProject = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     const payload = data as unknown as ProjectPayload
@@ -181,14 +194,18 @@ export const updateProject = createServerFn({ method: 'POST' }).handler(
   },
 )
 
-export const addExperience = createServerFn({ method: 'POST' }).handler(
+export const addExperience = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     return prisma.experience.create({ data: data as unknown as Record<string, any> })
   },
 )
 
-export const deleteExperience = createServerFn({ method: 'POST' }).handler(
+export const deleteExperience = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     const { id } = data as unknown as IdentifiedRecord
@@ -196,7 +213,9 @@ export const deleteExperience = createServerFn({ method: 'POST' }).handler(
   },
 )
 
-export const updateExperience = createServerFn({ method: 'POST' }).handler(
+export const updateExperience = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .handler(
   async ({ data }: any) => {
     const prisma = await initializePrisma()
     const payload = data as unknown as ExperiencePayload
