@@ -38,6 +38,7 @@ model Project {
   tagline     String
   description String
   tech        String[]
+  images      String[] @default([]) // legacy column, kept to avoid data loss
   href        String?
   language    String   @default("tr") // "en" or "tr"
   createdAt   DateTime @default(now())
@@ -58,8 +59,10 @@ model Experience {
 }
 
 model AdminAuth {
-  id           Int      @id @default(autoincrement())
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             Int       @id @default(autoincrement())
+  passwordHash   String
+  failedAttempts Int       @default(0)
+  lockedUntil    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { checkAuthCookie, verifyPassword } from './auth'
+import { checkAuthCookie, verifyPassword } from '../server/auth'
 import SleepScreenThree from './sleep/SleepScreenThree'
 
 interface ProtectedRouteProps {
@@ -43,23 +43,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     e.preventDefault()
 
     try {
-      const result = await verifyPassword({
-        data: { password } as any,
-      })
+      const result = await verifyPassword({ data: { password } })
 
-      if (result instanceof Response) {
-        const data = await result.json()
-        if (data && data.success) {
-          setIsAuthenticated(true)
-        } else {
-          setPassword('')
-        }
+      if ('success' in result && result.success) {
+        setIsAuthenticated(true)
       } else {
-        if ((result as any).success) {
-          setIsAuthenticated(true)
-        } else {
-          setPassword('')
-        }
+        setPassword('')
       }
     } catch {
       setPassword('')
@@ -85,7 +74,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
           />
         </div>
 
-        {/* Password Input - Visible for debugging */}
+        {/* Hidden password input; the sleep screen is the visual layer */}
         <form
           onSubmit={handlePasswordSubmit}
           className="absolute inset-0 flex items-center justify-center"
@@ -98,7 +87,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
             className="w-0 h-0 opacity-0"
             autoComplete="off"
             tabIndex={-1}
-            maxLength={10}
+            maxLength={128}
             placeholder="Password"
           />
         </form>
