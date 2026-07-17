@@ -1,11 +1,13 @@
+import { useEffect } from 'react'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 
 import appCss from '../styles.css?url'
-import '../i18n/config'
+import i18n from '../i18n/config'
 import MobileGate from '../components/MobileGate'
+import { SITE_URL, personJsonLd, seoMeta } from '../lib/seo'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -17,15 +19,13 @@ export const Route = createRootRoute({
         name: 'viewport',
         content: 'width=device-width, initial-scale=1',
       },
-      {
-        title: 'Selim Koç — Full Stack Developer',
-      },
-      {
-        name: 'description',
-        content: 'Full Stack Developer specializing in Next.js, scalable web apps, and AI-driven systems.',
-      },
+      ...seoMeta(),
     ],
     links: [
+      {
+        rel: 'canonical',
+        href: SITE_URL,
+      },
       {
         rel: 'icon',
         href: '/sk.png',
@@ -55,10 +55,26 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  // Keep <html lang> in sync with the active i18n language
+  useEffect(() => {
+    document.documentElement.lang = i18n.language
+    const onLanguageChanged = (lng: string) => {
+      document.documentElement.lang = lng
+    }
+    i18n.on('languageChanged', onLanguageChanged)
+    return () => {
+      i18n.off('languageChanged', onLanguageChanged)
+    }
+  }, [])
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="tr" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: personJsonLd }}
+        />
         {/* Early inline script to set wallpaper from localStorage before paint */}
         <script
           dangerouslySetInnerHTML={{

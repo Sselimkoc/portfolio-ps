@@ -19,7 +19,10 @@ import type {
 } from '../components/queries'
 
 export const Route = createFileRoute('/tedi')({
-  loader: () => (getPortfolioData as any)({ data: { language: 'tr' } }),
+  loader: () => getPortfolioData({ data: { language: 'tr' } }),
+  head: () => ({
+    meta: [{ name: 'robots', content: 'noindex, nofollow' }],
+  }),
   component: AdminPanelWrapper,
 })
 
@@ -63,7 +66,12 @@ function AdminPanel() {
       language: profileLanguage,
     }
     return data.profile
-      ? { ...data.profile, language: profileLanguage }
+      ? {
+          ...data.profile,
+          years: data.profile.years ?? undefined,
+          gpa: data.profile.gpa ?? undefined,
+          language: profileLanguage,
+        }
       : defaultProfile
   })
   const [isSaving, setIsSaving] = useState(false)
