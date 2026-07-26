@@ -241,7 +241,7 @@ function ProjectsTab({ data, loading }: { data: PortfolioData | null; loading: b
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`${t('projects.viewProject')} – ${project.name}`}
-                className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-white/10 border border-white/15 text-white/60 hover:text-white hover:bg-white/15 transition-colors duration-200 cursor-pointer active:scale-90"
+                className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-white/10 border border-white/15 text-white/60 hover:text-white hover:bg-white/15 transition-colors duration-200 cursor-pointer active:scale-90"
               >
                 <ExternalLink size={13} />
               </a>
@@ -302,7 +302,7 @@ function ExperienceTab({ data, loading }: { data: PortfolioData | null; loading:
         >
           <div className="flex items-start gap-3">
             {/* Timeline dot */}
-            <div className="flex-shrink-0 mt-1 w-2 h-2 rounded-full bg-white/40 ring-2 ring-white/15" />
+            <div className="shrink-0 mt-1 w-2 h-2 rounded-full bg-white/40 ring-2 ring-white/15" />
             <div className="min-w-0 flex-1">
               <h3 className="text-white/95 text-sm font-bold leading-snug">{exp.role}</h3>
               <p className="text-white/60 text-xs font-medium mt-0.5">{exp.company}</p>
@@ -314,11 +314,11 @@ function ExperienceTab({ data, loading }: { data: PortfolioData | null; loading:
                 )}
               </div>
 
-              {exp.bullets && exp.bullets.length > 0 && (
+              {exp.bullets.length > 0 && (
                 <ul className="mt-3 space-y-1.5">
                   {exp.bullets.map((bullet, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <ChevronRight size={12} className="flex-shrink-0 mt-0.5 text-white/30" />
+                      <ChevronRight size={12} className="shrink-0 mt-0.5 text-white/30" />
                       <span className="text-white/60 text-xs leading-relaxed">{bullet}</span>
                     </li>
                   ))}
@@ -387,7 +387,7 @@ export default function MobileGate() {
 
   return (
     <div
-      className="lg:hidden fixed inset-0 z-[9999] flex flex-col overflow-hidden"
+      className="lg:hidden fixed inset-0 z-9999 flex flex-col overflow-hidden"
       role="main"
       aria-label="Mobile Portfolio"
     >
@@ -509,7 +509,7 @@ export default function MobileGate() {
             {activeTab === tab && (
               <motion.div
                 layoutId="tab-indicator"
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-8 rounded-full bg-white"
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-8 rounded-full bg-white"
                 transition={{ type: 'spring', stiffness: 400, damping: 35 }}
               />
             )}

@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { checkAuthCookie, verifyPassword } from '../server/auth'
-import SleepScreenThree from './sleep/SleepScreenThree'
+
+const SleepScreenThree = lazy(() => import('./sleep/SleepScreenThree'))
 
 interface ProtectedRouteProps {
   children: React.ReactNode
@@ -68,10 +69,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       <div className="fixed inset-0 z-50 overflow-hidden">
         {/* Three.js animated background - same as sleep screen */}
         <div className="absolute inset-0">
-          <SleepScreenThree
-            onWake={handleGoBack}
-            customMessage={t('auth.fullMessage')}
-          />
+          <Suspense fallback={null}>
+            <SleepScreenThree
+              onWake={handleGoBack}
+              customMessage={t('auth.fullMessage')}
+            />
+          </Suspense>
         </div>
 
         {/* Hidden password input; the sleep screen is the visual layer */}

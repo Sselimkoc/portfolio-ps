@@ -77,11 +77,15 @@ async function initializePrisma(): Promise<PrismaClient> {
   return prismaClient!
 }
 
-function requireId(data: IdentifiedRecord): IdentifiedRecord {
-  if (!data || typeof data.id !== 'number') {
+function requireId(data: unknown): IdentifiedRecord {
+  if (
+    typeof data !== 'object' ||
+    data === null ||
+    typeof (data as Record<string, unknown>).id !== 'number'
+  ) {
     throw new Error('Invalid input: id is required')
   }
-  return { id: data.id }
+  return { id: (data as { id: number }).id }
 }
 
 function requireStrings(data: Record<string, unknown>, fields: Array<string>) {

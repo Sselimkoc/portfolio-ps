@@ -10,6 +10,7 @@ export default [
       'node_modules/**',
       '.output/**',
       'dist/**',
+      'scripts/**',
     ],
   },
   ...tanstackConfig,
