@@ -27,16 +27,17 @@ const SESSION_MAX_AGE_SEC = 3600
 const BCRYPT_ROUNDS = 12
 
 export const verifyPassword = createServerFn({ method: 'POST' })
-  .inputValidator((data: { password: string }) => {
+  .inputValidator((data: unknown) => {
     if (
-      !data ||
-      typeof data.password !== 'string' ||
-      data.password.length === 0 ||
-      data.password.length > 128
+      typeof data !== 'object' ||
+      data === null ||
+      typeof (data as Record<string, unknown>).password !== 'string' ||
+      (data as { password: string }).password.length === 0 ||
+      (data as { password: string }).password.length > 128
     ) {
       throw new Error('Invalid input')
     }
-    return data
+    return data as { password: string }
   })
   .handler(async ({ data }) => {
     try {
@@ -117,7 +118,7 @@ export const checkAuthCookie = createServerFn({ method: 'GET' }).handler(
   },
 )
 
-export const logout = createServerFn({ method: 'POST' }).handler(async () => {
+export const logout = createServerFn({ method: 'POST' }).handler(() => {
   deleteCookie(SESSION_COOKIE, { path: '/' })
   return { success: true }
 })

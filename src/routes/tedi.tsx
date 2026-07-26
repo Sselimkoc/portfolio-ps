@@ -77,14 +77,14 @@ function AdminPanel() {
   const [isSaving, setIsSaving] = useState(false)
   const [newSkill, setNewSkill] = useState({ group: '', name: '' })
   const [isAddingSkill, setIsAddingSkill] = useState(false)
-  const [rawSkills, setRawSkills] = useState(data.rawSkills || [])
+  const [rawSkills, setRawSkills] = useState(data.rawSkills )
   const [newProject, setNewProject] = useState<Partial<ProjectPayload> | null>(
     null,
   )
   const [newExperience, setNewExperience] =
     useState<Partial<ExperiencePayload> | null>(null)
-  const [projects, setProjects] = useState(data.projects || [])
-  const [experience, setExperience] = useState(data.experience || [])
+  const [projects, setProjects] = useState(data.projects )
+  const [experience, setExperience] = useState(data.experience )
 
   // Sync language states with i18n language changes
   useEffect(() => {
@@ -502,7 +502,7 @@ function AdminPanel() {
           </form>
 
           <div className="mt-4 space-y-2">
-            {rawSkills?.map((skill: any) => (
+            {rawSkills.map((skill: any) => (
               <div
                 key={skill.id}
                 className="flex items-center justify-between bg-white/5 px-3 py-2 rounded border border-white/5"
@@ -545,7 +545,7 @@ function AdminPanel() {
           </div>
 
           <div className="mt-4 space-y-3">
-            {projects?.map((project: any) => (
+            {projects.map((project: any) => (
               <div
                 key={project.id}
                 className="bg-white/5 border border-white/10 rounded p-3 space-y-2"
@@ -648,7 +648,7 @@ function AdminPanel() {
           </div>
 
           <div className="mt-4 space-y-3">
-            {experience?.map((exp: any) => (
+            {experience.map((exp: any) => (
               <div
                 key={exp.id}
                 className="bg-white/5 border border-white/10 rounded p-3 space-y-2"

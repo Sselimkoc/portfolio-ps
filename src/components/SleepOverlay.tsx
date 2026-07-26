@@ -1,4 +1,6 @@
-import SleepScreenThree from './sleep/SleepScreenThree'
+import { Suspense, lazy } from 'react'
+
+const SleepScreenThree = lazy(() => import('./sleep/SleepScreenThree'))
 
 interface SleepOverlayProps {
   isActive: boolean
@@ -11,5 +13,9 @@ export default function SleepOverlay({
 }: SleepOverlayProps) {
   if (!isActive) return null
 
-  return <SleepScreenThree onWake={onWakeUp} />
+  return (
+    <Suspense fallback={null}>
+      <SleepScreenThree onWake={onWakeUp} />
+    </Suspense>
+  )
 }
