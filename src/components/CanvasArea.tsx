@@ -43,7 +43,6 @@ export default function CanvasArea() {
   const [data, setData] = useState(initialData)
   const canvasRef = useRef<HTMLDivElement>(null)
   const [showDockHint, setShowDockHint] = useState(false)
-  // Start with true for first-time visitors, useEffect will hide if needed
   const [showIntro, setShowIntro] = useState(true)
   const [isSleeping, setIsSleeping] = useState(false)
   const [warningDialog, setWarningDialog] = useState<{
@@ -53,7 +52,6 @@ export default function CanvasArea() {
     url: string
   }>({ isOpen: false, title: '', message: '', url: '' })
 
-  // Check localStorage after mount - hide intro if already seen
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const hasSeenIntro = localStorage.getItem(INTRO_KEY) === '1'
@@ -63,7 +61,6 @@ export default function CanvasArea() {
     }
   }, [])
 
-  // Update data when language changes
   useEffect(() => {
     const updateData = async () => {
       try {
@@ -78,7 +75,6 @@ export default function CanvasArea() {
     updateData()
   }, [i18n.language])
 
-  // Background is controlled via CSS variable on :root (see styles.css)
 
   const [openWindows, setOpenWindows] = useState<Array<OpenWindowState>>(
     apps.map((app) => ({
@@ -89,8 +85,7 @@ export default function CanvasArea() {
     })),
   )
 
-  // Note: Wallpaper changes are handled by WallpaperSelector by updating
-  // the `.canvas-background` element and localStorage.
+
 
   const skipIntro = () => {
     localStorage.setItem(INTRO_KEY, '1')
@@ -223,7 +218,6 @@ export default function CanvasArea() {
     },
   ]
 
-  // Desktop shortcuts for wallpaper and puzzle
   const desktopShortcuts = [
     {
       id: 'wallpaper',
