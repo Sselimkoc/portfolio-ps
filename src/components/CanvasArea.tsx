@@ -18,6 +18,7 @@ import ProjectsGallery from './ProjectsGallery'
 import ExperienceTimeline from './ExperienceTimeline'
 import WallpaperSelector from './WallpaperSelector'
 import ContactForm from './ContactForm'
+import BlogReader from './BlogReader'
 import DesktopShortcuts from './DesktopShortcuts'
 import WarningDialog from './WarningDialog'
 
@@ -183,7 +184,7 @@ export default function CanvasArea() {
 
   const dockApps: Array<DockApp> = [
     ...apps
-      .filter((app) => !['wallpaper', 'puzzle'].includes(app.id))
+      .filter((app) => !['wallpaper', 'puzzle', 'blog'].includes(app.id))
       .map((app) => ({
         id: app.id,
         titleKey: app.title,
@@ -223,6 +224,12 @@ export default function CanvasArea() {
       id: 'wallpaper',
       title: 'apps.wallpaper.title',
       icon: apps.find((a) => a.id === 'wallpaper')?.icon || MailQuestion,
+      onOpen: handleOpenWindow,
+    },
+    {
+      id: 'blog',
+      title: 'apps.blog.title',
+      icon: apps.find((a) => a.id === 'blog')?.icon || MailQuestion,
       onOpen: handleOpenWindow,
     },
     // {
@@ -321,6 +328,19 @@ export default function CanvasArea() {
                   {app.id === 'wallpaper' && <WallpaperSelector />}
                   {/* {app.id === 'puzzle' && <SlidingPuzzle />} */}
                   {app.id === 'contact' && <ContactForm />}
+                  {app.id === 'blog' && (
+                    <BlogReader
+                      posts={data.blogPosts ?? []}
+                      onExternalLink={(url) => {
+                        setWarningDialog({
+                          isOpen: true,
+                          title: t('links.warningTitle'),
+                          message: t('links.externalWarning'),
+                          url,
+                        })
+                      }}
+                    />
+                  )}
                   {![
                     'about',
                     'skills',
@@ -329,6 +349,7 @@ export default function CanvasArea() {
                     'wallpaper',
                     // 'puzzle',
                     'contact',
+                    'blog',
                   ].includes(app.id) && (
                     <div className="p-5 text-white/80">{t(app.content)}</div>
                   )}

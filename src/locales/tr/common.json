@@ -115,7 +115,18 @@
     },
     "linkedin": {
       "title": "LinkedIn"
+    },
+    "blog": {
+      "title": "Blog",
+      "content": "Medium yazılarım"
     }
+  },
+  "blog": {
+    "readOnMedium": "Medium'da Oku",
+    "empty": "Henüz yazı eklenmedi.",
+    "excerpt": "Özet",
+    "tags": "Etiketler",
+    "selectPost": "Bir yazı seçin"
   },
   "wallpapers": {
     "default": "Varsayılan",
@@ -146,6 +157,10 @@
       "experienceAddFailed": "Tecrübe eklenemedi",
       "experienceDeleted": "Tecrübe başarıyla silindi!",
       "experienceDeleteFailed": "Tecrübe silinemedi",
+      "blogPostAdded": "Yazı başarıyla eklendi!",
+      "blogPostAddFailed": "Yazı eklenemedi",
+      "blogPostDeleted": "Yazı başarıyla silindi!",
+      "blogPostDeleteFailed": "Yazı silinemedi",
       "confirmDelete": "Emin misiniz?"
     },
     "profile": {
@@ -210,6 +225,17 @@
       "periodPlaceholder": "Dönem (örn., Oca 2020 - Ara 2021)",
       "locationPlaceholder": "Konum",
       "bulletsPlaceholder": "Ana sorumluluklar (her satırda bir tane)"
+    },
+    "blog": {
+      "title": "Blog Yazılarını Yönet",
+      "add": "Yazı Ekle",
+      "delete": "Sil",
+      "addNew": "Yeni Yazı Ekle",
+      "titlePlaceholder": "Yazı başlığı",
+      "excerptPlaceholder": "Kısa özet (okuyucuya görünecek metin)",
+      "tagsPlaceholder": "Etiketler (virgülle ayrılmış, örn. TypeScript, React)",
+      "hrefPlaceholder": "Medium yazı linki",
+      "publishedAtPlaceholder": "Yayın tarihi (örn. Ocak 2024)"
     }
   }
 }

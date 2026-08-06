@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ProtectedRoute from '../components/ProtectedRoute'
 import {
+  addBlogPost,
   addExperience,
   addProject,
   addSkill,
+  deleteBlogPost,
   deleteExperience,
   deleteProject,
   deleteSkill,
@@ -13,6 +15,7 @@ import {
   updateProfile,
 } from '../components/queries'
 import type {
+  BlogPostPayload,
   ExperiencePayload,
   ProfilePayload,
   ProjectPayload,
@@ -85,6 +88,9 @@ function AdminPanel() {
     useState<Partial<ExperiencePayload> | null>(null)
   const [projects, setProjects] = useState(data.projects )
   const [experience, setExperience] = useState(data.experience )
+  const [blogPosts, setBlogPosts] = useState(data.blogPosts || [])
+  const [newBlogPost, setNewBlogPost] = useState<Partial<BlogPostPayload> | null>(null)
+  const [blogLanguage, setBlogLanguage] = useState<'en' | 'tr'>(i18n.language as 'en' | 'tr')
 
   // Sync language states with i18n language changes
   useEffect(() => {
@@ -92,6 +98,7 @@ function AdminPanel() {
     setProfileLanguage(lang)
     setProjectLanguage(lang)
     setExperienceLanguage(lang)
+    setBlogLanguage(lang)
   }, [i18n.language])
 
   // Dil değiştiğinde veriyi yeniden yükle
@@ -287,6 +294,48 @@ function AdminPanel() {
       setExperience(newData.experience || [])
     } catch (error) {
       alert(t('admin.messages.experienceDeleteFailed'))
+    }
+  }
+
+  useEffect(() => {
+    const loadBlogPosts = async () => {
+      try {
+        const newData = await (getPortfolioData as any)({ data: { language: blogLanguage } })
+        setBlogPosts(newData.blogPosts || [])
+      } catch (error) {
+        console.error('Failed to load blog posts:', error)
+      }
+    }
+    loadBlogPosts()
+  }, [blogLanguage])
+
+  const handleAddBlogPost = async () => {
+    if (!newBlogPost?.title || !newBlogPost?.excerpt || !newBlogPost?.href) return
+    try {
+      await (addBlogPost as any)({
+        data: {
+          ...newBlogPost,
+          tags: newBlogPost.tags || [],
+          language: blogLanguage,
+        },
+      })
+      const newData = await (getPortfolioData as any)({ data: { language: blogLanguage } })
+      setBlogPosts(newData.blogPosts || [])
+      setNewBlogPost(null)
+      alert(t('admin.messages.blogPostAdded'))
+    } catch (error) {
+      alert(t('admin.messages.blogPostAddFailed'))
+    }
+  }
+
+  const handleDeleteBlogPost = async (id: number) => {
+    if (!confirm(t('admin.messages.confirmDelete'))) return
+    try {
+      await (deleteBlogPost as any)({ data: { id } })
+      const newData = await (getPortfolioData as any)({ data: { language: blogLanguage } })
+      setBlogPosts(newData.blogPosts || [])
+    } catch (error) {
+      alert(t('admin.messages.blogPostDeleteFailed'))
     }
   }
 
@@ -740,6 +789,97 @@ function AdminPanel() {
                 className="w-full bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm font-medium transition"
               >
                 {t('admin.experience.add')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Blog Posts Management Section */}
+        <div className="mt-12 space-y-6 bg-gray-800 p-6 rounded-xl border border-white/10">
+          <div className="flex justify-between items-center border-b border-white/10 pb-2">
+            <h2 className="text-xl font-semibold">{t('admin.blog.title')}</h2>
+            <select
+              value={blogLanguage}
+              onChange={(e) => setBlogLanguage(e.target.value as 'en' | 'tr')}
+              className="bg-white/5 border border-white/10 rounded px-3 py-1 text-sm outline-none focus:border-blue-500"
+            >
+              <option value="en">English</option>
+              <option value="tr">Türkçe</option>
+            </select>
+          </div>
+
+          <div className="mt-4 space-y-3">
+            {blogPosts.map((post: any) => (
+              <div
+                key={post.id}
+                className="bg-white/5 border border-white/10 rounded p-3 space-y-1"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex-1 min-w-0 pr-3">
+                    <p className="text-white font-semibold text-sm truncate">{post.title}</p>
+                    {post.publishedAt && (
+                      <p className="text-white/40 text-xs">{post.publishedAt}</p>
+                    )}
+                    {post.tags?.length > 0 && (
+                      <p className="text-white/30 text-xs mt-0.5">{post.tags.join(', ')}</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => handleDeleteBlogPost(post.id)}
+                    className="text-red-400 hover:text-red-300 text-xs flex-shrink-0"
+                  >
+                    {t('admin.blog.delete')}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-t border-white/10 pt-4">
+            <h3 className="text-sm font-medium text-white/70 mb-3">
+              {t('admin.blog.addNew')}
+            </h3>
+            <div className="space-y-2">
+              <input
+                placeholder={t('admin.blog.titlePlaceholder')}
+                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm outline-none focus:border-blue-500"
+                value={newBlogPost?.title || ''}
+                onChange={(e) => setNewBlogPost((prev: any) => ({ ...prev, title: e.target.value }))}
+              />
+              <textarea
+                placeholder={t('admin.blog.excerptPlaceholder')}
+                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm outline-none focus:border-blue-500 h-24 resize-y"
+                value={newBlogPost?.excerpt || ''}
+                onChange={(e) => setNewBlogPost((prev: any) => ({ ...prev, excerpt: e.target.value }))}
+              />
+              <input
+                placeholder={t('admin.blog.tagsPlaceholder')}
+                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm outline-none focus:border-blue-500"
+                value={newBlogPost?.tags?.join(', ') || ''}
+                onChange={(e) =>
+                  setNewBlogPost((prev: any) => ({
+                    ...prev,
+                    tags: e.target.value.split(',').map((s: string) => s.trim()).filter(Boolean),
+                  }))
+                }
+              />
+              <input
+                placeholder={t('admin.blog.hrefPlaceholder')}
+                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm outline-none focus:border-blue-500"
+                value={newBlogPost?.href || ''}
+                onChange={(e) => setNewBlogPost((prev: any) => ({ ...prev, href: e.target.value }))}
+              />
+              <input
+                placeholder={t('admin.blog.publishedAtPlaceholder')}
+                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm outline-none focus:border-blue-500"
+                value={newBlogPost?.publishedAt || ''}
+                onChange={(e) => setNewBlogPost((prev: any) => ({ ...prev, publishedAt: e.target.value }))}
+              />
+              <button
+                onClick={handleAddBlogPost}
+                className="w-full bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm font-medium transition"
+              >
+                {t('admin.blog.add')}
               </button>
             </div>
           </div>

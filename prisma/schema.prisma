@@ -58,6 +58,18 @@ model Experience {
   updatedAt DateTime @updatedAt
 }
 
+model BlogPost {
+  id          Int      @id @default(autoincrement())
+  title       String
+  excerpt     String
+  tags        String[] @default([])
+  href        String
+  publishedAt String?  // e.g. "Ocak 2024"
+  language    String   @default("tr") // "en" or "tr"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model AdminAuth {
   id             Int       @id @default(autoincrement())
   passwordHash   String

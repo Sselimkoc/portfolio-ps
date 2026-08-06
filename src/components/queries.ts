@@ -49,6 +49,16 @@ export type ExperiencePayload = {
   language: string // "en" or "tr"
 }
 
+export type BlogPostPayload = {
+  id?: number
+  title: string
+  excerpt: string
+  tags: Array<string>
+  href: string
+  publishedAt?: string
+  language: string // "en" or "tr"
+}
+
 export type { SkillGroup } from '../lib/skills'
 
 const isServer = typeof window === 'undefined'
@@ -103,11 +113,12 @@ export const getPortfolioData = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
     const { language } = data
-    const [profile, skills, projects, experience] = await Promise.all([
+    const [profile, skills, projects, experience, blogPosts] = await Promise.all([
       prisma.profile.findFirst({ where: { language } }),
       prisma.skill.findMany(),
       prisma.project.findMany({ where: { language } }),
       prisma.experience.findMany({ where: { language }, orderBy: { order: 'asc' } }),
+      prisma.blogPost.findMany({ where: { language }, orderBy: { createdAt: 'desc' } }),
     ])
 
     return {
@@ -116,6 +127,7 @@ export const getPortfolioData = createServerFn({ method: 'POST' })
       rawSkills: skills,
       projects,
       experience,
+      blogPosts,
     }
   })
 
@@ -239,4 +251,24 @@ export const updateExperience = createServerFn({ method: 'POST' })
       where: { id: id! },
       data: rest,
     })
+  })
+
+export const addBlogPost = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .inputValidator((data: BlogPostPayload) => {
+    requireStrings(data, ['title', 'excerpt', 'href', 'language'])
+    return data
+  })
+  .handler(async ({ data }) => {
+    const prisma = await initializePrisma()
+    const { id: _id, ...rest } = data
+    return prisma.blogPost.create({ data: rest })
+  })
+
+export const deleteBlogPost = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .inputValidator(requireId)
+  .handler(async ({ data }) => {
+    const prisma = await initializePrisma()
+    return prisma.blogPost.delete({ where: { id: data.id } })
   })

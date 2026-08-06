@@ -115,7 +115,18 @@
     },
     "linkedin": {
       "title": "LinkedIn"
+    },
+    "blog": {
+      "title": "Blog",
+      "content": "My Medium articles"
     }
+  },
+  "blog": {
+    "readOnMedium": "Read on Medium",
+    "empty": "No posts added yet.",
+    "excerpt": "Excerpt",
+    "tags": "Tags",
+    "selectPost": "Select a post"
   },
   "wallpapers": {
     "default": "Default",
@@ -146,6 +157,10 @@
       "experienceAddFailed": "Failed to add experience",
       "experienceDeleted": "Experience deleted successfully!",
       "experienceDeleteFailed": "Failed to delete experience",
+      "blogPostAdded": "Post added successfully!",
+      "blogPostAddFailed": "Failed to add post",
+      "blogPostDeleted": "Post deleted successfully!",
+      "blogPostDeleteFailed": "Failed to delete post",
       "confirmDelete": "Are you sure?"
     },
     "profile": {
@@ -210,6 +225,17 @@
       "periodPlaceholder": "Period (e.g., Jan 2020 - Dec 2021)",
       "locationPlaceholder": "Location",
       "bulletsPlaceholder": "Key responsibilities (one per line)"
+    },
+    "blog": {
+      "title": "Manage Blog Posts",
+      "add": "Add Post",
+      "delete": "Delete",
+      "addNew": "Add New Post",
+      "titlePlaceholder": "Post title",
+      "excerptPlaceholder": "Short excerpt (visible to readers)",
+      "tagsPlaceholder": "Tags (comma-separated, e.g. TypeScript, React)",
+      "hrefPlaceholder": "Medium post link",
+      "publishedAtPlaceholder": "Published date (e.g. January 2024)"
     }
   }
 }

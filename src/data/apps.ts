@@ -1,4 +1,4 @@
-import { Binary, Briefcase, FolderGit2, Image, Mail, Puzzle, User } from 'lucide-react'
+import { Binary, BookOpen, Briefcase, FolderGit2, Image, Mail, Puzzle, User } from 'lucide-react'
 import type React from 'react'
 
 export interface App {
@@ -58,5 +58,13 @@ export const apps: Array<App> = [
     icon: Image,
     defaultSize: { width: 900, height: 550 },
     defaultPosition: { x: 400, y: 120 },
+  },
+  {
+    id: 'blog',
+    title: 'apps.blog.title',
+    content: 'apps.blog.content',
+    icon: BookOpen,
+    defaultSize: { width: 900, height: 550 },
+    defaultPosition: { x: 360, y: 140 },
   },
 ]
