@@ -36,7 +36,8 @@ interface DockApp {
   action: (id: string) => void
 }
 
-const INTRO_KEY = 'portfolio:introSeen:v1'
+const INTRO_KEY = 'portfolio:introSeen:v2'
+const INTRO_TTL_MS = 3 * 24 * 60 * 60 * 1000
 
 export default function CanvasArea() {
   const { t, i18n } = useTranslation()
@@ -55,8 +56,8 @@ export default function CanvasArea() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const hasSeenIntro = localStorage.getItem(INTRO_KEY) === '1'
-      if (hasSeenIntro) {
+      const seenAt = localStorage.getItem(INTRO_KEY)
+      if (seenAt && Date.now() - Number(seenAt) < INTRO_TTL_MS) {
         setShowIntro(false)
       }
     }
@@ -76,7 +77,6 @@ export default function CanvasArea() {
     updateData()
   }, [i18n.language])
 
-
   const [openWindows, setOpenWindows] = useState<Array<OpenWindowState>>(
     apps.map((app) => ({
       id: app.id,
@@ -86,12 +86,15 @@ export default function CanvasArea() {
     })),
   )
 
-
-
   const skipIntro = () => {
-    localStorage.setItem(INTRO_KEY, '1')
+    localStorage.setItem(INTRO_KEY, String(Date.now()))
     setShowIntro(false)
     setShowDockHint(true)
+    setOpenWindows((prev) =>
+      prev.map((w) =>
+        w.id === 'about' ? { ...w, isOpen: true, isMinimized: false } : w,
+      ),
+    )
   }
 
   const handlePowerOff = (e?: React.MouseEvent) => {
@@ -131,7 +134,9 @@ export default function CanvasArea() {
 
       // Pencere açık ve görünürse → minimize et
       if (win.isOpen && !win.isMinimized) {
-        return prev.map((w) => w.id === appId ? { ...w, isMinimized: true } : w)
+        return prev.map((w) =>
+          w.id === appId ? { ...w, isMinimized: true } : w,
+        )
       }
 
       // Kapalıysa → rastgele pozisyonda aç
@@ -143,18 +148,28 @@ export default function CanvasArea() {
         const topBar = 36
         const dock = 90
         const margin = 30
-        const vw = typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1440
-        const vh = typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight : 900
+        const vw =
+          typeof globalThis.window !== 'undefined'
+            ? globalThis.window.innerWidth
+            : 1440
+        const vh =
+          typeof globalThis.window !== 'undefined'
+            ? globalThis.window.innerHeight
+            : 900
         const maxX = Math.max(margin, vw - winW - margin)
         const maxY = Math.max(topBar + margin, vh - winH - dock - margin)
         newPosition = {
           x: Math.floor(Math.random() * (maxX - margin) + margin),
-          y: Math.floor(Math.random() * (maxY - topBar - margin) + topBar + margin),
+          y: Math.floor(
+            Math.random() * (maxY - topBar - margin) + topBar + margin,
+          ),
         }
       }
 
       const updatedWindows = prev.map((w) =>
-        w.id === appId ? { ...w, isOpen: true, isMinimized: false, position: newPosition } : w,
+        w.id === appId
+          ? { ...w, isOpen: true, isMinimized: false, position: newPosition }
+          : w,
       )
       const windowToMove = updatedWindows.find((w) => w.id === appId)!
       const otherWindows = updatedWindows.filter((w) => w.id !== appId)

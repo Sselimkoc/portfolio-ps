@@ -387,7 +387,7 @@ export default function MobileGate() {
 
   return (
     <div
-      className="lg:hidden fixed inset-0 z-9999 flex flex-col overflow-hidden"
+      className="xl:hidden fixed inset-0 z-9999 flex flex-col overflow-hidden"
       role="main"
       aria-label="Mobile Portfolio"
     >
