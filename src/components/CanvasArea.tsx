@@ -305,6 +305,7 @@ export default function CanvasArea() {
                   {app.id === 'about' && data.profile && (
                     <AboutEducation
                       {...data.profile}
+                      cvUrl={data.profile.cvUrl ?? undefined}
                       education={{
                         school: data.profile.school,
                         department: data.profile.department,

@@ -9,6 +9,7 @@ interface AboutEducationProps {
   bio: string
   githubUrl: string
   linkedinUrl: string
+  cvUrl?: string
   education: {
     school: string
     department: string

@@ -1,4 +1,4 @@
-import { LucideGithub, LucideLinkedin } from 'lucide-react'
+import { Download, LucideGithub, LucideLinkedin } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 interface ProfileHeaderProps {
@@ -7,6 +7,7 @@ interface ProfileHeaderProps {
   location?: string
   githubUrl: string
   linkedinUrl: string
+  cvUrl?: string
   onExternalLink?: (url: string) => void
 }
 
@@ -16,6 +17,7 @@ export default function ProfileHeader({
   location,
   githubUrl,
   linkedinUrl,
+  cvUrl,
   onExternalLink,
 }: ProfileHeaderProps) {
   const { t } = useTranslation()
@@ -66,6 +68,25 @@ export default function ProfileHeader({
             <Icon size={18} />
           </a>
         ))}
+
+        {cvUrl && (
+          <a
+            href={cvUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={t('profile.downloadCV')}
+            onClick={(e) => {
+              if (onExternalLink) {
+                e.preventDefault()
+                onExternalLink(cvUrl)
+              }
+            }}
+            className="flex items-center gap-2 h-10 px-4 rounded-lg bg-white/15 border border-white/20 text-white/80 text-sm font-medium transition-all duration-200 hover:bg-white/25 hover:text-white hover:border-white/35 hover:shadow-lg hover:shadow-white/10 cursor-pointer"
+          >
+            <Download size={15} />
+            CV
+          </a>
+        )}
       </div>
     </div>
   )

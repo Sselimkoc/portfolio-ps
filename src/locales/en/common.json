@@ -23,7 +23,8 @@
   "profile": {
     "aboutTitle": "About",
     "educationTitle": "Education",
-    "endProfile": "End of Profile"
+    "endProfile": "End of Profile",
+    "downloadCV": "Download CV"
   },
   "projects": {
     "description": "Description",
@@ -171,6 +172,8 @@
       "location": "Location",
       "githubUrl": "GitHub URL",
       "linkedinUrl": "LinkedIn URL",
+      "cvUrl": "CV URL",
+      "cvUrlPlaceholder": "CV link (Google Drive, Notion, etc.)",
       "bio": "Bio",
       "school": "School",
       "department": "Department",

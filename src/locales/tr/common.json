@@ -23,7 +23,8 @@
   "profile": {
     "aboutTitle": "HAKKIMDA",
     "educationTitle": "EĞİTİM",
-    "endProfile": "Profilin Sonu"
+    "endProfile": "Profilin Sonu",
+    "downloadCV": "CV İndir"
   },
   "projects": {
     "description": "AÇIKLAMA",
@@ -171,6 +172,8 @@
       "location": "Konum",
       "githubUrl": "GitHub URL",
       "linkedinUrl": "LinkedIn URL",
+      "cvUrl": "CV URL",
+      "cvUrlPlaceholder": "CV linki (Google Drive, Notion vb.)",
       "bio": "Biyografi",
       "school": "Okul",
       "department": "Bölüm",

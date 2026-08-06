@@ -61,6 +61,7 @@ function AdminPanel() {
       email: '',
       githubUrl: '',
       linkedinUrl: '',
+      cvUrl: '',
       location: t('admin.profile.defaultLocation'),
       school: '',
       department: '',
@@ -73,6 +74,7 @@ function AdminPanel() {
           ...data.profile,
           years: data.profile.years ?? undefined,
           gpa: data.profile.gpa ?? undefined,
+          cvUrl: data.profile.cvUrl ?? '',
           language: profileLanguage,
         }
       : defaultProfile
@@ -115,6 +117,7 @@ function AdminPanel() {
           email: '',
           githubUrl: '',
           linkedinUrl: '',
+          cvUrl: '',
           location: t('admin.profile.defaultLocation'),
           school: '',
           department: '',
@@ -124,7 +127,7 @@ function AdminPanel() {
         }
         setProfile(
           newData.profile
-            ? { ...newData.profile, language: profileLanguage }
+            ? { ...newData.profile, cvUrl: newData.profile.cvUrl ?? '', language: profileLanguage }
             : defaultProfile,
         )
       } catch (error) {
@@ -457,6 +460,23 @@ function AdminPanel() {
                   setProfile((prev: ProfilePayload) => ({
                     ...prev,
                     linkedinUrl: e.target.value,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-xs text-white/50">
+                {t('admin.profile.cvUrl')}
+              </label>
+              <input
+                className="bg-white/5 border border-white/10 rounded px-3 py-2 outline-none focus:border-blue-500 text-sm"
+                placeholder={t('admin.profile.cvUrlPlaceholder')}
+                value={(profile as any).cvUrl || ''}
+                onChange={(e) =>
+                  setProfile((prev: ProfilePayload) => ({
+                    ...prev,
+                    cvUrl: e.target.value,
                   }))
                 }
               />

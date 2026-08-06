@@ -14,6 +14,7 @@ model Profile {
   email       String
   githubUrl   String
   linkedinUrl String
+  cvUrl       String?
   location    String
   school      String
   department  String

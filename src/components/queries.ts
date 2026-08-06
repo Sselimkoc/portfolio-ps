@@ -11,6 +11,7 @@ export type ProfilePayload = {
   email: string
   githubUrl: string
   linkedinUrl: string
+  cvUrl?: string
   location: string
   school: string
   department: string
