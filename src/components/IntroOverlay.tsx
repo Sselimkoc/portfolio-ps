@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from '@tanstack/react-router'
+
 
 interface IntroOverlayProps {
   showIntro: boolean
@@ -12,6 +14,8 @@ export default function IntroOverlay({
   onSkipIntro,
 }: IntroOverlayProps) {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  const h1Ref = useRef<HTMLHeadingElement>(null)
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'tr' : 'en'
@@ -31,12 +35,12 @@ export default function IntroOverlay({
 
   // 1. Kapsayıcı Variant: İçindekileri sırayla tetikler (Stagger)
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15, // Her eleman bir öncekinden 0.15sn sonra gelir
-        delayChildren: 0.2, // Başlamadan önce kısa bir bekleme
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       },
     },
     exit: {
@@ -44,26 +48,23 @@ export default function IntroOverlay({
       scale: 0.95,
       filter: 'blur(10px)',
       transition: {
-        duration: 0.6,
-        ease: [0.32, 0.72, 0, 1] as any, // "Ease-out-sine" benzeri yumuşak çıkış
+        duration: 0.4,
+        ease: [0.32, 0.72, 0, 1] as any,
       },
     },
   }
 
-  // 2. Eleman Variant: Blur ve Y ekseni ile yumuşak giriş
   const itemVariants = {
     hidden: {
       opacity: 0,
-      y: 30,
-      filter: 'blur(12px)', // Bulanık başlar
+      filter: 'blur(20px)',
     },
     visible: {
       opacity: 1,
-      y: 0,
-      filter: 'blur(0px)', // Netleşir
+      filter: 'blur(0px)',
       transition: {
-        duration: 1,
-        ease: [0.2, 0.65, 0.3, 0.9] as any, // Özel "Lüks" hissi veren bezier eğrisi
+        duration: 0.9,
+        ease: 'easeOut' as any,
       },
     },
   }
@@ -79,13 +80,22 @@ export default function IntroOverlay({
           suppressHydrationWarning
         >
           {/* Arka Plan: Hafif scale efekti ile nefes alma hissi */}
+          {/* Blur layer - wallpaper görünür kalır */}
           <motion.div
-            className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-purple-400/35 via-purple-500/25 to-purple-600/40 backdrop-blur-[20px]"
-            initial={{ scale: 1.1, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            className="absolute inset-0 backdrop-blur-[20px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: 'easeOut' }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
             onMouseDown={onSkipIntro}
+          />
+          {/* Metin arkası gradient - sadece merkezi koyulaştırır */}
+          <motion.div
+            className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,var(--tw-gradient-stops))] from-black/50 via-black/30 to-transparent pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
           />
 
           {/* Language Toggle Button - Top Right */}
@@ -128,25 +138,41 @@ export default function IntroOverlay({
             {/* 1. Ana Başlık */}
             <motion.h1
               className="text-[84px] font-bold text-white leading-[1.1] tracking-[-0.04em] font-heading"
-              style={
-                {
-                  textShadow:
-                    '0 2px 40px rgba(0, 0, 0, 0.8), 0 0 80px rgba(0, 0, 0, 0.6)',
-                } as React.CSSProperties
-              }
-              variants={itemVariants} // Alt variant
+              style={{ textShadow: '0 2px 20px rgba(0, 0, 0, 0.9), 0 0 60px rgba(0, 0, 0, 0.7)' } as React.CSSProperties}
+              variants={itemVariants}
             >
               {t('hero.title')}
+              <button
+                onClick={() => navigate({ to: '/tedi' })}
+                style={{
+                  display: 'inline-block',
+                  width: '0.16em',
+                  height: '0.16em',
+                  background: 'transparent',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'default',
+                  verticalAlign: 'text-bottom',
+                  marginLeft: '0.05em',
+                  marginBottom: '0.29em',
+                  lineHeight: 0,
+                }}
+                tabIndex={-1}
+                aria-hidden="true"
+              >
+                <img
+                  src="/tedi-dot.png"
+                  alt=""
+                  style={{ width: '100%', height: '100%', display: 'block' }}
+                  draggable={false}
+                />
+              </button>
             </motion.h1>
 
             {/* 2. İsim */}
             <motion.p
               className="mt-6 text-3xl text-white/90 font-medium tracking-tight font-heading"
-              style={
-                {
-                  textShadow: '0 2px 30px rgba(0, 0, 0, 0.7)',
-                } as React.CSSProperties
-              }
+              style={{ textShadow: '0 2px 30px rgba(0, 0, 0, 0.7)' } as React.CSSProperties}
               variants={itemVariants}
             >
               {t('hero.subtitleName')}
@@ -159,16 +185,7 @@ export default function IntroOverlay({
               </span>
             </motion.div>
 
-            {/* 4. Açıklama (Yorum satırındaydı, variant ile uyumlu bıraktım) */}
-            {/* <motion.p
-              className="mt-10 max-w-2xl mx-auto text-base md:text-lg text-zinc-300 leading-relaxed font-normal"
-              variants={itemVariants}
-            >
-              {t('hero.description')}
-            </motion.p> 
-            */}
-
-            {/* 5. CTA Button */}
+            {/* 4. CTA Button */}
             <motion.div
               className="mt-16 flex flex-col items-center gap-6"
               variants={itemVariants}
@@ -180,7 +197,6 @@ export default function IntroOverlay({
                 <span className="relative z-10">
                   {t('hero.clickToContinue')}
                 </span>
-                {/* Buton içi parlama efekti */}
                 <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/80 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
               </button>
             </motion.div>
