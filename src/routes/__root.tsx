@@ -1,6 +1,7 @@
 import { lazy, useEffect } from 'react'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { SpeedInsights } from '@vercel/speed-insights/react'
+import { Analytics } from '@vercel/analytics/react'
 
 const TanStackDevtools =
   process.env.NODE_ENV === 'production'
@@ -141,6 +142,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           ]}
         />
         <SpeedInsights />
+        <Analytics />
         <Scripts />
       </body>
     </html>
