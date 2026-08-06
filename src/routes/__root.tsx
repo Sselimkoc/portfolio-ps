@@ -1,8 +1,22 @@
-import { useEffect } from 'react'
+import { lazy, useEffect } from 'react'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 import { SpeedInsights } from '@vercel/speed-insights/react'
+
+const TanStackDevtools =
+  process.env.NODE_ENV === 'production'
+    ? () => null
+    : lazy(() =>
+        import('@tanstack/react-devtools').then((m) => ({ default: m.TanStackDevtools }))
+      )
+
+const TanStackRouterDevtoolsPanel =
+  process.env.NODE_ENV === 'production'
+    ? () => null
+    : lazy(() =>
+        import('@tanstack/react-router-devtools').then((m) => ({
+          default: m.TanStackRouterDevtoolsPanel,
+        }))
+      )
 
 import appCss from '../styles.css?url'
 import i18n from '../i18n/config'
@@ -40,8 +54,16 @@ export const Route = createRootRoute({
         crossOrigin: 'anonymous',
       },
       {
+        rel: 'preload',
+        as: 'style',
+        href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap',
+      },
+      {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap',
+        media: 'print',
+        // @ts-ignore
+        onload: "this.media='all'",
       },
       {
         rel: 'stylesheet',

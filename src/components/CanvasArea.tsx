@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLoaderData } from '@tanstack/react-router'
 import { GithubIcon, LinkedinIcon, MailQuestion } from 'lucide-react'
@@ -10,17 +10,17 @@ import DockHint from './DockHint'
 import Dock from './Dock'
 import IntroOverlay from './IntroOverlay'
 import SleepOverlay from './SleepOverlay'
-
 import TopBar from './TopBar'
-import AboutEducation from './AboutEducation'
-import SkillsPalette from './SkillsPalette'
-import ProjectsGallery from './ProjectsGallery'
-import ExperienceTimeline from './ExperienceTimeline'
-import WallpaperSelector from './WallpaperSelector'
-import ContactForm from './ContactForm'
-import BlogReader from './BlogReader'
 import DesktopShortcuts from './DesktopShortcuts'
 import WarningDialog from './WarningDialog'
+
+const AboutEducation = lazy(() => import('./AboutEducation'))
+const SkillsPalette = lazy(() => import('./SkillsPalette'))
+const ProjectsGallery = lazy(() => import('./ProjectsGallery'))
+const ExperienceTimeline = lazy(() => import('./ExperienceTimeline'))
+const WallpaperSelector = lazy(() => import('./WallpaperSelector'))
+const ContactForm = lazy(() => import('./ContactForm'))
+const BlogReader = lazy(() => import('./BlogReader'))
 
 interface OpenWindowState {
   id: string
@@ -302,6 +302,7 @@ export default function CanvasArea() {
                   defaultPosition={windowState.position}
                   defaultSize={app.defaultSize || { width: 550, height: 450 }}
                 >
+                  <Suspense fallback={<div className="flex-1 flex items-center justify-center text-white/30 text-sm">Yükleniyor...</div>}>
                   {app.id === 'about' && data.profile && (
                     <AboutEducation
                       {...data.profile}
@@ -369,6 +370,7 @@ export default function CanvasArea() {
                   ].includes(app.id) && (
                     <div className="p-5 text-white/80">{t(app.content)}</div>
                   )}
+                  </Suspense>
                 </DraggableWindow>
               </div>
             )
