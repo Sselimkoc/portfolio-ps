@@ -80,10 +80,9 @@ async function initializePrisma(): Promise<PrismaClient> {
 
     const adapter = new PrismaNeon({ connectionString: databaseUrl! })
     prismaClient = new PrismaClient({ adapter })
-
-    if (process.env.NODE_ENV !== 'production') {
-      globalForPrisma.prisma = prismaClient
-    }
+    // Cache on globalThis in every environment so warm serverless invocations
+    // reuse the connection instead of opening a fresh one per request.
+    globalForPrisma.prisma = prismaClient
   }
   return prismaClient!
 }
@@ -107,29 +106,53 @@ function requireStrings(data: Record<string, unknown>, fields: Array<string>) {
   }
 }
 
+async function fetchPortfolioData(language: string) {
+  const prisma = await initializePrisma()
+  const [profile, skills, projects, experience, blogPosts] = await Promise.all([
+    prisma.profile.findFirst({ where: { language } }),
+    prisma.skill.findMany(),
+    prisma.project.findMany({ where: { language } }),
+    prisma.experience.findMany({ where: { language }, orderBy: { order: 'asc' } }),
+    prisma.blogPost.findMany({ where: { language }, orderBy: { createdAt: 'desc' } }),
+  ])
+
+  return {
+    profile,
+    skills: groupAndSortSkills(skills),
+    rawSkills: skills,
+    projects,
+    experience,
+    blogPosts,
+  }
+}
+
+// Portfolio content changes only via the admin panel, so cache it in memory
+// for a few minutes to avoid a Neon round trip on every page load. Mutations
+// below clear this cache so edits show up immediately.
+const PORTFOLIO_CACHE_TTL_MS = 5 * 60 * 1000
+const portfolioCache = new Map<
+  string,
+  { data: Awaited<ReturnType<typeof fetchPortfolioData>>; expires: number }
+>()
+
+function invalidatePortfolioCache() {
+  portfolioCache.clear()
+}
+
 export const getPortfolioData = createServerFn({ method: 'POST' })
   .inputValidator((data?: { language?: string }) => ({
     language: data?.language === 'en' ? 'en' : 'tr',
   }))
   .handler(async ({ data }) => {
-    const prisma = await initializePrisma()
     const { language } = data
-    const [profile, skills, projects, experience, blogPosts] = await Promise.all([
-      prisma.profile.findFirst({ where: { language } }),
-      prisma.skill.findMany(),
-      prisma.project.findMany({ where: { language } }),
-      prisma.experience.findMany({ where: { language }, orderBy: { order: 'asc' } }),
-      prisma.blogPost.findMany({ where: { language }, orderBy: { createdAt: 'desc' } }),
-    ])
-
-    return {
-      profile,
-      skills: groupAndSortSkills(skills),
-      rawSkills: skills,
-      projects,
-      experience,
-      blogPosts,
+    const cached = portfolioCache.get(language)
+    if (cached && cached.expires > Date.now()) {
+      return cached.data
     }
+
+    const result = await fetchPortfolioData(language)
+    portfolioCache.set(language, { data: result, expires: Date.now() + PORTFOLIO_CACHE_TTL_MS })
+    return result
   })
 
 export type PortfolioData = Awaited<ReturnType<typeof getPortfolioData>>
@@ -147,16 +170,16 @@ export const updateProfile = createServerFn({ method: 'POST' })
 
     const existing = await prisma.profile.findFirst({ where: { language: lang } })
 
-    if (existing) {
-      return prisma.profile.update({
-        where: { id: existing.id },
-        data: rest,
-      })
-    } else {
-      return prisma.profile.create({
-        data: { ...rest, language: lang },
-      })
-    }
+    const result = existing
+      ? await prisma.profile.update({
+          where: { id: existing.id },
+          data: rest,
+        })
+      : await prisma.profile.create({
+          data: { ...rest, language: lang },
+        })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const addSkill = createServerFn({ method: 'POST' })
@@ -167,7 +190,9 @@ export const addSkill = createServerFn({ method: 'POST' })
   })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    return prisma.skill.create({ data })
+    const result = await prisma.skill.create({ data })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const deleteSkill = createServerFn({ method: 'POST' })
@@ -175,7 +200,9 @@ export const deleteSkill = createServerFn({ method: 'POST' })
   .inputValidator(requireId)
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    return prisma.skill.delete({ where: { id: data.id } })
+    const result = await prisma.skill.delete({ where: { id: data.id } })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const addProject = createServerFn({ method: 'POST' })
@@ -187,7 +214,9 @@ export const addProject = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
     const { id: _id, ...rest } = data
-    return prisma.project.create({ data: rest })
+    const result = await prisma.project.create({ data: rest })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const deleteProject = createServerFn({ method: 'POST' })
@@ -195,7 +224,9 @@ export const deleteProject = createServerFn({ method: 'POST' })
   .inputValidator(requireId)
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    return prisma.project.delete({ where: { id: data.id } })
+    const result = await prisma.project.delete({ where: { id: data.id } })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const updateProject = createServerFn({ method: 'POST' })
@@ -210,10 +241,12 @@ export const updateProject = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
     const { id, ...rest } = data
-    return prisma.project.update({
+    const result = await prisma.project.update({
       where: { id: id! },
       data: rest,
     })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const addExperience = createServerFn({ method: 'POST' })
@@ -225,7 +258,9 @@ export const addExperience = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
     const { id: _id, ...rest } = data
-    return prisma.experience.create({ data: rest })
+    const result = await prisma.experience.create({ data: rest })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const deleteExperience = createServerFn({ method: 'POST' })
@@ -233,7 +268,9 @@ export const deleteExperience = createServerFn({ method: 'POST' })
   .inputValidator(requireId)
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    return prisma.experience.delete({ where: { id: data.id } })
+    const result = await prisma.experience.delete({ where: { id: data.id } })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const updateExperience = createServerFn({ method: 'POST' })
@@ -248,10 +285,12 @@ export const updateExperience = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
     const { id, ...rest } = data
-    return prisma.experience.update({
+    const result = await prisma.experience.update({
       where: { id: id! },
       data: rest,
     })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const addBlogPost = createServerFn({ method: 'POST' })
@@ -263,7 +302,9 @@ export const addBlogPost = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
     const { id: _id, ...rest } = data
-    return prisma.blogPost.create({ data: rest })
+    const result = await prisma.blogPost.create({ data: rest })
+    invalidatePortfolioCache()
+    return result
   })
 
 export const deleteBlogPost = createServerFn({ method: 'POST' })
@@ -271,5 +312,7 @@ export const deleteBlogPost = createServerFn({ method: 'POST' })
   .inputValidator(requireId)
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
-    return prisma.blogPost.delete({ where: { id: data.id } })
+    const result = await prisma.blogPost.delete({ where: { id: data.id } })
+    invalidatePortfolioCache()
+    return result
   })

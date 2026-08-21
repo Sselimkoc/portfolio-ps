@@ -82,7 +82,7 @@ export default function IntroOverlay({
           {/* Arka Plan: Hafif scale efekti ile nefes alma hissi */}
           {/* Blur layer - wallpaper görünür kalır */}
           <motion.div
-            className="absolute inset-0 backdrop-blur-[20px]"
+            className="absolute inset-0 backdrop-blur-[12px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

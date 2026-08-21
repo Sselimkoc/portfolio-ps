@@ -111,7 +111,7 @@ export default function DraggableWindow({
     >
       {/* Title Bar */}
       <div
-        className="py-3.5 px-4 border-b border-white/6 relative select-none backdrop-blur-[28px]"
+        className="py-3.5 px-4 border-b border-white/6 relative select-none"
         style={{
           background:
             'linear-gradient(to bottom, rgba(30, 30, 34, 0.85), rgba(22, 22, 25, 0.75))',
@@ -159,7 +159,7 @@ export default function DraggableWindow({
 
       {/* Content */}
       <div
-        className="flex-1 overflow-y-auto p-6 backdrop-blur-[28px]"
+        className="flex-1 overflow-y-auto p-6"
         style={{
           background:
             'radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 35%, rgba(10, 10, 12, 0.55) 100%)',

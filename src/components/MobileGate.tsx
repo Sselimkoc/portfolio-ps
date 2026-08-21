@@ -346,24 +346,40 @@ const TAB_KEYS: Record<TabId, string> = {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
+// Tailwind's `xl` breakpoint — keep in sync with the `xl:hidden` class below.
+const DESKTOP_QUERY = '(min-width: 1280px)'
+
 export default function MobileGate() {
   const { t, i18n } = useTranslation()
   const [activeTab, setActiveTab] = useState<TabId>('about')
   const [data, setData] = useState<PortfolioData | null>(null)
   const [loading, setLoading] = useState(true)
+  // Starts false to match SSR output (no window), then flips after mount so
+  // desktop viewports never fetch data or keep this tree's effects/animations alive.
+  const [isDesktop, setIsDesktop] = useState(false)
   const tabBarRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   // Per-tab scroll memory: remembers where you left off, starts at 0 on first visit
   const scrollPositions = useRef<Partial<Record<TabId, number>>>({})
 
-  // Fetch portfolio data whenever language changes
   useEffect(() => {
+    const mql = window.matchMedia(DESKTOP_QUERY)
+    const update = () => setIsDesktop(mql.matches)
+    update()
+    mql.addEventListener('change', update)
+    return () => mql.removeEventListener('change', update)
+  }, [])
+
+  // Fetch portfolio data whenever language changes — skipped entirely on desktop,
+  // where this component stays CSS-hidden and doesn't need its own data.
+  useEffect(() => {
+    if (isDesktop) return
     setLoading(true)
     getPortfolioData({ data: { language: i18n.language } })
       .then((res) => setData(res))
       .catch(() => setData(null))
       .finally(() => setLoading(false))
-  }, [i18n.language])
+  }, [i18n.language, isDesktop])
 
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === 'en' ? 'tr' : 'en')
@@ -384,6 +400,8 @@ export default function MobileGate() {
   }
 
   const profile = data?.profile
+
+  if (isDesktop) return null
 
   return (
     <div

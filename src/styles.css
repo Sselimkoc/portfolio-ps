@@ -53,17 +53,17 @@ code {
 @layer components {
   /* Master Glass Component - Optimized for Performance */
   .glass {
-    @apply bg-white/8 backdrop-blur-[28px] ring-1 ring-white/20;
+    @apply bg-white/8 backdrop-blur-[20px] ring-1 ring-white/20;
   }
 
   /* Glass Card - For content sections (Windows) */
   .glass-card {
-    @apply bg-white/8 backdrop-blur-[28px] ring-1 ring-white/20 shadow-2xl;
+    @apply bg-white/8 backdrop-blur-[20px] ring-1 ring-white/20 shadow-2xl;
   }
 
   /* Glass Window - For draggable windows */
   .glass-window {
-    @apply backdrop-blur-[30px] ring-1 ring-white/12;
+    @apply backdrop-blur-[20px] ring-1 ring-white/12;
     background-color: rgba(18, 18, 20, 0.55);
     position: relative;
   }
@@ -98,17 +98,17 @@ code {
 
   /* Glass Button - For interactive elements */
   .glass-button {
-    @apply bg-white/14 backdrop-blur-[28px] ring-1 ring-white/30 transition-all;
+    @apply bg-white/14 backdrop-blur-[20px] ring-1 ring-white/30 transition-all;
   }
 
   /* Glass Dock - For fixed taskbar */
   .glass-dock {
-    @apply bg-linear-to-t from-white/24 to-white/14 backdrop-blur-[32px] rounded-3xl;
+    @apply bg-linear-to-t from-white/24 to-white/14 backdrop-blur-[22px] rounded-3xl;
   }
 
   /* Mac TopBar - Menu bar */
   .mac-topbar {
-    @apply bg-linear-to-b from-white/16 to-white/10 backdrop-blur-2xl ring-1 ring-white/25;
+    @apply bg-linear-to-b from-white/16 to-white/10 backdrop-blur-xl ring-1 ring-white/25;
   }
 
   /* Glass Shadow - Apple lift effect (modern) */
@@ -128,7 +128,7 @@ code {
 
   /* Glass Dock Shadow - Elevated dock */
   .glass-dock-shadow {
-    @apply bg-gradient-to-t from-black/50 to-black/35 backdrop-blur-[32px] rounded-3xl;
+    @apply bg-gradient-to-t from-black/50 to-black/35 backdrop-blur-[22px] rounded-3xl;
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
   }
 }

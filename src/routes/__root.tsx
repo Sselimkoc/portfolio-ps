@@ -46,6 +46,13 @@ export const Route = createRootRoute({
         href: '/sk.png',
       },
       {
+        rel: 'preload',
+        as: 'image',
+        href: '/wallpapers/abstract-swirls.webp',
+        // @ts-ignore fetchPriority isn't in this head-link type but is a valid HTML attribute
+        fetchPriority: 'high',
+      },
+      {
         rel: 'preconnect',
         href: 'https://fonts.googleapis.com',
       },
