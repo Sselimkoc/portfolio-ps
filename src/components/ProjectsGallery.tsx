@@ -1,6 +1,7 @@
 import { ExternalLink } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import ProjectMedia from './ProjectMedia'
 
 type Project = {
   name: string
@@ -8,6 +9,7 @@ type Project = {
   description: string
   tech: Array<string>
   href?: string | null
+  images?: Array<string>
 }
 
 interface ProjectsGalleryProps {
@@ -92,6 +94,14 @@ export default function ProjectsGallery({
                 <p className="text-white/50 text-sm">{selectedProject.tagline}</p>
               )}
             </div>
+
+            {/* Gallery */}
+            {selectedProject.images && selectedProject.images.length > 0 && (
+              <ProjectMedia
+                items={selectedProject.images}
+                projectName={selectedProject.name}
+              />
+            )}
 
             {/* Description */}
             <div className="space-y-2">

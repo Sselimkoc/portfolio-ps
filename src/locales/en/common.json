@@ -30,7 +30,15 @@
     "description": "Description",
     "technologies": "Technologies",
     "viewProject": "View Project",
-    "selectProject": "Select a project"
+    "selectProject": "Select a project",
+    "gallery": "Gallery",
+    "expand": "Expand",
+    "close": "Close",
+    "prev": "Previous",
+    "next": "Next",
+    "diagram": "Diagram",
+    "galleryDiagrams": "How it works",
+    "galleryMixed": "Gallery & diagrams"
   },
   "experience": {
     "details": "Period & Location",
@@ -211,7 +219,11 @@
       "taglinePlaceholder": "Tagline",
       "descriptionPlaceholder": "Description",
       "techPlaceholder": "Technologies (comma-separated)",
-      "hrefPlaceholder": "Project URL (optional)"
+      "hrefPlaceholder": "Project URL (optional)",
+      "imagesPlaceholder": "Images — one path per line, or diagram:key",
+      "imagesSave": "Save images",
+      "imagesSaved": "Saved",
+      "imagesFailed": "Failed to save images"
     },
     "experience": {
       "title": "Manage Experience",
@@ -239,6 +251,100 @@
       "tagsPlaceholder": "Tags (comma-separated, e.g. TypeScript, React)",
       "hrefPlaceholder": "Medium post link",
       "publishedAtPlaceholder": "Published date (e.g. January 2024)"
+    }
+  },
+  "diagrams": {
+    "ytShorts": {
+      "label": "SHORTS PIPELINE",
+      "title": "Automatic daily Shorts production",
+      "steps": [
+        {
+          "title": "Topic pick",
+          "desc": "Picks a script that fits the day’s topic from a prepared set; never reuses the same content."
+        },
+        {
+          "title": "Voice-over",
+          "desc": "Has an AI voice read the script and builds captions synced to the speech."
+        },
+        {
+          "title": "Footage",
+          "desc": "Finds matching vertical footage on free stock sites; skips clips used recently."
+        },
+        {
+          "title": "Editing",
+          "desc": "Combines footage, voice, music and captions into one vertical video."
+        },
+        {
+          "title": "Thumbnail",
+          "desc": "Creates a thumbnail image from the video title."
+        },
+        {
+          "title": "Upload",
+          "desc": "Uploads to YouTube, sets the publish time and sends a phone notification."
+        }
+      ],
+      "loop": "Adjusts the publishing plan based on which times and topics get more views.",
+      "note": "If a step fails, the job resumes where it stopped instead of starting over.",
+      "summary": [
+        "6 steps",
+        "daily",
+        "fully automatic"
+      ],
+      "phases": [
+        "Preparation",
+        "Video production",
+        "Publishing"
+      ],
+      "loopLabel": "View tracking",
+      "start": "Starts on its own at a set time every day.",
+      "end": "A Shorts video on YouTube with its publish time set."
+    },
+    "ytLong": {
+      "label": "LONG VIDEO PIPELINE",
+      "title": "From one recording to a multilingual long video with chapters",
+      "steps": [
+        {
+          "title": "Recording",
+          "desc": "Speech and translation audio come from a licensed source."
+        },
+        {
+          "title": "Speaker split",
+          "desc": "Splits the recording by speaker using pauses and voice tone."
+        },
+        {
+          "title": "Timing",
+          "desc": "Transcribes the speech and finds when each word is spoken."
+        },
+        {
+          "title": "Text matching",
+          "desc": "Matches the spoken part to the source text and its translation, fixing errors."
+        },
+        {
+          "title": "Page design",
+          "desc": "Lays out the text and translation as readable pages; right-to-left scripts display correctly."
+        },
+        {
+          "title": "Assembly",
+          "desc": "Joins intro, chapters, transitions and outro into one video, adding chapter markers and a thumbnail."
+        }
+      ],
+      "note": "Intro, transition and outro announcements are read by an AI voice.",
+      "summary": [
+        "6 steps",
+        "one command",
+        "runs locally"
+      ],
+      "phases": [
+        "Audio prep",
+        "Text matching",
+        "Video production"
+      ],
+      "start": "Starts with a single command.",
+      "end": "A multilingual long video with chapters and a thumbnail."
+    },
+    "ui": {
+      "start": "Start",
+      "end": "Result"
     }
   }
 }

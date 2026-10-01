@@ -36,6 +36,7 @@ export type ProjectPayload = {
   description: string
   tech: Array<string>
   href?: string
+  images?: Array<string> // görsel yolu/URL ya da "diagram:<id>"
   language: string // "en" or "tr"
 }
 
@@ -205,11 +206,20 @@ export const deleteSkill = createServerFn({ method: 'POST' })
     return result
   })
 
+function cleanImages(images: unknown): Array<string> | undefined {
+  if (images === undefined) return undefined
+  if (!Array.isArray(images)) throw new Error('Invalid input: images')
+  return images
+    .filter((x): x is string => typeof x === 'string')
+    .map((x) => x.trim())
+    .filter(Boolean)
+}
+
 export const addProject = createServerFn({ method: 'POST' })
   .middleware([authMiddleware])
   .inputValidator((data: ProjectPayload) => {
     requireStrings(data, ['name', 'description', 'language'])
-    return data
+    return { ...data, images: cleanImages(data.images) }
   })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()
@@ -236,7 +246,7 @@ export const updateProject = createServerFn({ method: 'POST' })
       throw new Error('Invalid input: id is required')
     }
     requireStrings(data, ['name', 'description', 'language'])
-    return data
+    return { ...data, images: cleanImages(data.images) }
   })
   .handler(async ({ data }) => {
     const prisma = await initializePrisma()

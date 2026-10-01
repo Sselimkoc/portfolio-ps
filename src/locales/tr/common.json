@@ -30,7 +30,15 @@
     "description": "AÇIKLAMA",
     "technologies": "TEKNOLOJİLER",
     "viewProject": "Projeyi Gör",
-    "selectProject": "Bir proje seçin"
+    "selectProject": "Bir proje seçin",
+    "gallery": "Görseller",
+    "expand": "Büyüt",
+    "close": "Kapat",
+    "prev": "Önceki",
+    "next": "Sonraki",
+    "diagram": "Şema",
+    "galleryDiagrams": "Nasıl çalışır",
+    "galleryMixed": "Görseller ve şemalar"
   },
   "experience": {
     "details": "DÖNEM VE KONUM",
@@ -57,7 +65,7 @@
     "cancel": "İptal",
     "continue": "Devam Et",
     "dontAskAgain": "Bir daha sorma",
-    "targetLink": "Hedef Ba\u011flant\u0131"
+    "targetLink": "Hedef Bağlantı"
   },
   "apps": {
     "about": {
@@ -211,7 +219,11 @@
       "taglinePlaceholder": "Başlık",
       "descriptionPlaceholder": "Açıklama",
       "techPlaceholder": "Teknolojiler (virgülle ayrılmış)",
-      "hrefPlaceholder": "Proje URL (isteğe bağlı)"
+      "hrefPlaceholder": "Proje URL (isteğe bağlı)",
+      "imagesPlaceholder": "Görseller — her satıra bir yol ya da diagram:anahtar",
+      "imagesSave": "Görselleri kaydet",
+      "imagesSaved": "Kaydedildi",
+      "imagesFailed": "Görseller kaydedilemedi"
     },
     "experience": {
       "title": "Tecrübeleri Yönet",
@@ -239,6 +251,100 @@
       "tagsPlaceholder": "Etiketler (virgülle ayrılmış, örn. TypeScript, React)",
       "hrefPlaceholder": "Medium yazı linki",
       "publishedAtPlaceholder": "Yayın tarihi (örn. Ocak 2024)"
+    }
+  },
+  "diagrams": {
+    "ytShorts": {
+      "label": "KISA VİDEO HATTI",
+      "title": "Her gün otomatik Shorts üretimi",
+      "steps": [
+        {
+          "title": "Konu seçimi",
+          "desc": "Hazır metinler arasından günün konusuna uygun olanı seçer; aynı içeriği tekrar kullanmaz."
+        },
+        {
+          "title": "Seslendirme",
+          "desc": "Metni yapay zekâ sesiyle okutur ve konuşmayla senkron altyazı hazırlar."
+        },
+        {
+          "title": "Görüntü bulma",
+          "desc": "Ücretsiz video sitelerinden konuya uygun dikey görüntüler bulur; yakın zamanda kullanılanları atlar."
+        },
+        {
+          "title": "Montaj",
+          "desc": "Görüntüleri, sesi, müziği ve altyazıyı tek bir dikey videoda birleştirir."
+        },
+        {
+          "title": "Kapak",
+          "desc": "Video başlığından bir kapak görseli hazırlar."
+        },
+        {
+          "title": "Yükleme",
+          "desc": "Videoyu YouTube’a yükler, yayın saatini ayarlar ve telefona bildirim gönderir."
+        }
+      ],
+      "loop": "Hangi saat ve konuların daha çok izlendiğine bakarak yayın planını günceller.",
+      "note": "Bir adımda hata olursa iş baştan başlamaz, kaldığı yerden devam eder.",
+      "summary": [
+        "6 adım",
+        "her gün",
+        "tam otomatik"
+      ],
+      "phases": [
+        "Hazırlık",
+        "Video yapımı",
+        "Yayın"
+      ],
+      "loopLabel": "İzlenme takibi",
+      "start": "Her gün belirlenen saatte kendiliğinden başlar.",
+      "end": "Yayın saati ayarlanmış, YouTube’a yüklenmiş bir Shorts."
+    },
+    "ytLong": {
+      "label": "UZUN VİDEO HATTI",
+      "title": "Ses kaydından bölümlere ayrılmış, çok dilli uzun video",
+      "steps": [
+        {
+          "title": "Ses kaydı",
+          "desc": "Konuşma ve çeviri sesleri lisanslı bir kaynaktan alınır."
+        },
+        {
+          "title": "Konuşmacı ayrımı",
+          "desc": "Sessizliklere ve ses tonuna bakarak kaydı konuşanlara göre böler."
+        },
+        {
+          "title": "Zamanlama",
+          "desc": "Konuşmayı yazıya döker ve her kelimenin ne zaman söylendiğini bulur."
+        },
+        {
+          "title": "Metin eşleme",
+          "desc": "Okunan bölümü asıl metin ve çevirisiyle eşleştirir, hataları düzeltir."
+        },
+        {
+          "title": "Sayfa tasarımı",
+          "desc": "Metni ve çevirisini okunaklı sayfalara dizer; sağdan sola yazılar da düzgün görünür."
+        },
+        {
+          "title": "Birleştirme",
+          "desc": "Giriş, bölümler, geçişler ve kapanışı tek videoda birleştirir; bölüm işaretlerini ve kapağı ekler."
+        }
+      ],
+      "note": "Giriş, geçiş ve kapanış duyuruları yapay zekâ sesiyle okunur.",
+      "summary": [
+        "6 adım",
+        "tek komut",
+        "kendi bilgisayarında"
+      ],
+      "phases": [
+        "Ses hazırlığı",
+        "Metin eşleme",
+        "Video yapımı"
+      ],
+      "start": "Tek bir komutla başlar.",
+      "end": "Bölümleri ve kapağı hazır, çok dilli uzun bir video."
+    },
+    "ui": {
+      "start": "Başlangıç",
+      "end": "Sonuç"
     }
   }
 }

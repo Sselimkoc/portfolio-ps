@@ -13,6 +13,7 @@ import {
   deleteSkill,
   getPortfolioData,
   updateProfile,
+  updateProject,
 } from '../components/queries'
 import type {
   BlogPostPayload,
@@ -89,6 +90,8 @@ function AdminPanel() {
   const [newExperience, setNewExperience] =
     useState<Partial<ExperiencePayload> | null>(null)
   const [projects, setProjects] = useState(data.projects )
+  // Proje id → düzenlenen görsel listesi (her satıra bir öğe)
+  const [imageDrafts, setImageDrafts] = useState<Record<number, string>>({})
   const [experience, setExperience] = useState(data.experience )
   const [blogPosts, setBlogPosts] = useState(data.blogPosts || [])
   const [newBlogPost, setNewBlogPost] = useState<Partial<BlogPostPayload> | null>(null)
@@ -222,11 +225,12 @@ function AdminPanel() {
   }
 
   const handleAddProject = async () => {
-    if (!newProject || !newProject.name || !newProject.description || !newProject.tagline) return
+    if (!newProject || !newProject.name || !newProject.description) return
     try {
       await (addProject as any)({
         data: {
           ...newProject,
+          tagline: newProject.tagline || '',
           tech: newProject.tech || [],
           language: projectLanguage,
         },
@@ -240,6 +244,39 @@ function AdminPanel() {
       alert(t('admin.messages.projectAdded'))
     } catch (error) {
       alert(t('admin.messages.projectAddFailed'))
+    }
+  }
+
+  const linesToList = (text: string) =>
+    text
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+
+  const handleSaveProjectImages = async (project: any) => {
+    const draft = imageDrafts[project.id]
+    if (draft === undefined) return
+    try {
+      await (updateProject as any)({
+        data: {
+          id: project.id,
+          name: project.name,
+          tagline: project.tagline,
+          description: project.description,
+          tech: project.tech,
+          href: project.href ?? undefined,
+          images: linesToList(draft),
+          language: project.language,
+        },
+      })
+      const newData = await (getPortfolioData as any)({
+        data: { language: projectLanguage },
+      })
+      setProjects(newData.projects || [])
+      setImageDrafts(({ [project.id]: _saved, ...rest }) => rest)
+      alert(t('admin.projects.imagesSaved'))
+    } catch (error) {
+      alert(t('admin.projects.imagesFailed'))
     }
   }
 
@@ -633,6 +670,27 @@ function AdminPanel() {
                     {t('admin.projects.delete')}
                   </button>
                 </div>
+                <textarea
+                  placeholder={t('admin.projects.imagesPlaceholder')}
+                  className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-xs font-mono outline-none focus:border-blue-500 h-16"
+                  value={
+                    imageDrafts[project.id] ?? (project.images || []).join('\n')
+                  }
+                  onChange={(e) =>
+                    setImageDrafts((prev) => ({
+                      ...prev,
+                      [project.id]: e.target.value,
+                    }))
+                  }
+                />
+                {imageDrafts[project.id] !== undefined && (
+                  <button
+                    onClick={() => handleSaveProjectImages(project)}
+                    className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-xs font-medium transition"
+                  >
+                    {t('admin.projects.imagesSave')}
+                  </button>
+                )}
               </div>
             ))}
           </div>
@@ -696,6 +754,17 @@ function AdminPanel() {
                   setNewProject((prev: any) => ({
                     ...prev,
                     href: e.target.value,
+                  }))
+                }
+              />
+              <textarea
+                placeholder={t('admin.projects.imagesPlaceholder')}
+                className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-sm font-mono outline-none focus:border-blue-500 h-16"
+                value={newProject?.images?.join('\n') || ''}
+                onChange={(e) =>
+                  setNewProject((prev: any) => ({
+                    ...prev,
+                    images: e.target.value.split('\n'),
                   }))
                 }
               />
