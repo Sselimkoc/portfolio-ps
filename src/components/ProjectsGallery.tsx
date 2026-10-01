@@ -1,5 +1,5 @@
 import { ExternalLink } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ProjectMedia from './ProjectMedia'
 
@@ -22,21 +22,27 @@ export default function ProjectsGallery({
   onExternalLink,
 }: ProjectsGalleryProps) {
   const { t } = useTranslation()
-  const reversedProjects = [...projects].reverse()
   const [selectedProject, setSelectedProject] = useState<Project | null>(
-    reversedProjects[0] || null,
+    projects[0] || null,
   )
 
+  const detailsRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
-    setSelectedProject(reversedProjects[0] || null)
+    setSelectedProject(projects[0] || null)
   }, [projects])
+
+  // Yeni proje seçilince detay alanı en üstten başlasın
+  useEffect(() => {
+    detailsRef.current?.scrollTo({ top: 0 })
+  }, [selectedProject])
 
   return (
     <div className="h-full w-full overflow-hidden flex">
       {/* Timeline - Left Side */}
       <div className="w-72 border-r border-white/10 overflow-y-auto">
         <div className="p-4 space-y-2">
-          {reversedProjects.map((project, index) => (
+          {projects.map((project, index) => (
             <button
               key={project.name}
               onClick={() => setSelectedProject(project)}
@@ -62,7 +68,7 @@ export default function ProjectsGallery({
                         }
                       `}
                   />
-                  {index < reversedProjects.length - 1 && (
+                  {index < projects.length - 1 && (
                     <div className="absolute top-2.5 left-1 w-0.5 h-10 bg-linear-to-b from-white/20 to-transparent" />
                   )}
                 </div>
@@ -79,7 +85,7 @@ export default function ProjectsGallery({
       </div>
 
       {/* Details - Right Side */}
-      <div className="flex-1 overflow-y-auto">
+      <div ref={detailsRef} className="flex-1 overflow-y-auto">
         {selectedProject ? (
           <div className="p-7 pb-12 space-y-6">
             {/* Title */}

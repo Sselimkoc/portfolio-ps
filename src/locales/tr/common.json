@@ -223,7 +223,10 @@
       "imagesPlaceholder": "Görseller — her satıra bir yol ya da diagram:anahtar",
       "imagesSave": "Görselleri kaydet",
       "imagesSaved": "Kaydedildi",
-      "imagesFailed": "Görseller kaydedilemedi"
+      "imagesFailed": "Görseller kaydedilemedi",
+      "moveUp": "Yukarı taşı",
+      "moveDown": "Aşağı taşı",
+      "reorderFailed": "Sıralama kaydedilemedi"
     },
     "experience": {
       "title": "Tecrübeleri Yönet",

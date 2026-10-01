@@ -20,7 +20,7 @@ interface DraggableWindowProps {
 const TOP_BAR = 36
 const DOCK = 90
 const MARGIN = 20
-const MAX_SIZE = { width: 1400, height: 900 }
+const MAX_SIZE = { width: 1180, height: 760 }
 
 // Büyük ekranlarda pencere daha geniş açılır; defaultSize en küçük boyut olarak kalır
 function fitToViewport(
@@ -31,12 +31,12 @@ function fitToViewport(
   const vw = window.innerWidth
   const vh = window.innerHeight
   const width = Math.round(
-    Math.max(base.width, Math.min(vw * 0.8, MAX_SIZE.width)),
+    Math.max(base.width, Math.min(vw * 0.68, MAX_SIZE.width)),
   )
   const height = Math.round(
     Math.max(
       base.height,
-      Math.min(vh - TOP_BAR - DOCK - MARGIN * 2, MAX_SIZE.height),
+      Math.min((vh - TOP_BAR - DOCK - MARGIN * 2) * 0.85, MAX_SIZE.height),
     ),
   )
   const x = Math.max(MARGIN, Math.min(pos.x, vw - width - MARGIN))

@@ -112,7 +112,11 @@ async function fetchPortfolioData(language: string) {
   const [profile, skills, projects, experience, blogPosts] = await Promise.all([
     prisma.profile.findFirst({ where: { language } }),
     prisma.skill.findMany(),
-    prisma.project.findMany({ where: { language } }),
+    // Aynı sıradakiler arasında yeni eklenen önce gelir
+    prisma.project.findMany({
+      where: { language },
+      orderBy: [{ order: 'asc' }, { id: 'desc' }],
+    }),
     prisma.experience.findMany({ where: { language }, orderBy: { order: 'asc' } }),
     prisma.blogPost.findMany({ where: { language }, orderBy: { createdAt: 'desc' } }),
   ])
@@ -237,6 +241,26 @@ export const deleteProject = createServerFn({ method: 'POST' })
     const result = await prisma.project.delete({ where: { id: data.id } })
     invalidatePortfolioCache()
     return result
+  })
+
+// Admin'de oklarla belirlenen sıra: listedeki konum → order (1'den başlar)
+export const reorderProjects = createServerFn({ method: 'POST' })
+  .middleware([authMiddleware])
+  .inputValidator((data: { ids: Array<number> }) => {
+    if (!Array.isArray(data.ids) || data.ids.some((id) => typeof id !== 'number')) {
+      throw new Error('Invalid input: ids must be a number array')
+    }
+    return data
+  })
+  .handler(async ({ data }) => {
+    const prisma = await initializePrisma()
+    await prisma.$transaction(
+      data.ids.map((id, i) =>
+        prisma.project.update({ where: { id }, data: { order: i + 1 } }),
+      ),
+    )
+    invalidatePortfolioCache()
+    return { ok: true }
   })
 
 export const updateProject = createServerFn({ method: 'POST' })

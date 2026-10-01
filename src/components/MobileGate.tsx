@@ -212,7 +212,7 @@ function ProjectsTab({ data, loading }: { data: PortfolioData | null; loading: b
     )
   }
 
-  const projects = [...(data?.projects ?? [])].reverse()
+  const projects = data?.projects ?? []
 
   return (
     <motion.div

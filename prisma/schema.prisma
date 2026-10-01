@@ -39,7 +39,8 @@ model Project {
   tagline     String
   description String
   tech        String[]
-  images      String[] @default([]) // legacy column, kept to avoid data loss
+  images      String[] @default([]) // görsel yolu/URL ya da "diagram:<id>"
+  order       Int      @default(0) // küçük olan önce gösterilir
   href        String?
   language    String   @default("tr") // "en" or "tr"
   createdAt   DateTime @default(now())

@@ -223,7 +223,10 @@
       "imagesPlaceholder": "Images — one path per line, or diagram:key",
       "imagesSave": "Save images",
       "imagesSaved": "Saved",
-      "imagesFailed": "Failed to save images"
+      "imagesFailed": "Failed to save images",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "reorderFailed": "Could not save the order"
     },
     "experience": {
       "title": "Manage Experience",

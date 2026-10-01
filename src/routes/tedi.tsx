@@ -12,6 +12,7 @@ import {
   deleteProject,
   deleteSkill,
   getPortfolioData,
+  reorderProjects,
   updateProfile,
   updateProject,
 } from '../components/queries'
@@ -277,6 +278,22 @@ function AdminPanel() {
       alert(t('admin.projects.imagesSaved'))
     } catch (error) {
       alert(t('admin.projects.imagesFailed'))
+    }
+  }
+
+  const handleMoveProject = async (index: number, step: -1 | 1) => {
+    const target = index + step
+    if (target < 0 || target >= projects.length) return
+    const next = [...projects]
+    ;[next[index], next[target]] = [next[target], next[index]]
+    setProjects(next)
+    try {
+      await (reorderProjects as any)({
+        data: { ids: next.map((p: any) => p.id) },
+      })
+    } catch (error) {
+      setProjects(projects)
+      alert(t('admin.projects.reorderFailed'))
     }
   }
 
@@ -651,7 +668,7 @@ function AdminPanel() {
           </div>
 
           <div className="mt-4 space-y-3">
-            {projects.map((project: any) => (
+            {projects.map((project: any, index: number) => (
               <div
                 key={project.id}
                 className="bg-white/5 border border-white/10 rounded p-3 space-y-2"
@@ -663,12 +680,30 @@ function AdminPanel() {
                     </p>
                     <p className="text-white/60 text-xs">{project.tagline}</p>
                   </div>
-                  <button
-                    onClick={() => handleDeleteProject(project.id)}
-                    className="text-red-400 hover:text-red-300 text-xs"
-                  >
-                    {t('admin.projects.delete')}
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleMoveProject(index, -1)}
+                      disabled={index === 0}
+                      aria-label={t('admin.projects.moveUp')}
+                      className="text-white/60 hover:text-white disabled:opacity-25 text-xs px-1"
+                    >
+                      ▲
+                    </button>
+                    <button
+                      onClick={() => handleMoveProject(index, 1)}
+                      disabled={index === projects.length - 1}
+                      aria-label={t('admin.projects.moveDown')}
+                      className="text-white/60 hover:text-white disabled:opacity-25 text-xs px-1"
+                    >
+                      ▼
+                    </button>
+                    <button
+                      onClick={() => handleDeleteProject(project.id)}
+                      className="text-red-400 hover:text-red-300 text-xs"
+                    >
+                      {t('admin.projects.delete')}
+                    </button>
+                  </div>
                 </div>
                 <textarea
                   placeholder={t('admin.projects.imagesPlaceholder')}
