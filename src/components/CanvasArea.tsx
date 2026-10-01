@@ -347,7 +347,7 @@ export default function CanvasArea() {
                   {app.id === 'contact' && <ContactForm />}
                   {app.id === 'blog' && (
                     <BlogReader
-                      posts={data.blogPosts ?? []}
+                      posts={data.blogPosts}
                       onExternalLink={(url) => {
                         setWarningDialog({
                           isOpen: true,

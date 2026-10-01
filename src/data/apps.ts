@@ -1,4 +1,4 @@
-import { Binary, BookOpen, Briefcase, FolderGit2, Image, Mail, Puzzle, User } from 'lucide-react'
+import { Binary, BookOpen, Briefcase, FolderGit2, Image, Mail, User } from 'lucide-react'
 import type React from 'react'
 
 export interface App {

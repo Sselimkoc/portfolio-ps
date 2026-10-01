@@ -2,6 +2,14 @@ import { lazy, useEffect } from 'react'
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Analytics } from '@vercel/analytics/react'
+import appCss from '../styles.css?url'
+import i18n from '../i18n/config'
+import MobileGate from '../components/MobileGate'
+import { SITE_URL, personJsonLd, seoMeta } from '../lib/seo'
+
+// display=swap: yazı tipi yüklenene kadar metin sistem fontuyla görünür
+const FONTS_URL =
+  'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap'
 
 const TanStackDevtools =
   process.env.NODE_ENV === 'production'
@@ -18,11 +26,6 @@ const TanStackRouterDevtoolsPanel =
           default: m.TanStackRouterDevtoolsPanel,
         }))
       )
-
-import appCss from '../styles.css?url'
-import i18n from '../i18n/config'
-import MobileGate from '../components/MobileGate'
-import { SITE_URL, personJsonLd, seoMeta } from '../lib/seo'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -62,16 +65,8 @@ export const Route = createRootRoute({
         crossOrigin: 'anonymous',
       },
       {
-        rel: 'preload',
-        as: 'style',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap',
-      },
-      {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap',
-        media: 'print',
-        // @ts-ignore
-        onload: "this.media='all'",
+        href: FONTS_URL,
       },
       {
         rel: 'stylesheet',

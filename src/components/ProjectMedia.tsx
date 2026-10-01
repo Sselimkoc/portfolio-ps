@@ -70,7 +70,10 @@ export default function ProjectMedia({ items, projectName }: ProjectMediaProps) 
   }, [open, go])
 
   if (items.length === 0) return null
-  const current = items[index]
+  // Proje değişince index'i sıfırlayan effect render'dan sonra çalışır;
+  // o ilk render'da eski index yeni listenin dışında kalabilir
+  const active = index < items.length ? index : 0
+  const current = items[active]
   const diagramCount = items.filter((item) => diagramId(item)).length
   const headingKey =
     diagramCount === items.length
@@ -109,7 +112,7 @@ export default function ProjectMedia({ items, projectName }: ProjectMediaProps) 
                 onClick={() => setIndex(i)}
                 aria-label={id ? t('projects.diagram') : `${projectName} ${i + 1}`}
                 className={`shrink-0 w-24 h-14 rounded-lg overflow-hidden border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${
-                  i === index
+                  i === active
                     ? 'border-white/40 bg-white/12'
                     : 'border-white/10 bg-white/5 hover:bg-white/8 opacity-70 hover:opacity-100'
                 }`}
@@ -131,11 +134,11 @@ export default function ProjectMedia({ items, projectName }: ProjectMediaProps) 
               // Animasyonsuz: arkadaki backdrop-blur katmanları, opaklık animasyonu
               // sırasında bu katmanın üstüne taşıp titreme yapıyordu
               <div
-                className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 p-6"
+                className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 p-4"
                 onClick={() => setOpen(false)}
               >
                 <div
-                  className="relative w-full max-w-5xl max-h-[90vh] overflow-auto rounded-2xl border border-white/15 bg-neutral-900 shadow-2xl"
+                  className="relative w-full max-w-5xl max-h-[95vh] overflow-auto rounded-2xl border border-white/15 bg-neutral-900 shadow-2xl"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <MediaView item={current} alt={projectName} large />
@@ -170,7 +173,7 @@ export default function ProjectMedia({ items, projectName }: ProjectMediaProps) 
                       <ChevronRight size={20} />
                     </button>
                     <span className="absolute bottom-4 font-mono text-xs text-white/50">
-                      {index + 1} / {items.length}
+                      {active + 1} / {items.length}
                     </span>
                   </>
                 )}

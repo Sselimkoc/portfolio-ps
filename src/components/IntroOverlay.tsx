@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from '@tanstack/react-router'
 
@@ -15,7 +15,6 @@ export default function IntroOverlay({
 }: IntroOverlayProps) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
-  const h1Ref = useRef<HTMLHeadingElement>(null)
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'tr' : 'en'

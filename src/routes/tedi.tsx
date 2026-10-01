@@ -91,9 +91,9 @@ function AdminPanel() {
     useState<Partial<ExperiencePayload> | null>(null)
   const [projects, setProjects] = useState(data.projects )
   // Proje id → düzenlenen görsel listesi (her satıra bir öğe)
-  const [imageDrafts, setImageDrafts] = useState<Record<number, string>>({})
+  const [imageDrafts, setImageDrafts] = useState<Partial<Record<number, string>>>({})
   const [experience, setExperience] = useState(data.experience )
-  const [blogPosts, setBlogPosts] = useState(data.blogPosts || [])
+  const [blogPosts, setBlogPosts] = useState(data.blogPosts)
   const [newBlogPost, setNewBlogPost] = useState<Partial<BlogPostPayload> | null>(null)
   const [blogLanguage, setBlogLanguage] = useState<'en' | 'tr'>(i18n.language as 'en' | 'tr')
 
@@ -350,7 +350,7 @@ function AdminPanel() {
   }, [blogLanguage])
 
   const handleAddBlogPost = async () => {
-    if (!newBlogPost?.title || !newBlogPost?.excerpt || !newBlogPost?.href) return
+    if (!newBlogPost?.title || !newBlogPost.excerpt || !newBlogPost.href) return
     try {
       await (addBlogPost as any)({
         data: {

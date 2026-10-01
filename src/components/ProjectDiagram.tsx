@@ -37,8 +37,8 @@ import {
   Users,
   Zap,
 } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import type { LucideIcon } from 'lucide-react'
 
 // Kodla çizilen proje şemaları. Metinler locales'teki `diagrams.<key>` altında,
 // dile bağlı olmayan ikon, aşama ve teknoloji etiketleri burada tutulur.
@@ -303,7 +303,7 @@ function PhaseFlow({ steps, phases, start, end }: FlowProps) {
     steps.filter((s) => s.phase === p),
   )
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       {start && <Endpoint kind="start" text={start} />}
       <div className="flex items-stretch gap-2">
         {groups.map((group, p) => (
@@ -313,12 +313,12 @@ function PhaseFlow({ steps, phases, start, end }: FlowProps) {
                 <ArrowRight size={18} className="text-white/30" />
               </div>
             )}
-            <div className="flex-1 min-w-0 space-y-3">
+            <div className="flex-1 min-w-0 space-y-2.5">
               <PhaseLabel name={phases[p]} />
               {group.map((step) => (
                 <div
                   key={step.index}
-                  className="bg-white/5 border border-white/10 rounded-lg p-4 space-y-2"
+                  className="bg-white/5 border border-white/10 rounded-lg p-3.5 space-y-1.5"
                 >
                   <div className="flex items-center gap-3">
                     <StepIcon icon={step.icon} />
@@ -359,7 +359,7 @@ export default function ProjectDiagram({ id, large = false }: ProjectDiagramProp
   const Flow = large ? PhaseFlow : Timeline
 
   return (
-    <div className={`w-full ${large ? 'p-8 space-y-6' : 'p-5 space-y-5'}`}>
+    <div className={`w-full ${large ? 'p-6 space-y-4' : 'p-5 space-y-5'}`}>
       <div className="space-y-2">
         <p className="font-mono text-[11px] text-white/55 uppercase tracking-widest">
           {text.label}
