@@ -474,6 +474,136 @@
         }
       ],
       "note": "If the same video is processed again, analysis results come from the cache instead of asking the AI twice."
+    },
+    "feedtune": {
+      "label": "FEED READER",
+      "title": "Websites and YouTube channels in a single feed",
+      "summary": [
+        "6 steps",
+        "RSS and YouTube",
+        "auto refresh"
+      ],
+      "phases": [
+        "Adding sources",
+        "Sync",
+        "Reading"
+      ],
+      "start": "The user pastes a website link or searches for a YouTube channel by name.",
+      "end": "New content from every source, in one feed you can save and filter.",
+      "steps": [
+        {
+          "title": "Site or channel",
+          "desc": "The link is checked; YouTube channels can be found by searching their name."
+        },
+        {
+          "title": "Recognizing the source",
+          "desc": "The site's RSS feed is read for its name and category; a YouTube link is resolved to a channel ID."
+        },
+        {
+          "title": "Fetching content",
+          "desc": "New posts and videos are fetched; YouTube Shorts are flagged separately."
+        },
+        {
+          "title": "Finding images",
+          "desc": "The cover image comes from the feed; if missing, the article page's share image is used."
+        },
+        {
+          "title": "Saving",
+          "desc": "Only new items are added and nothing is saved twice. Each user sees only their own data."
+        },
+        {
+          "title": "One feed",
+          "desc": "Posts and videos share one feed; items can be favorited or saved for later, and navigated with keyboard shortcuts."
+        }
+      ],
+      "loopLabel": "Auto refresh",
+      "loop": "When the app opens, sources older than 30 minutes are refreshed. A weekly job also removes content older than 30 days, keeping favorites and saved items."
+    },
+    "portfolioOs": {
+      "label": "PORTFOLIO SITE",
+      "title": "A portfolio that works like an operating system desktop",
+      "summary": [
+        "6 steps",
+        "Turkish and English",
+        "admin panel"
+      ],
+      "phases": [
+        "Server",
+        "Desktop",
+        "Contact and admin"
+      ],
+      "start": "A visitor opens the site.",
+      "end": "A desktop with draggable windows, its content updated from an admin panel.",
+      "steps": [
+        {
+          "title": "Page",
+          "desc": "The page is rendered on the server, so it opens fast and search engines can read the content."
+        },
+        {
+          "title": "Content",
+          "desc": "Profile, projects, experience and blog posts are read from the database in parallel and kept in memory for a few minutes."
+        },
+        {
+          "title": "Windows",
+          "desc": "Each section is a window that can be dragged, resized and minimized, with a dock at the bottom."
+        },
+        {
+          "title": "Personalization",
+          "desc": "Wallpaper and language can be changed; sleep mode opens a 3D screensaver."
+        },
+        {
+          "title": "Contact",
+          "desc": "The contact form sends the email directly; repeated sends are rate limited."
+        },
+        {
+          "title": "Admin panel",
+          "desc": "Content is added and edited from a password-protected panel; changes show up on the site right away."
+        }
+      ],
+      "note": "On small screens a simple tabbed view opens instead of the desktop. Five wrong passwords lock the panel for 15 minutes."
+    },
+    "gabiflow": {
+      "label": "FORMS & WORKFLOW",
+      "title": "Building forms and approval flows without code",
+      "summary": [
+        "6 steps",
+        "drag and drop",
+        "event-driven"
+      ],
+      "phases": [
+        "Form design",
+        "Events",
+        "Approval flow"
+      ],
+      "start": "A user opens a blank form and drags components into place.",
+      "end": "The submitted form is written to the database by its events and reaches the next person.",
+      "steps": [
+        {
+          "title": "Drag-and-drop editor",
+          "desc": "Components are dragged from the toolbox onto a grid; rows and columns can be resized."
+        },
+        {
+          "title": "Form components",
+          "desc": "Text box, dropdown, date, checkboxes, table and buttons, each configured from its own panel."
+        },
+        {
+          "title": "Button events",
+          "desc": "Each button runs a sequence of events: an SQL query, a message to the user, a redirect, or sending the form to someone else."
+        },
+        {
+          "title": "SQL and variables",
+          "desc": "Queries use @variables for form fields and the signed-in user; a query result can feed later events."
+        },
+        {
+          "title": "Sending the form",
+          "desc": "The form is passed on with its values to another user, who opens it and completes their step. This builds an approval chain."
+        },
+        {
+          "title": "Groups and sessions",
+          "desc": "Users are organized into groups. Sessions use JWT and passwords are stored with bcrypt."
+        }
+      ],
+      "note": "Team project. Built for paperless processes; forms and events are stored in the database as JSON."
     }
   }
 }

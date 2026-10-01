@@ -474,6 +474,136 @@
         }
       ],
       "note": "Aynı video tekrar işlenirse analiz sonuçları önbellekten gelir; yapay zekâya ikinci kez sorulmaz."
+    },
+    "feedtune": {
+      "label": "AKIŞ OKUYUCU",
+      "title": "Siteler ve YouTube kanalları, tek bir akışta",
+      "summary": [
+        "6 adım",
+        "RSS ve YouTube",
+        "otomatik yenileme"
+      ],
+      "phases": [
+        "Kaynak ekleme",
+        "Senkronizasyon",
+        "Okuma"
+      ],
+      "start": "Kullanıcı bir sitenin linkini yapıştırır ya da bir YouTube kanalını adıyla arar.",
+      "end": "Tüm kaynakların yeni içerikleri, kaydedilip filtrelenebilen tek bir akışta.",
+      "steps": [
+        {
+          "title": "Site veya kanal",
+          "desc": "Link kontrol edilir; YouTube için kanal adıyla arama yapılabilir."
+        },
+        {
+          "title": "Kaynağı tanıma",
+          "desc": "Sitenin RSS akışı okunup adı ve kategorisi alınır; YouTube linki kanal kimliğine çevrilir."
+        },
+        {
+          "title": "İçerik çekme",
+          "desc": "Yeni yazılar ve videolar çekilir; YouTube Shorts videoları ayrıca işaretlenir."
+        },
+        {
+          "title": "Görsel bulma",
+          "desc": "Kapak görseli akıştan alınır; yoksa makale sayfasındaki paylaşım görseline bakılır."
+        },
+        {
+          "title": "Kaydetme",
+          "desc": "Yalnızca yeni içerikler eklenir, aynı içerik iki kez kaydedilmez. Her kullanıcı sadece kendi verisini görür."
+        },
+        {
+          "title": "Tek akış",
+          "desc": "Yazılar ve videolar aynı akışta listelenir; favorilere ya da sonra okunacaklara eklenebilir, klavye kısayollarıyla gezilir."
+        }
+      ],
+      "loopLabel": "Otomatik yenileme",
+      "loop": "Uygulama açıldığında 30 dakikadan eski kaynaklar yenilenir. Haftalık bir görev de 30 günden eski içerikleri siler; favoriler ve sonra okunacaklar korunur."
+    },
+    "portfolioOs": {
+      "label": "PORTFOLYO SİTESİ",
+      "title": "İşletim sistemi masaüstü gibi çalışan bir portfolyo",
+      "summary": [
+        "6 adım",
+        "Türkçe ve İngilizce",
+        "yönetim paneli"
+      ],
+      "phases": [
+        "Sunucu",
+        "Masaüstü",
+        "İletişim ve yönetim"
+      ],
+      "start": "Ziyaretçi siteyi açar.",
+      "end": "Pencereleri sürüklenip açılıp kapanabilen, içeriği panelden güncellenen bir masaüstü.",
+      "steps": [
+        {
+          "title": "Sayfa",
+          "desc": "Sayfa sunucuda hazırlanır, böylece ilk açılış hızlı olur ve arama motorları içeriği okuyabilir."
+        },
+        {
+          "title": "İçerik",
+          "desc": "Profil, projeler, deneyim ve blog yazıları veritabanından aynı anda okunur; birkaç dakika bellekte tutulur."
+        },
+        {
+          "title": "Pencereler",
+          "desc": "Her bölüm sürüklenebilen, boyutlandırılabilen ve küçültülebilen bir penceredir; alt tarafta bir dock bulunur."
+        },
+        {
+          "title": "Kişiselleştirme",
+          "desc": "Duvar kâğıdı ve dil seçilebilir; uyku modunda 3D bir ekran koruyucu açılır."
+        },
+        {
+          "title": "İletişim",
+          "desc": "İletişim formu e-postayı doğrudan gönderir; arka arkaya gönderim sınırlıdır."
+        },
+        {
+          "title": "Yönetim paneli",
+          "desc": "Şifreyle girilen panelden içerik eklenip düzenlenir; değişiklikler sitede hemen görünür."
+        }
+      ],
+      "note": "Küçük ekranlarda masaüstü yerine sekmeli, sade bir görünüm açılır. Panelde 5 hatalı şifre denemesi girişi 15 dakika kilitler."
+    },
+    "gabiflow": {
+      "label": "FORM VE İŞ AKIŞI",
+      "title": "Kod yazmadan form ve onay akışı kurma",
+      "summary": [
+        "6 adım",
+        "sürükle-bırak",
+        "olay tabanlı"
+      ],
+      "phases": [
+        "Form tasarımı",
+        "Olaylar",
+        "Onay akışı"
+      ],
+      "start": "Kullanıcı boş bir form açar ve bileşenleri sürükleyerek yerleştirir.",
+      "end": "Doldurulan form, tanımlanan olaylarla veritabanına işlenir ve sıradaki kişiye ulaşır.",
+      "steps": [
+        {
+          "title": "Sürükle-bırak editör",
+          "desc": "Bileşenler araç kutusundan ızgaraya sürüklenir; satır ve sütunlar boyutlandırılabilir."
+        },
+        {
+          "title": "Form bileşenleri",
+          "desc": "Metin kutusu, açılır liste, tarih, seçim kutuları, tablo ve butonlar; her birinin ayarları ayrı panelden yapılır."
+        },
+        {
+          "title": "Buton olayları",
+          "desc": "Her butona sırayla çalışacak olaylar bağlanır: SQL sorgusu, kullanıcıya mesaj, sayfa yönlendirme, formu başkasına gönderme."
+        },
+        {
+          "title": "SQL ve değişkenler",
+          "desc": "Sorgularda @değişken ile form alanları ve oturumdaki kullanıcı kullanılır; sorgu sonucu sonraki olaylara aktarılabilir."
+        },
+        {
+          "title": "Formu gönderme",
+          "desc": "Form, değerleriyle birlikte başka bir kullanıcıya iletilir; o kişi açıp kendi adımını tamamlar. Böylece onay zinciri kurulur."
+        },
+        {
+          "title": "Gruplar ve oturum",
+          "desc": "Kullanıcılar gruplara ayrılır. Giriş JWT ile tutulur, şifreler bcrypt ile saklanır."
+        }
+      ],
+      "note": "Takım projesi. Kâğıtsız süreçler için tasarlandı; formlar ve olaylar veritabanında JSON olarak tutulur."
     }
   }
 }
