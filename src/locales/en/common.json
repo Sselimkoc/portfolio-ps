@@ -431,6 +431,49 @@
         }
       ],
       "note": "Video processing runs on the server; the phone only sends the link and shows the result."
+    },
+    "aiclipper": {
+      "label": "CLIP EXTRACTOR",
+      "title": "From a long stream to clips of its best moments",
+      "summary": [
+        "6 steps",
+        "3 content types",
+        "GPU-accelerated"
+      ],
+      "phases": [
+        "Transcription",
+        "Analysis",
+        "Clips"
+      ],
+      "start": "A long game stream or educational video is uploaded; content type and language are chosen.",
+      "end": "Separate clip files, each named with its tag and score.",
+      "steps": [
+        {
+          "title": "Video and options",
+          "desc": "The video comes in from the command line or the API. Game stream, Rust stream or educational content is chosen."
+        },
+        {
+          "title": "Transcription",
+          "desc": "Speech is transcribed with timestamps, using the graphics card when available."
+        },
+        {
+          "title": "Chunking",
+          "desc": "The text is split into 30-second chunks that slightly overlap, so moments on a boundary aren't lost."
+        },
+        {
+          "title": "Scoring moments",
+          "desc": "AI gives each moment a title, a tag and an importance score from 0 to 100. Chunks are processed in parallel."
+        },
+        {
+          "title": "Merge and filter",
+          "desc": "Overlapping or similar moments are merged; those scoring below the threshold are dropped."
+        },
+        {
+          "title": "Cutting clips",
+          "desc": "The user picks the moments they want; clips are cut quickly without re-encoding."
+        }
+      ],
+      "note": "If the same video is processed again, analysis results come from the cache instead of asking the AI twice."
     }
   }
 }

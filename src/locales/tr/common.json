@@ -431,6 +431,49 @@
         }
       ],
       "note": "Video işleme sunucuda yapılır; telefon yalnızca linki gönderir ve sonucu gösterir."
+    },
+    "aiclipper": {
+      "label": "KLİP ÇIKARICI",
+      "title": "Uzun bir yayından, en önemli anların kliplerine",
+      "summary": [
+        "6 adım",
+        "3 içerik türü",
+        "ekran kartıyla hızlanır"
+      ],
+      "phases": [
+        "Yazıya dökme",
+        "Analiz",
+        "Klip"
+      ],
+      "start": "Uzun bir oyun yayını ya da eğitim videosu yüklenir; içerik türü ve dil seçilir.",
+      "end": "Her biri ayrı dosya olan, etiketi ve puanı adında yazan klipler.",
+      "steps": [
+        {
+          "title": "Video ve tercihler",
+          "desc": "Video, komut satırından ya da API üzerinden yüklenir. Oyun yayını, Rust yayını veya eğitim içeriği seçilir."
+        },
+        {
+          "title": "Yazıya dökme",
+          "desc": "Konuşma zaman damgalarıyla yazıya dökülür; ekran kartı varsa onu kullanır."
+        },
+        {
+          "title": "Parçalara bölme",
+          "desc": "Metin 30 saniyelik parçalara ayrılır; parçalar birbirine biraz taşar ki sınırda olan an kaybolmasın."
+        },
+        {
+          "title": "Anları puanlama",
+          "desc": "Yapay zekâ her parçadaki anlara başlık, etiket ve 0–100 arası önem puanı verir. Parçalar paralel işlenir."
+        },
+        {
+          "title": "Birleştirme ve eleme",
+          "desc": "Üst üste binen ya da birbirine benzeyen anlar birleşir; puanı eşiğin altında kalanlar elenir."
+        },
+        {
+          "title": "Klip kesme",
+          "desc": "Kullanıcı istediği anları seçer; klipler yeniden kodlanmadan, hızlıca kesilir."
+        }
+      ],
+      "note": "Aynı video tekrar işlenirse analiz sonuçları önbellekten gelir; yapay zekâya ikinci kez sorulmaz."
     }
   }
 }

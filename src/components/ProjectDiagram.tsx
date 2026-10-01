@@ -10,8 +10,10 @@ import {
   Combine,
   FileText,
   Film,
+  Filter,
   Image,
   Languages,
+  Layers,
   Link,
   ListChecks,
   Mic,
@@ -83,6 +85,17 @@ export const DIAGRAMS: Record<string, DiagramDef> = {
       { icon: ChefHat, phase: 1, chips: ['Gemini', 'JSON'] },
       { icon: Languages, phase: 1, chips: ['Google Translate'] },
       { icon: BookMarked, phase: 2, chips: ['Supabase', 'AsyncStorage'] },
+    ],
+  },
+  aiclipper: {
+    key: 'aiclipper',
+    steps: [
+      { icon: Upload, phase: 0, chips: ['FastAPI', 'CLI'] },
+      { icon: AudioLines, phase: 0, chips: ['Whisper', 'CUDA'] },
+      { icon: Layers, phase: 1, chips: ['Python'] },
+      { icon: Sparkles, phase: 1, chips: ['Gemini', 'JSON'] },
+      { icon: Filter, phase: 1, chips: ['difflib'] },
+      { icon: Scissors, phase: 2, chips: ['FFmpeg'] },
     ],
   },
 }
