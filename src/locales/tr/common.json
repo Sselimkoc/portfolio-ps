@@ -345,6 +345,92 @@
     "ui": {
       "start": "Başlangıç",
       "end": "Sonuç"
+    },
+    "shoai": {
+      "label": "VİDEO SENARYO ÜRETİCİ",
+      "title": "Bir konudan, seslendirilmiş video senaryosuna",
+      "summary": [
+        "6 adım",
+        "birkaç dakika",
+        "web uygulaması"
+      ],
+      "phases": [
+        "Seçimler",
+        "Senaryo",
+        "Seslendirme"
+      ],
+      "start": "Kullanıcı panelden yeni bir video oluşturmaya başlar.",
+      "end": "Sahne sahne yazılmış ve seslendirilmiş bir video senaryosu.",
+      "steps": [
+        {
+          "title": "Konu",
+          "desc": "Hazır konulardan birini seçer ya da kendi konusunu yazar."
+        },
+        {
+          "title": "Stil ve süre",
+          "desc": "Görsel stili (gerçekçi, çizgi film, anime…) ve videonun süresini (15 sn – 1 dk) belirler."
+        },
+        {
+          "title": "Senaryo",
+          "desc": "Yapay zekâ seçimlere göre videoyu sahnelere böler ve her sahnenin konuşma metnini yazar."
+        },
+        {
+          "title": "Görsel tarifi",
+          "desc": "Her sahne için arka planı, renkleri ve kamera açısını anlatan ayrıntılı bir görsel tarifi hazırlar."
+        },
+        {
+          "title": "Seslendirme",
+          "desc": "Sahne metinleri seçilen yapay zekâ sesiyle okunur; ses ayarları değiştirilebilir."
+        },
+        {
+          "title": "Önizleme",
+          "desc": "Sahneler, görsel tarifleri ve sesleriyle birlikte listelenir; her ses ayrı dinlenebilir."
+        }
+      ],
+      "note": "Seçimler tarayıcıda saklanır; sayfa yenilense de form kaybolmaz."
+    },
+    "zestify": {
+      "label": "TARİF ÇIKARICI",
+      "title": "Yemek videosundan kayıtlı tarife",
+      "summary": [
+        "6 adım",
+        "tek link",
+        "mobil uygulama"
+      ],
+      "phases": [
+        "Video",
+        "Tarif",
+        "Koleksiyon"
+      ],
+      "start": "Kullanıcı bir Instagram Reels linkini uygulamaya yapıştırır.",
+      "end": "Malzemeleri ve adımlarıyla kişisel koleksiyona kaydedilmiş bir tarif.",
+      "steps": [
+        {
+          "title": "Link",
+          "desc": "Uygulama linki kontrol eder ve sunucuya gönderir."
+        },
+        {
+          "title": "Video indirme",
+          "desc": "Sunucu, gönderideki videoyu geçici olarak indirir."
+        },
+        {
+          "title": "Yazıya dökme",
+          "desc": "Videonun sesi ayrılır ve konuşma yazıya dökülür."
+        },
+        {
+          "title": "Tarif çıkarma",
+          "desc": "Yapay zekâ konuşmadaki sohbeti eler; tarifin adını, malzemeleri ve adımları çıkarır. Videoda tarif yoksa gönderi açıklamasına bakar."
+        },
+        {
+          "title": "Çeviri",
+          "desc": "Tarif uygulamanın diline çevrilir; sık çevrilen metinler önbellekten gelir."
+        },
+        {
+          "title": "Kaydetme",
+          "desc": "Tarif hesaba ve cihaza kaydedilir; aynı tarif iki kez eklenmez."
+        }
+      ],
+      "note": "Video işleme sunucuda yapılır; telefon yalnızca linki gönderir ve sonucu gösterir."
     }
   }
 }

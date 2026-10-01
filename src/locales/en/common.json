@@ -345,6 +345,92 @@
     "ui": {
       "start": "Start",
       "end": "Result"
+    },
+    "shoai": {
+      "label": "VIDEO SCRIPT GENERATOR",
+      "title": "From a topic to a voiced video script",
+      "summary": [
+        "6 steps",
+        "a few minutes",
+        "web app"
+      ],
+      "phases": [
+        "Choices",
+        "Script",
+        "Voice"
+      ],
+      "start": "The user starts a new video from the dashboard.",
+      "end": "A scene-by-scene video script with voice-over.",
+      "steps": [
+        {
+          "title": "Topic",
+          "desc": "Picks one of the ready-made topics or writes a custom one."
+        },
+        {
+          "title": "Style and length",
+          "desc": "Sets the visual style (realistic, cartoon, anime…) and the video length (15 s – 1 min)."
+        },
+        {
+          "title": "Script",
+          "desc": "AI splits the video into scenes based on the choices and writes the narration for each."
+        },
+        {
+          "title": "Visual brief",
+          "desc": "Writes a detailed visual brief for each scene: background, colors and camera angle."
+        },
+        {
+          "title": "Voice-over",
+          "desc": "Each scene’s text is read by the chosen AI voice; voice settings are adjustable."
+        },
+        {
+          "title": "Preview",
+          "desc": "Scenes are listed with their visual briefs and audio; each clip can be played on its own."
+        }
+      ],
+      "note": "Choices are kept in the browser, so the form survives a page refresh."
+    },
+    "zestify": {
+      "label": "RECIPE EXTRACTOR",
+      "title": "From a cooking video to a saved recipe",
+      "summary": [
+        "6 steps",
+        "one link",
+        "mobile app"
+      ],
+      "phases": [
+        "Video",
+        "Recipe",
+        "Collection"
+      ],
+      "start": "The user pastes an Instagram Reels link into the app.",
+      "end": "A recipe with ingredients and steps, saved to a personal collection.",
+      "steps": [
+        {
+          "title": "Link",
+          "desc": "The app checks the link and sends it to the server."
+        },
+        {
+          "title": "Download",
+          "desc": "The server downloads the post’s video temporarily."
+        },
+        {
+          "title": "Transcription",
+          "desc": "The audio is extracted and the speech is transcribed."
+        },
+        {
+          "title": "Recipe extraction",
+          "desc": "AI filters out the chatter and pulls out the dish name, ingredients and steps. If the video has no recipe, it reads the post caption instead."
+        },
+        {
+          "title": "Translation",
+          "desc": "The recipe is translated into the app’s language; frequent texts come from a cache."
+        },
+        {
+          "title": "Saving",
+          "desc": "The recipe is saved to the account and the device; the same recipe is never added twice."
+        }
+      ],
+      "note": "Video processing runs on the server; the phone only sends the link and shows the result."
     }
   }
 }
