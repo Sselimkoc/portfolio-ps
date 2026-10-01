@@ -16,6 +16,37 @@ interface DraggableWindowProps {
   isMinimized?: boolean
 }
 
+// Üst bar, dock ve kenar boşluğu
+const TOP_BAR = 36
+const DOCK = 90
+const MARGIN = 20
+const MAX_SIZE = { width: 1400, height: 900 }
+
+// Büyük ekranlarda pencere daha geniş açılır; defaultSize en küçük boyut olarak kalır
+function fitToViewport(
+  base: { width: number; height: number },
+  pos: { x: number; y: number },
+) {
+  if (typeof window === 'undefined') return { size: base, position: pos }
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const width = Math.round(
+    Math.max(base.width, Math.min(vw * 0.8, MAX_SIZE.width)),
+  )
+  const height = Math.round(
+    Math.max(
+      base.height,
+      Math.min(vh - TOP_BAR - DOCK - MARGIN * 2, MAX_SIZE.height),
+    ),
+  )
+  const x = Math.max(MARGIN, Math.min(pos.x, vw - width - MARGIN))
+  const y = Math.max(
+    TOP_BAR + MARGIN,
+    Math.min(pos.y, vh - height - DOCK - MARGIN),
+  )
+  return { size: { width, height }, position: { x, y } }
+}
+
 export default function DraggableWindow({
   id,
   title,
@@ -29,6 +60,7 @@ export default function DraggableWindow({
   isMinimized = false,
 }: DraggableWindowProps) {
   const { t } = useTranslation()
+  const initial = fitToViewport(defaultSize, defaultPosition)
   const {
     size,
     position,
@@ -37,8 +69,8 @@ export default function DraggableWindow({
     setSize,
     setPosition,
   } = useResize({
-    initialSize: defaultSize,
-    initialPosition: defaultPosition,
+    initialSize: initial.size,
+    initialPosition: initial.position,
     constraintsRef: dragConstraintsRef,
     minWidth: defaultSize.width,
     minHeight: defaultSize.height,
